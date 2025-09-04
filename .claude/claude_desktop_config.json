@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "task-master-ai": {
+      "command": "wsl",
+      "args": ["npx", "task-master-ai", "mcp"],
+      "cwd": "\\\\wsl.localhost\\Ubuntu-24.04\\home\\user\\onesquare"
+    }
+  }
+}

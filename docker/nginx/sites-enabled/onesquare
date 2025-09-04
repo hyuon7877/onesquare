@@ -1,0 +1,74 @@
+# Unix 소켓을 사용한 업스트림 설정
+upstream onesquare_backend {
+    server unix:/var/www/html/onesquare/run/onesquare.sock fail_timeout=0;
+    keepalive 32;
+}
+
+server {
+    listen 80 default_server;
+    server_name _;
+    charset utf-8;
+
+    # 로그
+    access_log /var/log/nginx/onesquare_access.log main;
+    error_log /var/log/nginx/onesquare_error.log;
+
+    # 파일 업로드 크기
+    client_max_body_size 500M;
+
+    # 정적 파일 캐싱
+    location /static/ {
+        alias /var/www/html/onesquare/staticfiles/;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+    }
+
+    location /media/ {
+        alias /var/www/html/onesquare/media/;
+        expires 30d;
+        add_header Cache-Control "public";
+    }
+
+    location /favicon.ico {
+        alias /var/www/html/onesquare/static/images/favicon.ico;
+        access_log off;
+        log_not_found off;
+    }
+
+    location /robots.txt {
+        alias /var/www/html/onesquare/static/robots.txt;
+        access_log off;
+        log_not_found off;
+    }
+
+    location / {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Nginx-Proxy true;
+        
+        proxy_redirect off;
+        proxy_buffering off;
+        
+        # Unix 소켓 연결
+        proxy_pass http://onesquare_backend;
+        
+        # 타임아웃 설정
+        proxy_connect_timeout 300s;
+        proxy_send_timeout 300s;
+        proxy_read_timeout 300s;
+        
+        # Keep-alive 설정
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+    }
+
+    # 헬스체크 엔드포인트
+    location /health/ {
+        access_log off;
+        return 200 "healthy\n";
+        add_header Content-Type text/plain;
+    }
+}
