@@ -1,0 +1,539 @@
+{% extends 'field_report/base_mobile.html' %}
+{% load static %}
+
+{% block title %}현장 리포트 대시보드 - OneSquare{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+    <!-- 현재 업무 상태 카드 -->
+    <div class="card-mobile work-status-card {% if not active_session %}work-status-inactive{% endif %}">
+        {% if active_session %}
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h5><i class="bi bi-play-circle"></i> 업무 진행 중</h5>
+                    <p class="mb-2">
+                        <i class="bi bi-geo-alt"></i> {{ active_session.site.name }}
+                    </p>
+                    <div class="work-time" id="work-timer" data-start="{{ active_session.start_time.isoformat }}">
+                        00:00:00
+                    </div>
+                </div>
+                <div class="text-end">
+                    <span class="badge bg-light text-dark fs-6">
+                        {{ active_session.get_status_display }}
+                    </span>
+                </div>
+            </div>
+        {% else %}
+            <div class="text-center">
+                <h5><i class="bi bi-clock"></i> 업무 대기 중</h5>
+                <p class="mb-3">현장을 선택하여 업무를 시작하세요</p>
+                <button class="btn btn-light btn-action-large" onclick="showSiteSelection()">
+                    <i class="bi bi-play-fill"></i>
+                    업무 시작
+                </button>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- 오늘의 업무 통계 -->
+    <div class="card-mobile">
+        <div class="card-header">
+            <i class="bi bi-calendar-day"></i> 오늘의 업무
+        </div>
+        <div class="card-body">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-value">{{ today_stats.total_sessions }}</span>
+                    <div class="stat-label">세션</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value">{{ today_stats.total_hours|floatformat:1 }}</span>
+                    <div class="stat-label">시간</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value">{{ pending_reports }}</span>
+                    <div class="stat-label">대기 리포트</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 최근 작업 현장 -->
+    <div class="card-mobile">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-building"></i> 최근 작업 현장</span>
+            <button class="btn btn-outline-light btn-sm" onclick="refreshSites()">
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
+        </div>
+        <div class="card-body">
+            {% if recent_sites %}
+                <div class="list-group list-group-flush">
+                    {% for site in recent_sites %}
+                    <div class="list-group-item list-group-item-action p-0 border-0 mb-3">
+                        <div class="site-card" onclick="selectSite('{{ site.id }}')">
+                            <h6>{{ site.name }}</h6>
+                            <p class="text-muted mb-0">{{ site.address|truncatechars:50 }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center text-muted py-4">
+                    <i class="bi bi-building display-4"></i>
+                    <p class="mt-3">최근 작업한 현장이 없습니다</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- 빠른 액세스 메뉴 -->
+    <div class="card-mobile">
+        <div class="card-header">
+            <i class="bi bi-lightning"></i> 빠른 작업
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-6">
+                    <button class="btn btn-outline-primary btn-touch w-100" onclick="showRecentReports()">
+                        <i class="bi bi-clipboard-check"></i>
+                        <span>리포트 목록</span>
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-outline-info btn-touch w-100" onclick="showInventoryStatus()">
+                        <i class="bi bi-boxes"></i>
+                        <span>재고 현황</span>
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-outline-success btn-touch w-100 online-only" id="sync-btn">
+                        <i class="bi bi-arrow-repeat"></i>
+                        <span>동기화</span>
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-outline-warning btn-touch w-100" onclick="showOfflineData()">
+                        <i class="bi bi-database"></i>
+                        <span>오프라인</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 현장 선택 모달 -->
+<div class="modal fade" id="siteSelectionModal" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen-sm-down">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-geo-alt"></i> 현장 선택</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="sites-loading" class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">로딩 중...</span>
+                    </div>
+                    <p class="mt-2">현장 목록을 불러오는 중...</p>
+                </div>
+                
+                <div id="sites-list" class="d-none">
+                    <div class="site-grid" id="site-options">
+                        <!-- 동적으로 생성됨 -->
+                    </div>
+                </div>
+
+                <!-- GPS 위치 요청 -->
+                <div class="location-status" id="location-status">
+                    <i class="bi bi-geo-alt location-pending"></i>
+                    <span>위치 정보를 요청하는 중...</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary btn-touch" id="start-work-btn" disabled>
+                    <i class="bi bi-play-fill"></i>
+                    업무 시작
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block bottom_actions %}
+{% if active_session %}
+    <button class="btn btn-warning btn-action-large" onclick="pauseWork()">
+        <i class="bi bi-pause-fill"></i>
+        일시 중지
+    </button>
+    <button class="btn btn-success btn-action-large" onclick="continueToChecklist()">
+        <i class="bi bi-clipboard-check"></i>
+        체크리스트 작성
+    </button>
+    <button class="btn btn-danger btn-action-large" onclick="endWork()">
+        <i class="bi bi-stop-fill"></i>
+        업무 완료
+    </button>
+{% endif %}
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 작업 타이머 시작
+    const timerElement = document.getElementById('work-timer');
+    if (timerElement) {
+        const startTime = new Date(timerElement.dataset.start);
+        updateTimer(timerElement, startTime);
+        setInterval(() => updateTimer(timerElement, startTime), 1000);
+    }
+    
+    // GPS 위치 추적
+    trackLocation();
+    
+    // 네트워크 상태에 따른 UI 업데이트
+    updateOnlineFeatures();
+});
+
+// 타이머 업데이트
+function updateTimer(element, startTime) {
+    const now = new Date();
+    const diff = now - startTime;
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    
+    element.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+
+// 현장 선택 모달 표시
+function showSiteSelection() {
+    const modal = new bootstrap.Modal(document.getElementById('siteSelectionModal'));
+    modal.show();
+    
+    loadSites();
+}
+
+// 현장 목록 로드
+async function loadSites() {
+    try {
+        const response = await fetch('/field-report/api/sites/');
+        const data = await response.json();
+        
+        const sitesContainer = document.getElementById('site-options');
+        sitesContainer.innerHTML = '';
+        
+        data.sites.forEach(site => {
+            const siteCard = document.createElement('div');
+            siteCard.className = 'site-card';
+            siteCard.onclick = () => selectSite(site.id);
+            siteCard.innerHTML = `
+                <h6>${site.name}</h6>
+                <p class="text-muted mb-0">${site.address}</p>
+                ${site.latitude && site.longitude ? '<small class="text-info"><i class="bi bi-geo-alt"></i> GPS 위치 등록됨</small>' : ''}
+            `;
+            sitesContainer.appendChild(siteCard);
+        });
+        
+        document.getElementById('sites-loading').classList.add('d-none');
+        document.getElementById('sites-list').classList.remove('d-none');
+        
+    } catch (error) {
+        console.error('현장 목록 로드 실패:', error);
+        showToast('현장 목록을 불러올 수 없습니다', 'error');
+    }
+}
+
+// 현장 선택
+let selectedSiteId = null;
+let currentLocation = null;
+
+function selectSite(siteId) {
+    selectedSiteId = siteId;
+    
+    // 선택 상태 업데이트
+    document.querySelectorAll('.site-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+    event.currentTarget.classList.add('selected');
+    
+    // 시작 버튼 활성화
+    document.getElementById('start-work-btn').disabled = false;
+}
+
+// GPS 위치 추적
+function trackLocation() {
+    if (!navigator.geolocation) {
+        document.getElementById('location-status').innerHTML = `
+            <i class="bi bi-geo-alt-slash text-danger"></i>
+            <span>GPS를 지원하지 않는 브라우저입니다</span>
+        `;
+        return;
+    }
+    
+    navigator.geolocation.getCurrentPosition(
+        position => {
+            currentLocation = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                accuracy: position.coords.accuracy
+            };
+            
+            document.getElementById('location-status').innerHTML = `
+                <i class="bi bi-geo-alt location-verified"></i>
+                <span>위치 확인 완료 (정확도: ${Math.round(position.coords.accuracy)}m)</span>
+            `;
+        },
+        error => {
+            console.error('GPS 위치 추적 실패:', error);
+            document.getElementById('location-status').innerHTML = `
+                <i class="bi bi-geo-alt-slash location-error"></i>
+                <span>위치 정보를 가져올 수 없습니다</span>
+            `;
+        },
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 300000
+        }
+    );
+}
+
+// 업무 시작
+document.getElementById('start-work-btn').addEventListener('click', async function() {
+    if (!selectedSiteId) {
+        showToast('현장을 선택해주세요', 'warning');
+        return;
+    }
+    
+    this.disabled = true;
+    this.innerHTML = '<i class="bi bi-spinner-border spinner-border-sm"></i> 시작 중...';
+    
+    try {
+        const response = await fetch('/field-report/session/start/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': window.csrfToken
+            },
+            body: JSON.stringify({
+                site_id: selectedSiteId,
+                latitude: currentLocation?.latitude,
+                longitude: currentLocation?.longitude,
+                accuracy: currentLocation?.accuracy
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showToast(result.message, 'success');
+            
+            // 페이지 새로고침으로 상태 업데이트
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+        } else {
+            throw new Error(result.error || '업무 시작에 실패했습니다');
+        }
+        
+    } catch (error) {
+        console.error('업무 시작 실패:', error);
+        showToast(error.message, 'error');
+        
+        this.disabled = false;
+        this.innerHTML = '<i class="bi bi-play-fill"></i> 업무 시작';
+    }
+});
+
+// 업무 일시 중지
+async function pauseWork() {
+    const sessionId = '{{ active_session.id|default:"" }}';
+    if (!sessionId) return;
+    
+    try {
+        const response = await fetch(`/field-report/session/${sessionId}/pause/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': window.csrfToken
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showToast(result.message, 'success');
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            throw new Error(result.error);
+        }
+        
+    } catch (error) {
+        console.error('업무 일시 중지 실패:', error);
+        showToast(error.message, 'error');
+    }
+}
+
+// 체크리스트로 이동
+function continueToChecklist() {
+    const sessionId = '{{ active_session.id|default:"" }}';
+    if (sessionId) {
+        window.location.href = `/field-report/session/${sessionId}/checklist/`;
+    }
+}
+
+// 업무 완료
+async function endWork() {
+    const sessionId = '{{ active_session.id|default:"" }}';
+    if (!sessionId) return;
+    
+    // GPS 위치 다시 요청
+    navigator.geolocation.getCurrentPosition(
+        async position => {
+            const endLocation = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            };
+            
+            const notes = prompt('업무 완료 메모 (선택사항):');
+            
+            try {
+                const response = await fetch(`/field-report/session/${sessionId}/end/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': window.csrfToken
+                    },
+                    body: JSON.stringify({
+                        latitude: endLocation.latitude,
+                        longitude: endLocation.longitude,
+                        notes: notes || ''
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showToast(`업무 완료! (총 ${result.duration_hours.toFixed(1)}시간)`, 'success');
+                    setTimeout(() => window.location.reload(), 2000);
+                } else {
+                    throw new Error(result.error);
+                }
+                
+            } catch (error) {
+                console.error('업무 완료 실패:', error);
+                showToast(error.message, 'error');
+            }
+        },
+        error => {
+            console.warn('GPS 위치 실패, 위치 정보 없이 종료:', error);
+            // 위치 정보 없이 종료 진행
+            endWorkWithoutLocation(sessionId);
+        }
+    );
+}
+
+// 위치 정보 없이 업무 완료
+async function endWorkWithoutLocation(sessionId) {
+    const notes = prompt('업무 완료 메모 (선택사항):');
+    
+    try {
+        const response = await fetch(`/field-report/session/${sessionId}/end/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': window.csrfToken
+            },
+            body: JSON.stringify({
+                notes: notes || ''
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showToast(`업무 완료! (총 ${result.duration_hours.toFixed(1)}시간)`, 'success');
+            setTimeout(() => window.location.reload(), 2000);
+        } else {
+            throw new Error(result.error);
+        }
+        
+    } catch (error) {
+        console.error('업무 완료 실패:', error);
+        showToast(error.message, 'error');
+    }
+}
+
+// 온라인 기능 업데이트
+function updateOnlineFeatures() {
+    const isOnline = navigator.onLine;
+    const onlineElements = document.querySelectorAll('.online-only');
+    
+    onlineElements.forEach(element => {
+        element.disabled = !isOnline;
+        if (!isOnline) {
+            element.classList.add('opacity-50');
+        } else {
+            element.classList.remove('opacity-50');
+        }
+    });
+}
+
+// 동기화 버튼
+document.getElementById('sync-btn').addEventListener('click', async function() {
+    if (!navigator.onLine) {
+        showToast('인터넷 연결을 확인해주세요', 'warning');
+        return;
+    }
+    
+    this.disabled = true;
+    this.innerHTML = '<i class="bi bi-spinner-border spinner-border-sm"></i> 동기화 중...';
+    
+    try {
+        // PWA 동기화 실행
+        if (window.pwaManager) {
+            await window.pwaManager.triggerSync();
+        }
+        
+        // 오프라인 API 동기화
+        if (window.offlineAPI) {
+            await window.offlineAPI.performSync();
+        }
+        
+        showToast('동기화가 완료되었습니다', 'success');
+        
+    } catch (error) {
+        console.error('동기화 실패:', error);
+        showToast('동기화에 실패했습니다', 'error');
+    } finally {
+        this.disabled = false;
+        this.innerHTML = '<i class="bi bi-arrow-repeat"></i> <span>동기화</span>';
+    }
+});
+
+// 기타 빠른 작업 함수들
+function showRecentReports() {
+    showToast('리포트 목록 기능 준비 중입니다', 'info');
+}
+
+function showInventoryStatus() {
+    showToast('재고 현황 기능 준비 중입니다', 'info');
+}
+
+function showOfflineData() {
+    showToast('오프라인 데이터 기능 준비 중입니다', 'info');
+}
+
+function refreshSites() {
+    window.location.reload();
+}
+
+// 네트워크 상태 변경 감지
+window.addEventListener('online', updateOnlineFeatures);
+window.addEventListener('offline', updateOnlineFeatures);
+</script>
+{% endblock %}

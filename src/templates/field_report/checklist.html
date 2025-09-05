@@ -1,0 +1,558 @@
+{% extends 'field_report/base_mobile.html' %}
+{% load static %}
+
+{% block title %}작업 체크리스트 - OneSquare{% endblock %}
+
+{% block extra_head %}
+<style>
+.checklist-header {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    color: white;
+    padding: 20px;
+    border-radius: 12px 12px 0 0;
+}
+
+.progress-ring {
+    transform: rotate(-90deg);
+}
+
+.progress-ring-circle {
+    stroke: #e9ecef;
+    fill: transparent;
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+.progress-ring-circle.progress {
+    stroke: #28a745;
+    stroke-dasharray: 283;
+    stroke-dashoffset: 283;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+    <!-- 세션 정보 헤더 -->
+    <div class="card-mobile">
+        <div class="checklist-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h5><i class="bi bi-clipboard-check"></i> 작업 체크리스트</h5>
+                    <p class="mb-0">
+                        <i class="bi bi-geo-alt"></i> {{ session.site.name }}
+                    </p>
+                    <small class="opacity-75">
+                        시작: {{ session.start_time|date:"H:i" }}
+                    </small>
+                </div>
+                <div class="text-center">
+                    <!-- 진행률 원형 차트 -->
+                    <svg width="80" height="80" class="progress-ring">
+                        <circle class="progress-ring-circle" cx="40" cy="40" r="35"></circle>
+                        <circle class="progress-ring-circle progress" cx="40" cy="40" r="35" id="progress-circle"></circle>
+                    </svg>
+                    <div class="mt-2">
+                        <strong id="progress-percentage">0%</strong>
+                        <br><small>완료</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 체크리스트 선택 -->
+    <div class="card-mobile" id="checklist-selection">
+        <div class="card-header">
+            <i class="bi bi-list-check"></i> 체크리스트 선택
+        </div>
+        <div class="card-body">
+            {% if checklists %}
+                {% for checklist in checklists %}
+                <div class="checklist-option mb-3" data-checklist-id="{{ checklist.id }}">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="selected_checklist" 
+                                   id="checklist_{{ checklist.id }}" value="{{ checklist.id }}">
+                            <label class="form-check-label" for="checklist_{{ checklist.id }}">
+                                <strong>{{ checklist.name }}</strong>
+                            </label>
+                        </div>
+                        <span class="badge bg-primary">{{ checklist.checklist_items|length }} 항목</span>
+                    </div>
+                    <small class="text-muted ps-4">{{ checklist.description }}</small>
+                    <div class="mt-2 ps-4">
+                        <span class="badge bg-secondary">우선순위 {{ checklist.priority }}</span>
+                        {% if checklist.site %}
+                            <span class="badge bg-info">{{ checklist.site.name }} 전용</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr>
+                {% endfor %}
+                
+                <button class="btn btn-primary btn-action-large w-100" onclick="loadSelectedChecklist()" disabled id="load-checklist-btn">
+                    <i class="bi bi-arrow-right-circle"></i>
+                    선택한 체크리스트 시작
+                </button>
+            {% else %}
+                <div class="text-center text-muted py-4">
+                    <i class="bi bi-clipboard-x display-4"></i>
+                    <p class="mt-3">사용 가능한 체크리스트가 없습니다</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- 체크리스트 작업 영역 (처음에는 숨김) -->
+    <div class="d-none" id="checklist-work-area">
+        <!-- 현재 체크리스트 정보 -->
+        <div class="card-mobile">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span id="current-checklist-name">체크리스트</span>
+                <button class="btn btn-outline-light btn-sm" onclick="saveProgress()">
+                    <i class="bi bi-save"></i> 저장
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="checklist-progress">
+                    <div class="checklist-progress-bar" id="linear-progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <small class="text-muted">
+                        <span id="completed-count">0</span> / <span id="total-count">0</span> 완료
+                    </small>
+                    <small class="text-muted">
+                        자동 저장: <span id="last-saved">-</span>
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <!-- 체크리스트 항목들 -->
+        <div id="checklist-items-container">
+            <!-- 동적으로 생성됨 -->
+        </div>
+
+        <!-- 추가 메모 -->
+        <div class="card-mobile">
+            <div class="card-header">
+                <i class="bi bi-pencil-square"></i> 추가 메모
+            </div>
+            <div class="card-body">
+                <textarea class="form-control form-control-touch" id="additional-notes" rows="4" 
+                          placeholder="작업 중 특이사항, 문제점, 개선사항 등을 기록하세요..."></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block bottom_actions %}
+<div id="checklist-actions" class="d-none">
+    <button class="btn btn-outline-secondary btn-touch" onclick="goBack()">
+        <i class="bi bi-arrow-left"></i> 이전
+    </button>
+    <button class="btn btn-success btn-action-large" onclick="completeChecklist()" id="complete-btn" disabled>
+        <i class="bi bi-check-circle"></i>
+        체크리스트 완료
+    </button>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+let currentChecklist = null;
+let checklistItems = [];
+let checklistStatus = {};
+let autoSaveTimer = null;
+let existingReportId = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 기존 리포트가 있는지 확인
+    {% if existing_report %}
+        existingReportId = '{{ existing_report.id }}';
+        // 기존 체크리스트 로드
+        loadExistingReport();
+    {% endif %}
+    
+    // 체크리스트 선택 이벤트
+    document.querySelectorAll('input[name="selected_checklist"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            document.getElementById('load-checklist-btn').disabled = false;
+        });
+    });
+    
+    // 자동 저장 설정 (30초마다)
+    setInterval(() => {
+        if (currentChecklist && Object.keys(checklistStatus).length > 0) {
+            saveProgress(true);
+        }
+    }, 30000);
+});
+
+// 기존 리포트 로드
+async function loadExistingReport() {
+    try {
+        showLoading(true);
+        
+        // 기존 리포트 데이터 로드 (API 구현 필요)
+        // 임시로 첫 번째 체크리스트 선택
+        const firstRadio = document.querySelector('input[name="selected_checklist"]');
+        if (firstRadio) {
+            firstRadio.checked = true;
+            document.getElementById('load-checklist-btn').disabled = false;
+            await loadSelectedChecklist();
+        }
+        
+    } catch (error) {
+        console.error('기존 리포트 로드 실패:', error);
+        showToast('기존 리포트를 불러올 수 없습니다', 'error');
+    } finally {
+        showLoading(false);
+    }
+}
+
+// 선택된 체크리스트 로드
+async function loadSelectedChecklist() {
+    const selectedRadio = document.querySelector('input[name="selected_checklist"]:checked');
+    if (!selectedRadio) {
+        showToast('체크리스트를 선택해주세요', 'warning');
+        return;
+    }
+    
+    try {
+        showLoading(true);
+        
+        // 선택된 체크리스트 정보
+        const checklistId = selectedRadio.value;
+        const checklistName = selectedRadio.parentElement.querySelector('strong').textContent;
+        
+        // 체크리스트 데이터 로드 (임시 데이터)
+        currentChecklist = {
+            id: checklistId,
+            name: checklistName,
+            items: await loadChecklistItems(checklistId)
+        };
+        
+        checklistItems = currentChecklist.items;
+        
+        // UI 전환
+        document.getElementById('checklist-selection').style.display = 'none';
+        document.getElementById('checklist-work-area').classList.remove('d-none');
+        document.getElementById('checklist-actions').classList.remove('d-none');
+        
+        // 체크리스트 렌더링
+        renderChecklistItems();
+        updateProgress();
+        
+        document.getElementById('current-checklist-name').textContent = currentChecklist.name;
+        document.getElementById('total-count').textContent = checklistItems.length;
+        
+    } catch (error) {
+        console.error('체크리스트 로드 실패:', error);
+        showToast('체크리스트를 불러올 수 없습니다', 'error');
+    } finally {
+        showLoading(false);
+    }
+}
+
+// 체크리스트 항목 데이터 로드
+async function loadChecklistItems(checklistId) {
+    // 임시 데이터 (실제로는 서버에서 가져와야 함)
+    const sampleItems = [
+        { id: '1', text: '작업 도구 준비 및 점검', required: true, category: 'preparation' },
+        { id: '2', text: '안전장비 착용 확인', required: true, category: 'safety' },
+        { id: '3', text: '작업 구역 안전 점검', required: true, category: 'safety' },
+        { id: '4', text: '필요 자재 준비 상태 확인', required: true, category: 'preparation' },
+        { id: '5', text: '작업 전 현장 사진 촬영', required: false, category: 'documentation' },
+        { id: '6', text: '주요 작업 실행', required: true, category: 'work' },
+        { id: '7', text: '작업 품질 검토', required: true, category: 'quality' },
+        { id: '8', text: '정리 정돈 및 청소', required: true, category: 'cleanup' },
+        { id: '9', text: '작업 완료 사진 촬영', required: false, category: 'documentation' },
+        { id: '10', text: '사용 도구 및 자재 정리', required: true, category: 'cleanup' }
+    ];
+    
+    return sampleItems;
+}
+
+// 체크리스트 항목 렌더링
+function renderChecklistItems() {
+    const container = document.getElementById('checklist-items-container');
+    container.innerHTML = '';
+    
+    // 카테고리별 그룹화
+    const categories = {
+        preparation: { name: '준비 작업', icon: 'bi-gear', color: 'primary' },
+        safety: { name: '안전 점검', icon: 'bi-shield-check', color: 'warning' },
+        work: { name: '주요 작업', icon: 'bi-tools', color: 'success' },
+        quality: { name: '품질 검토', icon: 'bi-search', color: 'info' },
+        documentation: { name: '문서화', icon: 'bi-camera', color: 'secondary' },
+        cleanup: { name: '정리 작업', icon: 'bi-trash', color: 'dark' }
+    };
+    
+    // 카테고리별로 항목 그룹화
+    const groupedItems = {};
+    checklistItems.forEach(item => {
+        if (!groupedItems[item.category]) {
+            groupedItems[item.category] = [];
+        }
+        groupedItems[item.category].push(item);
+    });
+    
+    // 카테고리별 렌더링
+    Object.entries(groupedItems).forEach(([categoryKey, items]) => {
+        const category = categories[categoryKey] || { name: categoryKey, icon: 'bi-list', color: 'secondary' };
+        
+        const categoryCard = document.createElement('div');
+        categoryCard.className = 'card-mobile';
+        
+        categoryCard.innerHTML = `
+            <div class="card-header bg-${category.color} text-white">
+                <i class="${category.icon}"></i> ${category.name}
+                <span class="float-end">
+                    <span class="category-progress" data-category="${categoryKey}">0</span>/${items.length}
+                </span>
+            </div>
+            <div class="card-body p-0">
+                ${items.map(item => `
+                    <div class="checklist-item" data-item-id="${item.id}">
+                        <div class="form-check form-check-touch">
+                            <input class="form-check-input" type="checkbox" 
+                                   id="item_${item.id}" value="${item.id}"
+                                   onchange="updateItemStatus('${item.id}', this.checked)">
+                            <label class="form-check-label w-100" for="item_${item.id}">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="flex-grow-1">
+                                        <span class="item-text">${item.text}</span>
+                                        ${item.required ? '<span class="badge bg-danger ms-2">필수</span>' : '<span class="badge bg-secondary ms-2">선택</span>'}
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="item-details mt-2 d-none">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="form-label">상세 메모</label>
+                                    <textarea class="form-control form-control-touch" rows="2" 
+                                              placeholder="작업 상세 내용, 특이사항 등..."
+                                              onchange="updateItemNotes('${item.id}', this.value)"></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">작업 시간</label>
+                                    <input type="time" class="form-control form-control-touch"
+                                           onchange="updateItemTime('${item.id}', this.value)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        
+        container.appendChild(categoryCard);
+    });
+}
+
+// 항목 상태 업데이트
+function updateItemStatus(itemId, completed) {
+    if (!checklistStatus[itemId]) {
+        checklistStatus[itemId] = {};
+    }
+    
+    checklistStatus[itemId].completed = completed;
+    checklistStatus[itemId].completedAt = completed ? new Date().toISOString() : null;
+    
+    // 완료된 항목에 대한 상세 정보 표시
+    const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
+    if (completed) {
+        itemElement.classList.add('completed');
+        itemElement.querySelector('.item-details').classList.remove('d-none');
+    } else {
+        itemElement.classList.remove('completed');
+        itemElement.querySelector('.item-details').classList.add('d-none');
+    }
+    
+    updateProgress();
+    scheduleAutoSave();
+}
+
+// 항목 메모 업데이트
+function updateItemNotes(itemId, notes) {
+    if (!checklistStatus[itemId]) {
+        checklistStatus[itemId] = {};
+    }
+    
+    checklistStatus[itemId].notes = notes;
+    scheduleAutoSave();
+}
+
+// 항목 시간 업데이트
+function updateItemTime(itemId, time) {
+    if (!checklistStatus[itemId]) {
+        checklistStatus[itemId] = {};
+    }
+    
+    checklistStatus[itemId].workTime = time;
+    scheduleAutoSave();
+}
+
+// 진행률 업데이트
+function updateProgress() {
+    const completedItems = Object.values(checklistStatus).filter(status => status.completed);
+    const totalItems = checklistItems.length;
+    const completedCount = completedItems.length;
+    const percentage = totalItems > 0 ? Math.round((completedCount / totalItems) * 100) : 0;
+    
+    // 원형 진행률 업데이트
+    const circle = document.getElementById('progress-circle');
+    const circumference = 2 * Math.PI * 35; // r=35
+    const offset = circumference - (percentage / 100) * circumference;
+    circle.style.strokeDashoffset = offset;
+    
+    // 퍼센트 텍스트 업데이트
+    document.getElementById('progress-percentage').textContent = `${percentage}%`;
+    
+    // 선형 진행률 업데이트
+    document.getElementById('linear-progress-bar').style.width = `${percentage}%`;
+    
+    // 카운트 업데이트
+    document.getElementById('completed-count').textContent = completedCount;
+    
+    // 카테고리별 진행률 업데이트
+    const categoryProgress = {};
+    checklistItems.forEach(item => {
+        if (!categoryProgress[item.category]) {
+            categoryProgress[item.category] = { total: 0, completed: 0 };
+        }
+        categoryProgress[item.category].total++;
+        if (checklistStatus[item.id]?.completed) {
+            categoryProgress[item.category].completed++;
+        }
+    });
+    
+    Object.entries(categoryProgress).forEach(([category, progress]) => {
+        const progressElement = document.querySelector(`[data-category="${category}"]`);
+        if (progressElement) {
+            progressElement.textContent = progress.completed;
+        }
+    });
+    
+    // 완료 버튼 활성화 (필수 항목 모두 완료 시)
+    const requiredItems = checklistItems.filter(item => item.required);
+    const completedRequiredItems = requiredItems.filter(item => 
+        checklistStatus[item.id]?.completed
+    );
+    
+    const canComplete = completedRequiredItems.length === requiredItems.length;
+    document.getElementById('complete-btn').disabled = !canComplete;
+}
+
+// 자동 저장 스케줄링
+function scheduleAutoSave() {
+    if (autoSaveTimer) {
+        clearTimeout(autoSaveTimer);
+    }
+    
+    autoSaveTimer = setTimeout(() => {
+        saveProgress(true);
+    }, 2000);
+}
+
+// 진행상황 저장
+async function saveProgress(isAutoSave = false) {
+    if (!currentChecklist) return;
+    
+    try {
+        const requestData = {
+            checklist_id: currentChecklist.id,
+            checklist_status: checklistStatus,
+            title: `${currentChecklist.name} - {{ session.site.name }}`,
+            additional_notes: document.getElementById('additional-notes').value
+        };
+        
+        const response = await fetch('/field-report/session/{{ session.id }}/save-progress/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': window.csrfToken
+            },
+            body: JSON.stringify(requestData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            existingReportId = result.report_id;
+            
+            const now = new Date().toLocaleTimeString();
+            document.getElementById('last-saved').textContent = now;
+            
+            if (!isAutoSave) {
+                showToast('진행상황이 저장되었습니다', 'success');
+            }
+        } else {
+            throw new Error(result.error || '저장에 실패했습니다');
+        }
+        
+    } catch (error) {
+        console.error('진행상황 저장 실패:', error);
+        if (!isAutoSave) {
+            showToast(error.message, 'error');
+        }
+    }
+}
+
+// 체크리스트 완료
+async function completeChecklist() {
+    const confirmed = await showConfirm(
+        '체크리스트를 완료하시겠습니까? 완료 후에는 수정할 수 없습니다.'
+    );
+    
+    if (!confirmed) return;
+    
+    try {
+        showLoading(true);
+        
+        // 최종 저장
+        await saveProgress();
+        
+        // 사진 업로드 페이지로 이동 또는 완료 처리
+        if (existingReportId) {
+            window.location.href = `/field-report/report/${existingReportId}/upload-photos/`;
+        } else {
+            showToast('리포트 생성에 실패했습니다', 'error');
+        }
+        
+    } catch (error) {
+        console.error('체크리스트 완료 실패:', error);
+        showToast(error.message, 'error');
+    } finally {
+        showLoading(false);
+    }
+}
+
+// 이전 페이지로 돌아가기
+function goBack() {
+    if (Object.keys(checklistStatus).length > 0) {
+        showConfirm('작업 중인 내용이 있습니다. 저장하지 않고 돌아가시겠습니까?').then(confirmed => {
+            if (confirmed) {
+                window.history.back();
+            }
+        });
+    } else {
+        window.history.back();
+    }
+}
+
+// 페이지 언로드 시 저장
+window.addEventListener('beforeunload', function(e) {
+    if (Object.keys(checklistStatus).length > 0) {
+        saveProgress(true);
+        e.preventDefault();
+        e.returnValue = '';
+    }
+});
+</script>
+{% endblock %}

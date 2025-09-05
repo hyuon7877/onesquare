@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}OneSquare - 통합 팀 관리 시스템{% endblock %}</title>
+    <meta name="description" content="팀원, 파트너, 도급사를 위한 통합 관리 시스템. 오프라인 지원과 Notion 동기화를 제공합니다.">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="application-name" content="OneSquare">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="OneSquare">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="msapplication-TileColor" content="#2c3e50">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="theme-color" content="#2c3e50">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="{% load static %}{% static 'manifest.json' %}">
+    
+    <!-- PWA Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/icons/icon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/icons/icon-16x16.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/icons/icon-180x180.png' %}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'images/icons/icon-152x152.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/icons/icon-180x180.png' %}">
+    <link rel="apple-touch-icon" sizes="167x167" href="{% static 'images/icons/icon-167x167.png' %}">
+    
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-config" content="{% static 'browserconfig.xml' %}">
+    <meta name="msapplication-TileImage" content="{% static 'images/icons/icon-144x144.png' %}">
+    
+    <!-- Safari Pinned Tab -->
+    <link rel="mask-icon" href="{% static 'images/icons/safari-pinned-tab.svg' %}" color="#2c3e50">
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.notion.com wss:;">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://api.notion.com">
+    <link rel="dns-prefetch" href="https://api.notion.com">
+    
+    <!-- CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    {% block extra_css %}{% endblock %}
+    
+    <!-- CSRF Token -->
+    {% csrf_token %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <!-- PWA Install Banner -->
+    <div id="pwa-install-banner" class="pwa-install-banner" style="display: none;">
+        <div class="banner-content">
+            <div class="banner-info">
+                <strong>OneSquare 앱 설치</strong>
+                <p>홈 화면에 추가하여 더 빠르게 사용하세요!</p>
+            </div>
+            <div class="banner-actions">
+                <button id="pwa-install-btn" class="btn-install">설치</button>
+                <button id="pwa-dismiss-btn" class="btn-dismiss">닫기</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Network Status Indicator -->
+    <div id="network-indicator" class="network-indicator">
+        <span id="network-status-text">온라인</span>
+    </div>
+    
+    <!-- Main Navigation -->
+    <nav class="main-nav" id="main-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="{% static 'images/logo.png' %}" alt="OneSquare" class="logo">
+                <span class="brand-text">OneSquare</span>
+            </div>
+            
+            {% if user.is_authenticated %}
+            <div class="nav-menu">
+                <a href="/dashboard/" class="nav-item">대시보드</a>
+                {% if user.has_system_permission %}
+                <a href="/reports/" class="nav-item">리포트</a>
+                {% endif %}
+                <a href="/calendar/" class="nav-item">캘린더</a>
+                {% if user.user_type == 'PARTNER' or user.user_type == 'CONTRACTOR' %}
+                <a href="/field-reports/" class="nav-item">현장 리포트</a>
+                {% endif %}
+            </div>
+            
+            <div class="nav-user">
+                <div class="user-info">
+                    <span class="user-name">{{ user.get_full_name|default:user.username }}</span>
+                    <span class="user-type">{{ user.get_user_type_display }}</span>
+                </div>
+                <div class="user-menu">
+                    <button class="user-menu-btn" onclick="toggleUserMenu()">
+                        {% if user.profile_image %}
+                        <img src="{{ user.profile_image.url }}" alt="프로필" class="user-avatar">
+                        {% else %}
+                        <div class="user-avatar-default">{{ user.username|first }}</div>
+                        {% endif %}
+                    </button>
+                    <div class="user-dropdown" id="user-dropdown">
+                        <a href="/profile/" class="dropdown-item">프로필 설정</a>
+                        {% if user.is_admin_level %}
+                        <a href="/admin/" class="dropdown-item">관리자 페이지</a>
+                        {% endif %}
+                        <div class="dropdown-divider"></div>
+                        <a href="/auth/logout/" class="dropdown-item">로그아웃</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="nav-auth">
+                <a href="/auth/login/" class="btn-login">로그인</a>
+                <a href="/auth/register/" class="btn-register">회원가입</a>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <p>&copy; 2024 OneSquare. All rights reserved.</p>
+                <p>통합 팀 관리 시스템 - PWA 지원</p>
+            </div>
+            <div class="footer-links">
+                <a href="/privacy/">개인정보처리방침</a>
+                <a href="/terms/">이용약관</a>
+                <a href="/help/">도움말</a>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">로딩 중...</div>
+    </div>
+    
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+    
+    <!-- JavaScript -->
+    <script src="{% static 'js/common.js' %}"></script>
+    <script src="{% static 'js/pwa-manager.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+    
+    <!-- PWA Installation Script -->
+    <script>
+    // PWA 설치 배너 처리
+    document.addEventListener('DOMContentLoaded', () => {
+        const installBanner = document.getElementById('pwa-install-banner');
+        const installBtn = document.getElementById('pwa-install-btn');
+        const dismissBtn = document.getElementById('pwa-dismiss-btn');
+        
+        // 이미 설치된 경우 배너 숨기기
+        if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
+            return;
+        }
+        
+        // 설치 프롬프트 이벤트 대기
+        let deferredPrompt = null;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // 사용자가 이전에 설치를 거부했는지 확인
+            if (localStorage.getItem('pwa-install-dismissed') !== 'true') {
+                installBanner.style.display = 'block';
+            }
+        });
+        
+        // 설치 버튼 클릭
+        installBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            const result = await deferredPrompt.userChoice;
+            
+            console.log('PWA install result:', result);
+            deferredPrompt = null;
+            installBanner.style.display = 'none';
+        });
+        
+        // 닫기 버튼 클릭
+        dismissBtn.addEventListener('click', () => {
+            installBanner.style.display = 'none';
+            localStorage.setItem('pwa-install-dismissed', 'true');
+        });
+        
+        // 설치 완료 후 배너 숨기기
+        window.addEventListener('appinstalled', () => {
+            installBanner.style.display = 'none';
+            showToast('OneSquare 앱이 설치되었습니다!', 'success');
+        });
+    });
+    
+    // 공통 유틸리티 함수들
+    function toggleUserMenu() {
+        const dropdown = document.getElementById('user-dropdown');
+        dropdown.classList.toggle('show');
+    }
+    
+    // 외부 클릭 시 사용자 메뉴 닫기
+    document.addEventListener('click', (e) => {
+        const userMenu = document.querySelector('.user-menu');
+        const dropdown = document.getElementById('user-dropdown');
+        
+        if (dropdown && !userMenu.contains(e.target)) {
+            dropdown.classList.remove('show');
+        }
+    });
+    
+    function showToast(message, type = 'info') {
+        // PWAManager에서 토스트 표시
+        if (window.pwaManager) {
+            window.pwaManager.showToast(message, type);
+        }
+    }
+    
+    function showLoading(show = true) {
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+            overlay.style.display = show ? 'flex' : 'none';
+        }
+    }
+    </script>
+    
+    <style>
+    /* PWA Install Banner */
+    .pwa-install-banner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: #007bff;
+        color: white;
+        z-index: 1000;
+        padding: 1rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .banner-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .banner-info p {
+        margin: 0;
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    
+    .banner-actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .btn-install, .btn-dismiss {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 0.25rem;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+    
+    .btn-install {
+        background: white;
+        color: #007bff;
+    }
+    
+    .btn-dismiss {
+        background: transparent;
+        color: white;
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    /* Network Indicator */
+    .network-indicator {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        z-index: 999;
+        transition: all 0.3s;
+    }
+    
+    .network-indicator.online {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    
+    .network-indicator.offline {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    
+    /* Loading Overlay */
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    }
+    
+    .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #007bff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    
+    .loading-text {
+        margin-top: 1rem;
+        color: white;
+        font-weight: 600;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    /* Toast Container */
+    .toast-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1001;
+    }
+    
+    /* User Menu */
+    .user-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        min-width: 200px;
+        display: none;
+    }
+    
+    .user-dropdown.show {
+        display: block;
+    }
+    
+    .dropdown-item {
+        display: block;
+        padding: 0.75rem 1rem;
+        color: #333;
+        text-decoration: none;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .dropdown-item:hover {
+        background: #f8f9fa;
+    }
+    
+    .dropdown-divider {
+        height: 1px;
+        background: #eee;
+        margin: 0.5rem 0;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .banner-content {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+        
+        .main-nav {
+            padding: 0.5rem;
+        }
+        
+        .nav-menu {
+            display: none; /* 모바일에서는 햄버거 메뉴로 처리 */
+        }
+    }
+    </style>
+</body>
+</html>

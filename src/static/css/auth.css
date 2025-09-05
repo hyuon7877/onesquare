@@ -1,0 +1,668 @@
+/* OneSquare 인증 시스템 스타일 */
+
+/* 기본 색상 및 변수 */
+:root {
+    --primary-color: #0A84FF;
+    --secondary-color: #5856D6;
+    --success-color: #30D158;
+    --warning-color: #FF9500;
+    --error-color: #FF3B30;
+    --background-color: #F2F2F7;
+    --card-background: #FFFFFF;
+    --text-primary: #1D1D1F;
+    --text-secondary: #8E8E93;
+    --border-color: #C6C6C8;
+    --border-radius: 10px;
+    --shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+/* 전체 페이지 레이아웃 */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 인증 컨테이너 */
+.auth-container {
+    width: 100%;
+    max-width: 480px;
+    padding: 20px;
+}
+
+.auth-card {
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 40px;
+    box-shadow: var(--shadow);
+    animation: fadeInUp 0.6s ease;
+}
+
+.register-card {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* 헤더 */
+.auth-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.auth-header .logo {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 16px;
+}
+
+.auth-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 8px 0;
+}
+
+.auth-header p {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 16px;
+}
+
+/* 탭 버튼 */
+.auth-tabs {
+    display: flex;
+    background: var(--background-color);
+    border-radius: var(--border-radius);
+    margin-bottom: 30px;
+    padding: 4px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: none;
+    border-radius: calc(var(--border-radius) - 4px);
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.tab-btn.active {
+    background: var(--card-background);
+    color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 폼 스타일 */
+.auth-form {
+    display: none;
+}
+
+.auth-form.active {
+    display: block;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.form-row .form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    transition: var(--transition);
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.1);
+}
+
+.form-help {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+/* 체크박스와 라디오 버튼 */
+.checkbox-label,
+.radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.checkbox-label input,
+.radio-label input {
+    display: none;
+}
+
+.checkmark,
+.radio-mark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+    margin-right: 12px;
+    transition: var(--transition);
+}
+
+.checkmark {
+    border-radius: 4px;
+}
+
+.radio-mark {
+    border-radius: 50%;
+}
+
+.checkbox-label input:checked + .checkmark {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.radio-label input:checked + .radio-mark {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.checkmark:after,
+.radio-mark:after {
+    content: "";
+    position: relative;
+    display: none;
+}
+
+.checkbox-label input:checked + .checkmark:after {
+    display: block;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.radio-label input:checked + .radio-mark:after {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+    left: 4px;
+    top: 4px;
+}
+
+.radio-group {
+    display: flex;
+    gap: 20px;
+}
+
+/* 버튼 */
+.btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #0051D0;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: var(--background-color);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: #E5E5EA;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-loading {
+    display: none;
+}
+
+.btn.loading .btn-text {
+    display: none;
+}
+
+.btn.loading .btn-loading {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 스피너 */
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 폼 옵션 */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.forgot-password {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* OTP 관련 스타일 */
+.otp-step {
+    display: none;
+}
+
+.otp-step.active {
+    display: block;
+}
+
+.otp-timer {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+#timer-countdown {
+    font-weight: 600;
+    color: var(--warning-color);
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.form-actions .btn {
+    flex: 1;
+}
+
+/* 비밀번호 강도 표시 */
+.password-strength {
+    margin-top: 8px;
+}
+
+.strength-bar {
+    width: 100%;
+    height: 4px;
+    background: var(--border-color);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.strength-fill {
+    height: 100%;
+    width: 0%;
+    transition: var(--transition);
+    border-radius: 2px;
+}
+
+.strength-text {
+    font-size: 12px;
+    margin-top: 4px;
+    color: var(--text-secondary);
+}
+
+.strength-weak .strength-fill {
+    width: 33%;
+    background: var(--error-color);
+}
+
+.strength-medium .strength-fill {
+    width: 66%;
+    background: var(--warning-color);
+}
+
+.strength-strong .strength-fill {
+    width: 100%;
+    background: var(--success-color);
+}
+
+.password-match {
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.password-match.match {
+    color: var(--success-color);
+}
+
+.password-match.no-match {
+    color: var(--error-color);
+}
+
+/* 비밀번호 요구사항 */
+.password-requirements {
+    background: var(--background-color);
+    padding: 16px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+}
+
+.password-requirements h4 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.password-requirements ul {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.password-requirements li {
+    margin-bottom: 4px;
+}
+
+.password-requirements li.valid {
+    color: var(--success-color);
+}
+
+/* 회사 필드 */
+.company-fields {
+    padding: 16px;
+    background: var(--background-color);
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+}
+
+/* 푸터 */
+.auth-footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.auth-footer p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin: 8px 0;
+}
+
+.auth-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+.help-text {
+    font-size: 12px !important;
+    line-height: 1.4;
+}
+
+.user-type-info {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.user-type-info h4 {
+    font-size: 14px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.user-type-info ul {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0;
+    padding-left: 20px;
+}
+
+.user-type-info li {
+    margin-bottom: 4px;
+}
+
+/* 토스트 메시지 */
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.toast {
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    border-radius: var(--border-radius);
+    color: white;
+    font-weight: 500;
+    box-shadow: var(--shadow);
+    animation: slideInRight 0.3s ease;
+    min-width: 300px;
+}
+
+.toast.success {
+    background: var(--success-color);
+}
+
+.toast.error {
+    background: var(--error-color);
+}
+
+.toast.warning {
+    background: var(--warning-color);
+}
+
+.toast.info {
+    background: var(--primary-color);
+}
+
+/* 모달 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background: var(--card-background);
+    margin: 5% auto;
+    padding: 0;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    color: var(--text-primary);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-body {
+    padding: 20px;
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+/* 애니메이션 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(300px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .auth-container {
+        padding: 10px;
+    }
+
+    .auth-card {
+        padding: 30px 20px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .form-row .form-group {
+        margin-bottom: 20px;
+    }
+
+    .radio-group {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .toast {
+        min-width: auto;
+        margin: 0 10px 10px 10px;
+    }
+
+    .modal-content {
+        margin: 10% auto;
+        width: 95%;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-header h1 {
+        font-size: 24px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .btn {
+        padding: 14px;
+    }
+
+    .auth-tabs {
+        margin-bottom: 20px;
+    }
+
+    .tab-btn {
+        padding: 10px;
+        font-size: 14px;
+    }
+}

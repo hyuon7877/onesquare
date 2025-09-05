@@ -1,0 +1,274 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}매출 목록{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/revenue-list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2>매출 목록</h2>
+                    <p class="text-muted">권한: {{ user_permissions.role_name }}</p>
+                </div>
+                <div>
+                    {% if user_permissions.can_edit %}
+                    <button class="btn btn-primary me-2" onclick="showAddRevenueModal()">
+                        <i class="fas fa-plus"></i> 매출 등록
+                    </button>
+                    {% endif %}
+                    {% if user_permissions.can_export %}
+                    <button class="btn btn-success" onclick="exportRevenues()">
+                        <i class="fas fa-download"></i> 내보내기
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 필터 섹션 -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card filter-card">
+                <div class="card-body">
+                    <form id="filter-form" class="row g-3">
+                        <div class="col-md-3">
+                            <label for="start-date" class="form-label">시작일</label>
+                            <input type="date" class="form-control" id="start-date" name="start_date">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="end-date" class="form-label">종료일</label>
+                            <input type="date" class="form-control" id="end-date" name="end_date">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="category-filter" class="form-label">카테고리</label>
+                            <select class="form-select" id="category-filter" name="category">
+                                <option value="">전체</option>
+                                {% for category in categories %}
+                                <option value="{{ category.code }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="client-filter" class="form-label">고객</label>
+                            <select class="form-select" id="client-filter" name="client">
+                                <option value="">전체</option>
+                                {% for client in clients %}
+                                <option value="{{ client.code }}">{{ client.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="status-filter" class="form-label">결제 상태</label>
+                            <select class="form-select" id="status-filter" name="payment_status">
+                                <option value="">전체</option>
+                                {% for status_code, status_name in payment_statuses %}
+                                <option value="{{ status_code }}">{{ status_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="search" class="form-label">검색</label>
+                            <input type="text" class="form-control" id="search" name="search" 
+                                   placeholder="프로젝트명, 고객명, 설명으로 검색...">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="confirmed-filter" class="form-label">확정 여부</label>
+                            <select class="form-select" id="confirmed-filter" name="is_confirmed">
+                                <option value="">전체</option>
+                                <option value="true">확정</option>
+                                <option value="false">미확정</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary me-2">
+                                <i class="fas fa-search"></i> 검색
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" onclick="resetFilters()">
+                                <i class="fas fa-undo"></i> 초기화
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 매출 목록 테이블 -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">매출 목록</h5>
+                    <div class="d-flex align-items-center">
+                        <label for="per-page" class="form-label me-2 mb-0">표시:</label>
+                        <select class="form-select form-select-sm" id="per-page" style="width: auto;" onchange="changePerPage()">
+                            <option value="20">20개</option>
+                            <option value="50">50개</option>
+                            <option value="100">100개</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0" id="revenues-table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>날짜</th>
+                                    <th>프로젝트</th>
+                                    <th>고객</th>
+                                    <th>카테고리</th>
+                                    <th>유형</th>
+                                    <th>금액</th>
+                                    <th>순매출</th>
+                                    <th>결제상태</th>
+                                    <th>확정여부</th>
+                                    <th>영업담당</th>
+                                    {% if user_permissions.can_edit %}
+                                    <th>액션</th>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- JavaScript로 동적 로딩 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div id="table-info" class="text-muted">
+                            <!-- 페이지 정보 표시 -->
+                        </div>
+                        <nav aria-label="매출 목록 페이지네이션">
+                            <ul class="pagination pagination-sm mb-0" id="pagination">
+                                <!-- JavaScript로 동적 생성 -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 매출 등록/수정 모달 -->
+<div class="modal fade" id="revenueModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="revenueModalTitle">매출 등록</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="revenue-form">
+                    <input type="hidden" id="revenue-id" name="id">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="project" class="form-label">프로젝트 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="project" name="project" required>
+                                <option value="">프로젝트 선택</option>
+                                <!-- JavaScript로 동적 로딩 -->
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="client" class="form-label">고객 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="client" name="client" required>
+                                <option value="">고객 선택</option>
+                                <!-- JavaScript로 동적 로딩 -->
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="category" class="form-label">카테고리 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="category" name="category" required>
+                                <option value="">카테고리 선택</option>
+                                {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="revenue-type" class="form-label">매출 유형 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="revenue-type" name="revenue_type" required>
+                                <option value="contract">계약금</option>
+                                <option value="milestone">마일스톤</option>
+                                <option value="monthly">월 매출</option>
+                                <option value="final">최종 결제</option>
+                                <option value="bonus">보너스</option>
+                                <option value="other">기타</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="amount" class="form-label">금액 <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="amount" name="amount" min="0" step="1000" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="tax-rate" class="form-label">세율 (%)</label>
+                            <input type="number" class="form-control" id="tax-rate" name="tax_rate" min="0" max="100" step="0.1" value="10">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="revenue-date" class="form-label">매출일 <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="revenue-date" name="revenue_date" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="payment-status" class="form-label">결제 상태</label>
+                            <select class="form-select" id="payment-status" name="payment_status">
+                                {% for status_code, status_name in payment_statuses %}
+                                <option value="{{ status_code }}">{{ status_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="due-date" class="form-label">결제 예정일</label>
+                            <input type="date" class="form-control" id="due-date" name="due_date">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check mt-4">
+                                <input class="form-check-input" type="checkbox" id="is-confirmed" name="is_confirmed">
+                                <label class="form-check-label" for="is-confirmed">
+                                    매출 확정
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="description" class="form-label">설명</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" onclick="saveRevenue()">저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 상세 정보 모달 -->
+<div class="modal fade" id="revenueDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">매출 상세 정보</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="revenue-detail-content">
+                    <!-- JavaScript로 동적 로딩 -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/revenue-list.js' %}"></script>
+{% endblock %}

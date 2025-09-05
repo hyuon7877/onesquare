@@ -1,0 +1,381 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}연차 관리 대시보드{% endblock %}
+
+{% block extra_css %}
+<style>
+    .leave-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .balance-display {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    
+    .balance-item {
+        text-align: center;
+        flex: 1;
+        padding: 15px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 8px;
+        margin: 0 5px;
+    }
+    
+    .balance-number {
+        font-size: 24px;
+        font-weight: bold;
+        display: block;
+    }
+    
+    .balance-label {
+        font-size: 12px;
+        opacity: 0.8;
+    }
+    
+    .status-badge {
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+    .status-pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+    
+    .status-approved {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .status-rejected {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    
+    .status-cancelled {
+        background: #e2e3e5;
+        color: #383d41;
+    }
+    
+    .request-item {
+        border-bottom: 1px solid #eee;
+        padding: 15px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .request-info h6 {
+        margin: 0;
+        font-size: 14px;
+    }
+    
+    .request-info p {
+        margin: 5px 0 0 0;
+        font-size: 12px;
+        color: #666;
+    }
+    
+    .quick-action-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        font-size: 12px;
+        cursor: pointer;
+        margin: 0 2px;
+        transition: all 0.3s;
+    }
+    
+    .btn-approve {
+        background: #28a745;
+        color: white;
+    }
+    
+    .btn-reject {
+        background: #dc3545;
+        color: white;
+    }
+    
+    .btn-cancel {
+        background: #6c757d;
+        color: white;
+    }
+    
+    .floating-add-btn {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        font-size: 24px;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        z-index: 1000;
+    }
+    
+    @media (max-width: 768px) {
+        .balance-display {
+            flex-direction: column;
+        }
+        
+        .balance-item {
+            margin: 5px 0;
+        }
+        
+        .request-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .request-actions {
+            margin-top: 10px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-3">
+    <h4 class="mb-4">연차 관리 대시보드</h4>
+    
+    <!-- 연차 잔여일수 표시 -->
+    <div class="leave-card">
+        <h5>내 연차 현황 ({{ balance.year }}년)</h5>
+        <div class="balance-display">
+            <div class="balance-item">
+                <span class="balance-number">{{ balance.total_annual_days }}</span>
+                <span class="balance-label">총 연차</span>
+            </div>
+            <div class="balance-item">
+                <span class="balance-number">{{ balance.used_annual_days }}</span>
+                <span class="balance-label">사용한 연차</span>
+            </div>
+            <div class="balance-item">
+                <span class="balance-number">{{ balance.remaining_annual_days }}</span>
+                <span class="balance-label">잔여 연차</span>
+            </div>
+            <div class="balance-item">
+                <span class="balance-number">{{ balance.carry_over_days }}</span>
+                <span class="balance-label">이월 연차</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 내 연차 신청 목록 -->
+    <div class="leave-card">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5>내 연차 신청 현황</h5>
+            <a href="{% url 'leave_management:request' %}" class="btn btn-sm btn-primary">연차 신청</a>
+        </div>
+        
+        {% if my_requests %}
+            {% for req in my_requests %}
+            <div class="request-item">
+                <div class="request-info">
+                    <h6>{{ req.leave_type.get_name_display }} ({{ req.total_days }}일)</h6>
+                    <p>{{ req.start_date|date:"Y-m-d" }} ~ {{ req.end_date|date:"Y-m-d" }}</p>
+                    <p>{{ req.reason|truncatechars:50 }}</p>
+                </div>
+                <div class="request-actions">
+                    <span class="status-badge status-{{ req.status }}">{{ req.get_status_display }}</span>
+                    {% if req.status == 'pending' %}
+                    <button class="quick-action-btn btn-cancel" onclick="cancelLeave({{ req.id }})">취소</button>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted text-center py-3">신청된 연차가 없습니다.</p>
+        {% endif %}
+    </div>
+    
+    <!-- 승인 대기 목록 (관리자만) -->
+    {% if pending_requests %}
+    <div class="leave-card">
+        <h5>승인 대기 목록</h5>
+        {% for req in pending_requests %}
+        <div class="request-item">
+            <div class="request-info">
+                <h6>{{ req.user.username }} - {{ req.leave_type.get_name_display }} ({{ req.total_days }}일)</h6>
+                <p>{{ req.start_date|date:"Y-m-d" }} ~ {{ req.end_date|date:"Y-m-d" }}</p>
+                <p>{{ req.reason|truncatechars:50 }}</p>
+            </div>
+            <div class="request-actions">
+                <button class="quick-action-btn btn-approve" onclick="approveLeave({{ req.id }})">승인</button>
+                <button class="quick-action-btn btn-reject" onclick="rejectLeave({{ req.id }})">반려</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <!-- 공휴일 정보 -->
+    <div class="leave-card">
+        <h5>{{ balance.year }}년 공휴일</h5>
+        <div class="row">
+            {% for holiday in holidays %}
+            <div class="col-md-6 col-sm-12 mb-2">
+                <small class="text-muted">{{ holiday.date|date:"m월 d일" }}</small>
+                <span class="ml-2">{{ holiday.name }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- 플로팅 연차신청 버튼 -->
+<a href="{% url 'leave_management:request' %}" class="floating-add-btn" title="연차 신청">
+    +
+</a>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// 연차 취소
+async function cancelLeave(requestId) {
+    if (!confirm('연차 신청을 취소하시겠습니까?')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/leave/cancel/${requestId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            showToast(result.message, 'success');
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            showToast(result.message, 'error');
+        }
+    } catch (error) {
+        showToast('취소 처리 중 오류가 발생했습니다.', 'error');
+    }
+}
+
+// 연차 승인
+async function approveLeave(requestId) {
+    if (!confirm('연차를 승인하시겠습니까?')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/leave/approve/${requestId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            showToast(result.message, 'success');
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            showToast(result.message, 'error');
+        }
+    } catch (error) {
+        showToast('승인 처리 중 오류가 발생했습니다.', 'error');
+    }
+}
+
+// 연차 반려
+async function rejectLeave(requestId) {
+    const reason = prompt('반려 사유를 입력해주세요:');
+    if (!reason) {
+        return;
+    }
+    
+    try {
+        const formData = new FormData();
+        formData.append('rejection_reason', reason);
+        
+        const response = await fetch(`/leave/reject/${requestId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            showToast(result.message, 'success');
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            showToast(result.message, 'error');
+        }
+    } catch (error) {
+        showToast('반려 처리 중 오류가 발생했습니다.', 'error');
+    }
+}
+
+// 토스트 메시지 표시
+function showToast(message, type = 'info') {
+    // 기존 토스트와 동일한 구현
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type === 'error' ? 'danger' : type === 'success' ? 'success' : 'info'} position-fixed`;
+    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    toast.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center">
+            <span>${message}</span>
+            <button type="button" class="btn-close" onclick="this.parentElement.parentElement.remove()"></button>
+        </div>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // 3초 후 자동 제거
+    setTimeout(() => {
+        if (toast.parentElement) {
+            toast.remove();
+        }
+    }, 3000);
+}
+
+// PWA 설치 지원
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    
+    // PWA 설치 버튼 표시 (필요시)
+});
+
+// 오프라인 상태 감지
+window.addEventListener('online', () => {
+    showToast('온라인 상태로 전환되었습니다.', 'success');
+});
+
+window.addEventListener('offline', () => {
+    showToast('오프라인 상태입니다. 일부 기능이 제한될 수 있습니다.', 'warning');
+});
+</script>
+{% endblock %}

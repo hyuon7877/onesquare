@@ -1,0 +1,43 @@
+# Task ID: 4
+# Title: PWA 기본 구조 개발
+# Status: done
+# Dependencies: 1
+# Priority: high
+# Description: Progressive Web App 핵심 기능 구현
+# Details:
+Service Worker 구현, Web App Manifest 작성, 오프라인 캐싱 전략, IndexedDB 설정, 푸시 알림 기능
+
+# Test Strategy:
+오프라인 모드 테스트, PWA 설치 테스트, 캐싱 동작 확인
+
+# Subtasks:
+## 1. Service Worker 기본 구조 구현 [done]
+### Dependencies: None
+### Description: PWA 핵심 Service Worker 파일 작성
+### Details:
+sw.js 파일 생성, 설치/활성화 이벤트, 기본 캐싱 전략
+
+## 2. Web App Manifest 및 PWA 설치 [done]
+### Dependencies: None
+### Description: PWA 설치를 위한 매니페스트 파일
+### Details:
+manifest.json 작성, 아이콘 설정, 설치 프롬프트, 앱 설치 버튼
+
+## 3. 오프라인 캐싱 전략 구현 [done]
+### Dependencies: None
+### Description: Cache First, Network First, Stale While Revalidate 전략
+### Details:
+정적 리소스 캐시, API 응답 캐시, 캐시 업데이트 로직
+
+## 4. IndexedDB 오프라인 저장소 [done]
+### Dependencies: None
+### Description: 브라우저 로컬 데이터베이스 구현
+### Details:
+IndexedDB 스키마 설계, CRUD 작업, Notion 데이터 동기화
+
+## 5. PWA 푸시 알림 기반 구조 [done]
+### Dependencies: None
+### Description: 푸시 알림 기본 설정 및 권한 요청
+### Details:
+Push API 설정, 알림 권한 요청, VAPID 키 설정, 기본 알림 템플릿
+

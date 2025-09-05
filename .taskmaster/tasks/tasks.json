@@ -1,0 +1,812 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "프로젝트 초기 설정 및 환경 구축",
+        "description": "Django 5 + PWA + Notion API 통합 개발 환경 구축",
+        "status": "done",
+        "priority": "high",
+        "dependencies": [],
+        "details": "Docker Compose 설정, Django 프로젝트 생성, PWA 기본 구조 설정, HTTPS 인증서 설정, Notion API 연동 테스트",
+        "testStrategy": "Docker 컨테이너 실행 확인, HTTPS 접속 테스트, Notion API 연결 테스트",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Docker Compose 기본 설정",
+            "description": "docker-compose.yml 파일 생성 및 기본 서비스 구성",
+            "details": "web, nginx, db 서비스 정의, 네트워크 설정, 볼륨 매핑",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 2,
+            "title": "Django Dockerfile 작성",
+            "description": "Django 웹 서비스용 Dockerfile 생성",
+            "details": "Python 3.12 베이스, requirements.txt 설치, 작업 디렉토리 설정",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 3,
+            "title": "Nginx 설정 및 Dockerfile",
+            "description": "Nginx 역방향 프록시 설정",
+            "details": "nginx.conf 작성, 프록시 패스 설정, 정적 파일 서빙",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 4,
+            "title": "SSL 인증서 생성 및 설정",
+            "description": "HTTPS 개발환경용 SSL 인증서",
+            "details": "mkcert 또는 openssl 자체 서명 인증서, nginx SSL 설정",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 5,
+            "title": "Django 프로젝트 구조 생성",
+            "description": "src 디렉토리 내 Django 프로젝트 구조",
+            "details": "manage.py, config 디렉토리, apps 디렉토리, templates, static",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 6,
+            "title": "Django settings.py 구성",
+            "description": "Django 기본 설정 및 환경별 설정",
+            "details": "DEBUG, ALLOWED_HOSTS, 데이터베이스, 정적파일, CORS 설정",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 7,
+            "title": "secrets.json 파일 설정",
+            "description": "민감한 설정 정보 파일 생성",
+            "details": "Django SECRET_KEY, 데이터베이스 정보, Notion API 키 템플릿",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 8,
+            "title": "Docker 컨테이너 실행 및 테스트",
+            "description": "전체 환경 구동 및 HTTPS 접속 테스트",
+            "details": "docker-compose up, https://localhost:8081 접속, 기본 Django 페이지 확인",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 1
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "사용자 인증 시스템 개발",
+        "description": "Django 기반 다중 사용자 타입별 인증 시스템 구현",
+        "status": "done",
+        "priority": "high",
+        "dependencies": [
+          "1"
+        ],
+        "details": "파트너용 OTP 인증, 관리자/팀원용 이메일+비밀번호 인증, 세션 관리, CSRF 토큰 보안, 자동 로그아웃 기능",
+        "testStrategy": "각 사용자 타입별 로그인 테스트, 세션 만료 테스트, 동시 로그인 제한 테스트",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Django User 모델 확장",
+            "description": "기본 User 모델 확장 및 커스텀 필드 추가",
+            "details": "AbstractUser 상속, 사용자 타입 필드, 전화번호, 프로필 이미지",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 2
+          },
+          {
+            "id": 2,
+            "title": "6개 사용자 그룹 생성 및 권한 설정",
+            "description": "최고관리자, 중간관리자, 팀원, 파트너, 도급사, 커스텀 그룹",
+            "details": "Django Groups 모델 활용, 각 그룹별 기본 권한 할당",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 2
+          },
+          {
+            "id": 3,
+            "title": "파트너용 OTP 인증 시스템",
+            "description": "SMS/이메일 OTP 발송 및 검증 시스템",
+            "details": "OTP 생성, SMS API 연동, 이메일 발송, 6자리 코드 검증, 5분 만료",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 2
+          },
+          {
+            "id": 4,
+            "title": "관리자/팀원용 이메일 로그인",
+            "description": "이메일+비밀번호 기반 로그인 시스템",
+            "details": "Django 기본 인증 확장, 로그인 폼, 비밀번호 복잡도 검증",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 2
+          },
+          {
+            "id": 5,
+            "title": "세션 관리 시스템",
+            "description": "세션 만료, 자동 로그아웃, 보안 설정",
+            "details": "세션 만료 시간, 비활성 시간 체크, 중복 로그인 방지",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 2
+          },
+          {
+            "id": 6,
+            "title": "CSRF 보안 설정",
+            "description": "CSRF 토큰 관리 및 보안 헤더",
+            "details": "CSRF 미들웨어, 토큰 검증, 보안 헤더 설정",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 2
+          },
+          {
+            "id": 7,
+            "title": "사용자 권한 검증 데코레이터",
+            "description": "뷰에서 권한 체크를 위한 데코레이터",
+            "details": "@login_required, @group_required, @permission_required 데코레이터",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 2
+          },
+          {
+            "id": 8,
+            "title": "인증 테스트 및 UI 연동",
+            "description": "로그인 폼, 테스트 케이스, UI 연동",
+            "details": "로그인/로그아웃 템플릿, 단위 테스트, 통합 테스트, 프론트엔드 연동",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 2
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "사용자 권한 관리 시스템",
+        "description": "6개 사용자 그룹별 권한 체계 구현",
+        "status": "done",
+        "priority": "high",
+        "dependencies": [
+          "2"
+        ],
+        "details": "최고 관리자, 중간 관리자, 팀원, 파트너, 도급사, 커스텀 권한 그룹 구현, 권한별 접근 제어",
+        "testStrategy": "각 권한별 기능 접근 테스트, 권한 변경 실시간 반영 테스트",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "6개 사용자 그룹 권한 매트릭스 설계",
+            "description": "각 사용자 그룹별 기능 접근 권한 정의",
+            "details": "최고관리자, 중간관리자, 팀원, 파트너, 도급사, 커스텀 그룹별 권한 매핑",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 3
+          },
+          {
+            "id": 2,
+            "title": "Django 권한 시스템 구현",
+            "description": "Django Permission과 Group을 활용한 권한 관리",
+            "details": "커스텀 Permission 생성, Group 권한 할당, 권한 확인 미들웨어",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 3
+          },
+          {
+            "id": 3,
+            "title": "뷰 레벨 권한 제어 구현",
+            "description": "각 뷰와 API에서 권한 체크 로직",
+            "details": "클래스 기반 뷰 권한, API 권한 클래스, 템플릿 권한 태그",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 3
+          },
+          {
+            "id": 4,
+            "title": "권한 테스트 및 관리자 인터페이스",
+            "description": "권한 시스템 테스트 및 관리자 페이지 구성",
+            "details": "권한별 접근 테스트, Django admin 권한 관리, 사용자 그룹 변경 기능",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 3
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "PWA 기본 구조 개발",
+        "description": "Progressive Web App 핵심 기능 구현",
+        "status": "done",
+        "priority": "high",
+        "dependencies": [
+          "1"
+        ],
+        "details": "Service Worker 구현, Web App Manifest 작성, 오프라인 캐싱 전략, IndexedDB 설정, 푸시 알림 기능",
+        "testStrategy": "오프라인 모드 테스트, PWA 설치 테스트, 캐싱 동작 확인",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Service Worker 기본 구조 구현",
+            "description": "PWA 핵심 Service Worker 파일 작성",
+            "details": "sw.js 파일 생성, 설치/활성화 이벤트, 기본 캐싱 전략",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 4
+          },
+          {
+            "id": 2,
+            "title": "Web App Manifest 및 PWA 설치",
+            "description": "PWA 설치를 위한 매니페스트 파일",
+            "details": "manifest.json 작성, 아이콘 설정, 설치 프롬프트, 앱 설치 버튼",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 4
+          },
+          {
+            "id": 3,
+            "title": "오프라인 캐싱 전략 구현",
+            "description": "Cache First, Network First, Stale While Revalidate 전략",
+            "details": "정적 리소스 캐시, API 응답 캐시, 캐시 업데이트 로직",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 4
+          },
+          {
+            "id": 4,
+            "title": "IndexedDB 오프라인 저장소",
+            "description": "브라우저 로컬 데이터베이스 구현",
+            "details": "IndexedDB 스키마 설계, CRUD 작업, Notion 데이터 동기화",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 4
+          },
+          {
+            "id": 5,
+            "title": "PWA 푸시 알림 기반 구조",
+            "description": "푸시 알림 기본 설정 및 권한 요청",
+            "details": "Push API 설정, 알림 권한 요청, VAPID 키 설정, 기본 알림 템플릿",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 4
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Notion API 연동 시스템",
+        "description": "Notion Database와의 실시간 동기화 시스템 구축",
+        "status": "done",
+        "priority": "high",
+        "dependencies": [
+          "1"
+        ],
+        "details": "Notion API SDK 통합, 자동 스키마 감지, 동적 데이터 매핑, 실시간 동기화, 오류 복구 메커니즘",
+        "testStrategy": "데이터 CRUD 테스트, 스키마 변경 대응 테스트, 동기화 정확도 테스트",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Notion Python SDK 설치 및 설정",
+            "description": "notion-client 패키지 설치 및 기본 연결 설정",
+            "details": "pip install notion-client, API 토큰 설정, 연결 테스트",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 5
+          },
+          {
+            "id": 2,
+            "title": "NotionService 클래스 개발",
+            "description": "Notion API 래퍼 클래스 구현",
+            "details": "기본 CRUD 메서드, 에러 핸들링, 로깅 시스템",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 5
+          },
+          {
+            "id": 3,
+            "title": "데이터베이스 스키마 자동 감지",
+            "description": "Notion 데이터베이스 구조 분석 및 Django 모델 매핑",
+            "details": "속성 타입 분석, 동적 모델 생성, 스키마 캐싱",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 5
+          },
+          {
+            "id": 4,
+            "title": "실시간 동기화 스케줄러",
+            "description": "주기적 데이터 동기화 및 변경사항 감지",
+            "details": "Celery 작업, 동기화 스케줄링, 변경 감지 알고리즘",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 5
+          },
+          {
+            "id": 5,
+            "title": "오류 복구 및 재시도 메커니즘",
+            "description": "API 오류 처리 및 자동 재시도 시스템",
+            "details": "지수 백오프, 재시도 큐, 오류 로깅, 알림 시스템",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 5
+          },
+          {
+            "id": 6,
+            "title": "Notion API 테스트 및 통합",
+            "description": "API 연동 테스트 및 Django 프로젝트 통합",
+            "details": "단위 테스트, 통합 테스트, Django 앱 등록, 설정 통합",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 5
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "통합 캘린더 시스템",
+        "description": "FullCalendar 기반 일정 관리 시스템 개발",
+        "status": "done",
+        "priority": "medium",
+        "dependencies": [
+          "3",
+          "5"
+        ],
+        "details": "주간/일간/월별 뷰, 드래그 앤 드롭, 일정 CRUD, 권한별 접근 제어, Notion 관리공간 연계",
+        "testStrategy": "캘린더 뷰 전환 테스트, 드래그 앤 드롭 테스트, 일정 충돌 감지 테스트",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "FullCalendar 기본 설정",
+            "description": "FullCalendar 라이브러리 설치 및 기본 구성",
+            "details": "FullCalendar CDN 추가, 기본 설정, 월/주/일 뷰 구성, 한국어 로케일 설정",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 6
+          },
+          {
+            "id": 2,
+            "title": "일정 CRUD 기능 구현",
+            "description": "일정 생성, 조회, 수정, 삭제 기능",
+            "details": "일정 생성 폼, 드래그 앤 드롭 수정, 일정 삭제, 반복 일정 처리",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 6
+          },
+          {
+            "id": 3,
+            "title": "권한별 접근 제어 및 Notion 연동",
+            "description": "사용자 권한에 따른 캘린더 접근 제어 및 Notion 동기화",
+            "details": "그룹별 일정 표시 제한, Notion 관리공간 연계, 실시간 동기화",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 6
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "현장 리포트 시스템 (파트너 PWA)",
+        "description": "파트너 전용 현장 리포트 PWA 앱 개발",
+        "status": "done",
+        "priority": "high",
+        "dependencies": [
+          "4",
+          "5"
+        ],
+        "details": "모바일 최적화 UI, 업무 시작/종료 시간 기록, 체크리스트, 사진 촬영 및 압축, 비품 재고 체크, 오프라인 지원",
+        "testStrategy": "모바일 터치 인터페이스 테스트, 사진 압축 테스트, 오프라인 작업 후 동기화 테스트",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "모바일 최적화 UI 개발",
+            "description": "파트너 전용 모바일 친화적 인터페이스",
+            "details": "터치 인터페이스, 반응형 디자인, 큰 버튼, 모바일 네비게이션",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 7
+          },
+          {
+            "id": 2,
+            "title": "업무시간 기록 시스템",
+            "description": "업무 시작/종료 시간 기록 및 GPS 위치",
+            "details": "시작/종료 버튼, GPS 위치 기록, 시간 추적, 위치 검증",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 7
+          },
+          {
+            "id": 3,
+            "title": "체크리스트 및 진행상황 관리",
+            "description": "업무 체크리스트 및 진행상황 저장",
+            "details": "동적 체크리스트, 진행률 표시, 상태 저장, 실시간 업데이트",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 7
+          },
+          {
+            "id": 4,
+            "title": "사진 촬영 및 자동 압축",
+            "description": "현장 사진 촬영, 자동 압축, 다중 업로드",
+            "details": "카메라 API, 이미지 압축 알고리즘, 썸네일 생성, 배치 업로드",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 7
+          },
+          {
+            "id": 5,
+            "title": "비품 재고 체크 시스템",
+            "description": "현장 비품 재고 확인 및 관리",
+            "details": "비품 목록 조회, 재고 수량 입력, 부족 알림, Notion 동기화",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 7
+          },
+          {
+            "id": 6,
+            "title": "오프라인 지원 및 동기화",
+            "description": "네트워크 없을 때 오프라인 작업 지원",
+            "details": "오프라인 데이터 저장, 네트워크 복구 시 자동 동기화, 충돌 해결",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 7
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "통합 관리 시스템 대시보드",
+        "description": "관리자 전용 웹 대시보드 개발",
+        "status": "done",
+        "priority": "high",
+        "dependencies": [
+          "6",
+          "7"
+        ],
+        "details": "팀 전체 현황, 매출 현황, 현장점검 관리, 알림 센터, 현장 리포트 통합 뷰, 실시간 데이터 수신",
+        "testStrategy": "대시보드 위젯 로딩 테스트, 실시간 데이터 업데이트 테스트",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "실시간 데이터 시각화 구현",
+            "description": "Chart.js 대신 CSS/SVG 기반 차트로 각종 통계 및 KPI 데이터를 시각화하는 대시보드 컴포넌트 구현",
+            "details": "- SVG 기반 원형 차트, 막대 차트, 라인 차트 컴포넌트 개발\n- 실시간 데이터 업데이트를 위한 JavaScript 모듈 구현\n- 반응형 차트 레이아웃 및 모바일 최적화\n- Notion API에서 받아온 데이터를 차트용 형태로 변환하는 파서 구현",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 8
+          },
+          {
+            "id": 2,
+            "title": "권한별 대시보드 레이아웃 시스템",
+            "description": "6개 사용자 그룹별로 다른 대시보드 레이아웃과 위젯을 표시하는 동적 인터페이스 구현",
+            "details": "- 사용자 권한에 따른 대시보드 위젯 필터링 로직 구현\n- 드래그앤드롭으로 위젯 위치 조정 기능 (관리자용)\n- 각 그룹별 기본 레이아웃 템플릿 정의\n- 개인화 설정을 localStorage에 저장하는 기능",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 8
+          },
+          {
+            "id": 3,
+            "title": "Notion 기반 알림 시스템 통합",
+            "description": "Notion 데이터베이스의 변경사항을 실시간으로 감지하고 대시보드에 알림으로 표시하는 시스템 구현",
+            "details": "- 주기적 Notion API 폴링으로 데이터 변경사항 감지 로직\n- 알림 우선순위별 분류 및 표시 시스템 (긴급/일반/정보)\n- 푸시 알림 및 브라우저 알림 기능 통합\n- 알림 히스토리 관리 및 읽음 상태 추적",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 8
+          },
+          {
+            "id": 4,
+            "title": "성능 최적화 및 캐싱 전략",
+            "description": "대시보드의 3초 이내 로딩을 보장하는 성능 최적화 및 PWA 캐싱 전략 구현",
+            "details": "- Service Worker를 활용한 대시보드 데이터 캐싱 전략 구현\n- 중요 위젯 우선 로딩 및 지연 로딩 시스템\n- 이미지 및 정적 리소스 최적화 (WebP 변환, 압축)\n- 백그라운드에서 데이터 프리로딩 및 예측 캐싱",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 8
+          },
+          {
+            "id": 5,
+            "title": "오프라인 대시보드 지원",
+            "description": "네트워크 연결이 불안정한 환경에서도 80% 이상의 대시보드 기능을 사용할 수 있는 오프라인 지원 구현",
+            "details": "- 핵심 대시보드 데이터를 IndexedDB에 캐싱하는 시스템\n- 오프라인 상태에서의 대시보드 UI/UX 최적화\n- 네트워크 복구 시 자동 데이터 동기화 및 충돌 해결\n- 오프라인 모드 표시 및 사용자 가이드 제공",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 8
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "연차 관리 시스템",
+        "description": "연차 신청, 승인, 현황 관리 기능 구현",
+        "status": "done",
+        "priority": "medium",
+        "dependencies": [
+          "3",
+          "6"
+        ],
+        "details": "연차 신청 폼, 승인/반려 프로세스, 연차 현황 대시보드, 팀 전체 연차 달력, 알림 시스템",
+        "testStrategy": "연차 신청 플로우 테스트, 승인 권한 테스트, 알림 전송 테스트",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Notion 연차 데이터베이스 구조 설계",
+            "description": "연차 관리를 위한 Notion 데이터베이스 스키마 설계 및 Django 모델 매핑",
+            "details": "- 연차 신청 테이블 (신청일, 시작일, 종료일, 사유, 상태, 승인자)\\n- 연차 잔여일수 테이블 (사용자별 총 연차, 사용 연차, 잔여 연차)\\n- 공휴일 및 회사 휴무일 관리 테이블\\n- Django 모델과 Notion DB 간 동기화 로직",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 9
+          },
+          {
+            "id": 2,
+            "title": "연차 신청 PWA 인터페이스 개발",
+            "description": "모바일 최적화된 연차 신청 폼 및 UI 컴포넌트 구현",
+            "details": "- 반응형 연차 신청 폼 (날짜 선택, 사유 입력, 첨부파일)\\n- 연차 잔여일수 표시 위젯\\n- 캘린더 뷰에서 연차 신청 기능\\n- 오프라인 모드에서 임시 저장 기능\\n- PWA 설치 후 네이티브 앱처럼 작동",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 9
+          },
+          {
+            "id": 3,
+            "title": "승인 워크플로우 및 권한 시스템",
+            "description": "6개 사용자 그룹별 연차 승인 권한 및 프로세스 구현",
+            "details": "- 최고관리자: 모든 연차 승인/반려 권한\\n- 중간관리자: 팀원 연차 승인 권한\\n- 팀원: 본인 연차 신청만 가능\\n- 파트너/도급사: 연차 시스템 접근 불가\\n- 다단계 승인 프로세스 (팀장 → 부서장)\\n- 자동 승인 규칙 설정 기능",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 9
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "업무시간 관리 시스템",
+        "description": "근무시간 추적 및 통계 시스템 개발",
+        "status": "done",
+        "priority": "medium",
+        "dependencies": [
+          "3",
+          "7"
+        ],
+        "details": "시작/종료 시간 기록, 8시간 기준 초과/미달 표시, 일별/주별/월별 통계, 엑셀 내보내기",
+        "testStrategy": "시간 기록 정확도 테스트, 통계 계산 검증, 엑셀 내보내기 테스트",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "근무시간 추적 및 통계",
+            "description": "8시간 기준 초과/미달 표시 및 통계",
+            "details": "시간 계산 로직, 일별/주별/월별 통계, 차트 표시, 엑셀 내보내기",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 10
+          },
+          {
+            "id": 2,
+            "title": "Notion 근무시간 데이터베이스 설계",
+            "description": "근무시간 추적을 위한 Notion DB 스키마 및 Django 모델 설계",
+            "details": "- 출퇴근 기록 테이블 (사용자, 출근시간, 퇴근시간, 근무시간, 초과근무)\\n- GPS 위치 정보 저장 (선택적)\\n- 주간/월간 근무시간 집계 테이블\\n- 법정 근로시간 기준 설정 (주 40시간, 일 8시간)",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 10
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "매출 관리 시스템",
+        "description": "Notion 연동 매출 데이터 관리 및 권한별 접근 제어",
+        "status": "done",
+        "priority": "high",
+        "dependencies": [
+          "3",
+          "5"
+        ],
+        "details": "Notion 매출 데이터 읽기, 권한별 접근 제어, 매출 통계 및 차트, AI 기반 예측, 금액 마스킹",
+        "testStrategy": "권한별 매출 접근 테스트, 데이터 마스킹 테스트, 통계 정확도 테스트",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Notion 매출 데이터베이스 구조 설계",
+            "description": "매출 관리를 위한 Notion 데이터베이스 스키마 설계 및 Django 모델 매핑",
+            "details": "- 매출 항목별 데이터 구조 정의 (프로젝트별, 고객별, 월별 매출)\n- 권한별 접근 제어를 위한 데이터 분류 체계 설계\n- Django 모델과 Notion 데이터베이스 필드 매핑 정의\n- 매출 집계를 위한 계산 필드 및 관계 설정",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 11
+          },
+          {
+            "id": 2,
+            "title": "권한별 매출 데이터 접근 제어",
+            "description": "6개 사용자 그룹별 매출 데이터 접근 권한 및 마스킹 시스템 구현",
+            "details": "- 최고관리자: 전체 매출 데이터 접근\n- 중간관리자: 담당 부서/팀 매출만 접근\n- 팀원: 본인 관련 매출만 제한적 접근\n- 파트너/도급사: 해당 프로젝트 매출만 부분적 접근\n- 민감 정보 마스킹 처리 (금액 부분 숨김 등)\n- API 레벨에서의 권한 검증 및 필터링",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 11
+          },
+          {
+            "id": 3,
+            "title": "매출 통계 및 리포트 생성",
+            "description": "다양한 관점의 매출 통계 분석 및 자동 리포트 생성 기능",
+            "details": "- 월별/분기별/연도별 매출 통계 계산\n- 프로젝트별, 고객별, 담당자별 매출 분석\n- 매출 목표 대비 달성률 계산 및 시각화\n- 엑셀/PDF 형태의 매출 리포트 자동 생성\n- 매출 증감률 및 트렌드 분석 알고리즘",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 11
+          },
+          {
+            "id": 4,
+            "title": "매출 데이터 실시간 동기화",
+            "description": "Notion과 Django 간 매출 데이터 실시간 동기화 및 무결성 보장",
+            "details": "- Notion API를 통한 매출 데이터 실시간 가져오기\n- 데이터 변경사항 감지 및 자동 동기화 시스템\n- 동기화 실패 시 재시도 및 에러 처리 로직\n- 데이터 무결성 검증 및 충돌 해결 메커니즘\n- 동기화 상태 모니터링 및 로깅",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 11
+          },
+          {
+            "id": 5,
+            "title": "매출 알림 및 대시보드 통합",
+            "description": "매출 목표 달성, 이상 징후 감지 시 알림 및 대시보드 위젯 통합",
+            "details": "- 매출 목표 달성률에 따른 자동 알림 시스템\n- 매출 급감/급증 이상 패턴 감지 및 경고 알림\n- 관리자 대시보드에 매출 현황 위젯 통합\n- 월말/분기말 매출 마감 알림 및 리포트 자동 발송\n- PWA 푸시 알림을 통한 중요 매출 정보 실시간 전달",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 11
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "title": "멀티미디어 피드백 시스템",
+        "description": "파트너-관리자 간 양방향 피드백 시스템",
+        "status": "done",
+        "priority": "medium",
+        "dependencies": [
+          "7",
+          "8"
+        ],
+        "details": "사진/동영상 업로드, 인라인 댓글, 스레드형 대화, 피드백 상태 관리, 자동 압축",
+        "testStrategy": "파일 업로드 테스트, 압축 용량 확인, 실시간 피드백 전송 테스트",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "멀티미디어 업로드 및 피드백 시스템",
+            "description": "사진/동영상 업로드, 스레드형 댓글 시스템",
+            "details": "파일 업로드, 자동 압축, 인라인 댓글, 스레드형 대화, 피드백 상태 관리",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 12
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "title": "AI 데이터 분석 기능",
+        "description": "관리자 대시보드용 AI 인사이트 시스템",
+        "status": "done",
+        "priority": "low",
+        "dependencies": [
+          "8",
+          "11"
+        ],
+        "details": "매출 예측, 업무 효율성 분석, 일정 최적화 추천, 이상 패턴 감지, 성과 분석",
+        "testStrategy": "예측 모델 정확도 테스트, 인사이트 생성 테스트",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "AI 기반 매출 예측 및 업무 분석",
+            "description": "매출 예측, 업무 효율성 분석, 성과 분석",
+            "details": "머신러닝 모델, 매출 예측 알고리즘, 업무 패턴 분석, 이상 패턴 감지",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 13
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "title": "알림 시스템 및 PWA 푸시",
+        "description": "실시간 알림 및 PWA 푸시 알림 구현",
+        "status": "done",
+        "priority": "medium",
+        "dependencies": [
+          "4"
+        ],
+        "details": "일정/연차/업무시간 알림, PWA 푸시 알림, 배지 표시, 개인별 알림 설정",
+        "testStrategy": "푸시 알림 수신 테스트, 알림 필터링 테스트",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "PWA 푸시 알림 시스템",
+            "description": "실시간 알림, 푸시 알림, 개인별 알림 설정",
+            "details": "Push API 구현, 알림 권한 요청, 배지 표시, 개인별 설정, 알림 히스토리",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 14
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "title": "성능 최적화 및 보안 강화",
+        "description": "전체 시스템 성능 최적화 및 보안 점검",
+        "status": "done",
+        "priority": "high",
+        "dependencies": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14"
+        ],
+        "details": "로딩 속도 3초 이내, Notion 동기화 99% 정확도, 오프라인 80% 기능, HTTPS 강제, secrets.json 관리",
+        "testStrategy": "로딩 속도 측정, 동기화 정확도 테스트, 보안 취약점 스캔",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "PWA 성능 최적화 구현",
+            "description": "PWA 로딩 속도 3초 이내 달성을 위한 성능 최적화",
+            "details": "- Service Worker 캐싱 전략 최적화 (Cache First, Network First 적절한 적용)\n- 정적 리소스 압축 및 WebP 이미지 변환 자동화\n- JavaScript/CSS 번들 분할 및 지연 로딩 구현\n- 중요 렌더링 경로(Critical Rendering Path) 최적화\n- 라이트하우스 성능 점수 90점 이상 달성",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 15
+          },
+          {
+            "id": 2,
+            "title": "Django 백엔드 성능 튜닝",
+            "description": "Django API 서버 응답 속도 최적화 및 데이터베이스 쿼리 튜닝",
+            "details": "- Django ORM 쿼리 최적화 (N+1 쿼리 문제 해결, select_related/prefetch_related 활용)\n- API 응답 캐싱 전략 구현 (Redis 또는 memcached 활용)\n- Notion API 호출 최적화 및 배치 처리\n- Django 설정 최적화 (ALLOWED_HOSTS, MIDDLEWARE 등)\n- 데이터베이스 인덱스 최적화 및 쿼리 분석",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 15
+          },
+          {
+            "id": 3,
+            "title": "보안 강화 및 취약점 점검",
+            "description": "전체 시스템 보안 강화 및 취약점 스캔",
+            "details": "- Django 보안 설정 강화 (CSRF, XSS, SQL Injection 방어)\n- HTTPS 강제 적용 및 SSL/TLS 설정 최적화\n- secrets.json 파일 보안 강화 (환경변수 분리, 암호화)\n- API 엔드포인트 보안 점검 및 속도 제한 (Rate Limiting)\n- 사용자 입력 데이터 검증 및 필터링 강화\n- 보안 헤더 설정 (HSTS, CSP, X-Frame-Options 등)",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 15
+          },
+          {
+            "id": 4,
+            "title": "모니터링 및 로깅 시스템 구축",
+            "description": "시스템 성능 모니터링 및 상세 로깅 시스템",
+            "details": "- 시스템 성능 지표 실시간 모니터링 (CPU, 메모리, 응답시간)\n- 에러 추적 및 알림 시스템 구현 (Django 로깅 설정)\n- Notion API 호출 성공률 및 응답시간 모니터링\n- 사용자 활동 로깅 및 접근 패턴 분석\n- 로그 파일 순환 및 보관 정책 설정",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 15
+          },
+          {
+            "id": 5,
+            "title": "부하 테스트 및 스케일링 준비",
+            "description": "시스템 부하 테스트 및 향후 확장성 준비",
+            "details": "- Apache JMeter 또는 Locust를 활용한 부하 테스트 시나리오 작성\n- 동시 사용자 100명 이상 부하 테스트 수행\n- 병목 지점 식별 및 개선 방안 도출\n- Docker Compose 스케일링 설정 준비\n- 데이터베이스 커넥션 풀 최적화 및 트랜잭션 관리",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 15
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "projectName": "OneSquare - 통합 팀 관리 시스템",
+      "createdAt": "2025-01-22T00:00:00.000Z",
+      "lastUpdated": "2025-01-22T00:00:00.000Z",
+      "version": "1.0.0",
+      "tag": "master",
+      "created": "2025-09-04T08:29:09.269Z",
+      "description": "Tasks for master context",
+      "updated": "2025-09-05T04:42:36.965Z"
+    }
+  }
+}

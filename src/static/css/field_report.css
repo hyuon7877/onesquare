@@ -1,0 +1,659 @@
+/**
+ * OneSquare 현장 리포트 시스템 - 모바일 최적화 CSS
+ * 
+ * 터치 인터페이스, 큰 버튼, 반응형 디자인에 최적화
+ */
+
+/* ===============================
+   기본 설정 및 모바일 최적화
+   =============================== */
+
+.mobile-optimized {
+    font-size: 16px; /* iOS 줌 방지 */
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    padding-top: 70px; /* 고정 네비게이션 여백 */
+    padding-bottom: 80px; /* 하단 액션 버튼 여백 */
+}
+
+/* 네트워크 상태 표시 */
+.network-status {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: #dc3545;
+    color: white;
+    padding: 8px;
+    text-align: center;
+    font-size: 14px;
+    z-index: 1040;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+/* 오프라인 모드 스타일 */
+.offline-mode {
+    filter: grayscale(20%);
+}
+
+.offline-mode .online-only {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* ===============================
+   네비게이션
+   =============================== */
+
+.mobile-nav {
+    height: 60px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.mobile-nav .navbar-brand {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.main-content {
+    min-height: calc(100vh - 140px);
+    padding: 20px 15px;
+}
+
+/* ===============================
+   버튼 스타일 (터치 최적화)
+   =============================== */
+
+.btn-touch {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-touch:active {
+    transform: scale(0.98);
+}
+
+.btn-touch i {
+    font-size: 1.2rem;
+}
+
+/* 큰 액션 버튼 */
+.btn-action-large {
+    min-height: 64px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.btn-action-large:hover,
+.btn-action-large:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+/* ===============================
+   카드 및 컨테이너
+   =============================== */
+
+.card-mobile {
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+.card-mobile .card-header {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border-radius: 12px 12px 0 0 !important;
+    padding: 15px 20px;
+    font-weight: 600;
+}
+
+.card-mobile .card-body {
+    padding: 20px;
+}
+
+/* ===============================
+   폼 요소 (터치 최적화)
+   =============================== */
+
+.form-control-touch {
+    min-height: 48px;
+    font-size: 1rem;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: border-color 0.2s ease;
+}
+
+.form-control-touch:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.form-select-touch {
+    min-height: 48px;
+    font-size: 1rem;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 7 7 7-7'/%3e%3c/svg%3e");
+}
+
+/* 체크박스 및 라디오 버튼 (터치 최적화) */
+.form-check-touch {
+    margin: 16px 0;
+}
+
+.form-check-touch .form-check-input {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0;
+}
+
+.form-check-touch .form-check-label {
+    font-size: 1rem;
+    padding-left: 8px;
+    line-height: 1.5rem;
+    cursor: pointer;
+}
+
+/* ===============================
+   업무 세션 관련 스타일
+   =============================== */
+
+.work-status-card {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 16px rgba(40, 167, 69, 0.3);
+}
+
+.work-status-card h5 {
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.work-status-card .work-time {
+    font-size: 2rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.work-status-inactive {
+    background: linear-gradient(135deg, #6c757d, #495057);
+}
+
+/* 사이트 선택 그리드 */
+.site-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin: 20px 0;
+}
+
+@media (min-width: 576px) {
+    .site-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.site-card {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.site-card:hover,
+.site-card.selected {
+    border-color: #007bff;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.site-card h6 {
+    color: #007bff;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.site-card .text-muted {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* ===============================
+   체크리스트 스타일
+   =============================== */
+
+.checklist-container {
+    max-width: 100%;
+}
+
+.checklist-item {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    transition: all 0.2s ease;
+}
+
+.checklist-item.completed {
+    background: #f8f9fa;
+    border-color: #28a745;
+}
+
+.checklist-item .form-check-input:checked {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.checklist-progress {
+    background: #e9ecef;
+    border-radius: 8px;
+    height: 12px;
+    overflow: hidden;
+    margin: 16px 0;
+}
+
+.checklist-progress-bar {
+    background: linear-gradient(90deg, #28a745, #20c997);
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+/* ===============================
+   사진 업로드
+   =============================== */
+
+.photo-upload-area {
+    border: 2px dashed #007bff;
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #f8f9ff;
+}
+
+.photo-upload-area:hover {
+    border-color: #0056b3;
+    background: #e3f2fd;
+}
+
+.photo-upload-area i {
+    font-size: 3rem;
+    color: #007bff;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.photo-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.photo-preview-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid #e9ecef;
+}
+
+.photo-preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photo-preview-item .remove-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(220, 53, 69, 0.9);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* ===============================
+   재고 체크 스타일
+   =============================== */
+
+.inventory-item {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+.inventory-item .item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.inventory-item .item-name {
+    font-weight: 600;
+    color: #495057;
+}
+
+.inventory-item .item-code {
+    font-size: 0.9rem;
+    color: #6c757d;
+    background: #f8f9fa;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.inventory-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 12px;
+    align-items: center;
+}
+
+.quantity-input {
+    max-width: 100px;
+}
+
+.status-indicator {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.status-sufficient {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.status-insufficient {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* ===============================
+   하단 고정 액션 버튼
+   =============================== */
+
+.bottom-actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid #e9ecef;
+    padding: 16px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.bottom-actions .btn {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.bottom-actions .btn:last-child {
+    margin-bottom: 0;
+}
+
+/* ===============================
+   통계 및 요약
+   =============================== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.stat-card .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #007bff;
+    display: block;
+}
+
+.stat-card .stat-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-top: 4px;
+}
+
+/* ===============================
+   로딩 및 상태 표시
+   =============================== */
+
+.loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.loading-spinner .spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* 성공/에러 메시지 */
+.alert-mobile {
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* ===============================
+   GPS 및 위치 관련
+   =============================== */
+
+.location-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 16px 0;
+    font-size: 0.9rem;
+}
+
+.location-verified {
+    color: #28a745;
+}
+
+.location-pending {
+    color: #ffc107;
+}
+
+.location-error {
+    color: #dc3545;
+}
+
+/* ===============================
+   반응형 디자인
+   =============================== */
+
+/* 작은 화면 (모바일) */
+@media (max-width: 575px) {
+    .main-content {
+        padding: 15px 10px;
+    }
+    
+    .card-mobile .card-body {
+        padding: 15px;
+    }
+    
+    .btn-touch {
+        font-size: 0.9rem;
+        min-height: 44px;
+    }
+    
+    .work-status-card .work-time {
+        font-size: 1.5rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    .photo-preview-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+}
+
+/* 중간 화면 (태블릿) */
+@media (min-width: 576px) and (max-width: 991px) {
+    .main-content {
+        padding: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .site-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .photo-preview-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* 큰 화면 (데스크톱) */
+@media (min-width: 992px) {
+    .mobile-optimized {
+        padding-top: 80px;
+    }
+    
+    .main-content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+    
+    .site-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .photo-preview-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* ===============================
+   접근성 개선
+   =============================== */
+
+/* 포커스 표시 개선 */
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+    .card-mobile {
+        border: 2px solid #000;
+    }
+    
+    .btn-outline-primary {
+        border-width: 2px;
+    }
+}
+
+/* 움직임 감소 모드 지원 */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ===============================
+   다크 모드 지원 (선택적)
+   =============================== */
+
+@media (prefers-color-scheme: dark) {
+    .mobile-optimized {
+        background-color: #121212;
+        color: #ffffff;
+    }
+    
+    .card-mobile {
+        background-color: #1e1e1e;
+        border-color: #333;
+    }
+    
+    .form-control-touch,
+    .form-select-touch {
+        background-color: #2d2d2d;
+        border-color: #444;
+        color: #ffffff;
+    }
+    
+    .stat-card,
+    .inventory-item,
+    .checklist-item {
+        background-color: #1e1e1e;
+        border-color: #333;
+    }
+}

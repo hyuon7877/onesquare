@@ -1,0 +1,19 @@
+# Task ID: 13
+# Title: AI 데이터 분석 기능
+# Status: pending
+# Dependencies: 8, 11
+# Priority: low
+# Description: 관리자 대시보드용 AI 인사이트 시스템
+# Details:
+매출 예측, 업무 효율성 분석, 일정 최적화 추천, 이상 패턴 감지, 성과 분석
+
+# Test Strategy:
+예측 모델 정확도 테스트, 인사이트 생성 테스트
+
+# Subtasks:
+## 1. AI 기반 매출 예측 및 업무 분석 [pending]
+### Dependencies: None
+### Description: 매출 예측, 업무 효율성 분석, 성과 분석
+### Details:
+머신러닝 모델, 매출 예측 알고리즘, 업무 패턴 분석, 이상 패턴 감지
+

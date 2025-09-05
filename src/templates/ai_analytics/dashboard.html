@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}AI 데이터 분석 대시보드{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="h2 mb-4">AI 데이터 분석 대시보드</h1>
+        </div>
+    </div>
+    
+    <!-- 분석 메뉴 카드 -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">매출 예측</h5>
+                    <p class="card-text">AI를 활용한 매출 예측 분석</p>
+                    <a href="{% url 'ai_analytics:revenue_predictions' %}" class="btn btn-primary">분석하기</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">업무 효율성</h5>
+                    <p class="card-text">업무 시간 및 효율성 분석</p>
+                    <a href="{% url 'ai_analytics:work_efficiency_list' %}" class="btn btn-success">분석하기</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">성과 분석</h5>
+                    <p class="card-text">개인 및 팀 성과 분석</p>
+                    <a href="{% url 'ai_analytics:performance_analysis_list' %}" class="btn btn-info">분석하기</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">이상 탐지</h5>
+                    <p class="card-text">시스템 이상 패턴 탐지</p>
+                    <a href="{% url 'ai_analytics:anomaly_detection_list' %}" class="btn btn-warning">분석하기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- API 테스트 섹션 -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>API 테스트 도구</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button class="btn btn-primary mb-2" onclick="testRevenuePrediction()">매출 예측 API 테스트</button>
+                            <button class="btn btn-success mb-2" onclick="testWorkEfficiency()">업무 효율성 API 테스트</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-info mb-2" onclick="testPerformanceAnalysis()">성과 분석 API 테스트</button>
+                            <button class="btn btn-warning mb-2" onclick="testAnomalyDetection()">이상 탐지 API 테스트</button>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h6>API 응답:</h6>
+                        <pre id="api-response" style="background-color: #f8f9fa; padding: 10px; border-radius: 5px; max-height: 400px; overflow-y: auto;"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+async function apiCall(url, method = 'GET', data = null) {
+    const options = {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    };
+    
+    if (data) {
+        options.body = JSON.stringify(data);
+    }
+    
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        document.getElementById('api-response').textContent = JSON.stringify(result, null, 2);
+    } catch (error) {
+        document.getElementById('api-response').textContent = 'Error: ' + error.message;
+    }
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function testRevenuePrediction() {
+    const data = {
+        project_id: 1,
+        prediction_period: 30,
+        confidence_level: 0.95
+    };
+    apiCall('/ai-analytics/api/revenue-prediction/', 'POST', data);
+}
+
+function testWorkEfficiency() {
+    const data = {
+        user_id: 1,
+        analysis_period: 7
+    };
+    apiCall('/ai-analytics/api/work-efficiency/', 'POST', data);
+}
+
+function testPerformanceAnalysis() {
+    const data = {
+        user_id: 1,
+        analysis_type: 'individual',
+        period: 30
+    };
+    apiCall('/ai-analytics/api/performance-analysis/', 'POST', data);
+}
+
+function testAnomalyDetection() {
+    const data = {
+        data_source: 'system_metrics',
+        detection_method: 'statistical'
+    };
+    apiCall('/ai-analytics/api/anomaly-detection/', 'POST', data);
+}
+</script>
+{% endblock %}

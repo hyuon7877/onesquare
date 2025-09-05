@@ -1,0 +1,832 @@
+<!-- OneSquare 오프라인 상태 표시 및 충돌 관리 UI -->
+<div class="offline-status-container">
+    <!-- 네트워크 상태 표시 -->
+    <div id="network-status" class="network-status online">
+        <div class="status-indicator">
+            <div class="status-dot"></div>
+            <span class="status-text">온라인</span>
+        </div>
+        <div class="sync-info">
+            <small class="last-sync">마지막 동기화: <span id="last-sync-time">--</span></small>
+        </div>
+    </div>
+
+    <!-- 동기화 진행 표시 -->
+    <div id="sync-progress" class="sync-progress" style="display: none;">
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 0%"></div>
+        </div>
+        <small class="progress-text">동기화 중...</small>
+    </div>
+
+    <!-- 충돌 알림 -->
+    <div id="conflict-notifications" class="conflict-notifications">
+        <!-- 동적으로 충돌 알림이 추가됩니다 -->
+    </div>
+
+    <!-- 오프라인 큐 상태 -->
+    <div id="offline-queue-status" class="offline-queue-status" style="display: none;">
+        <div class="queue-info">
+            <i class="fas fa-clock"></i>
+            <span>대기 중인 작업: <span id="queue-count">0</span>개</span>
+            <button id="view-queue-btn" class="btn btn-sm btn-outline-secondary">보기</button>
+        </div>
+    </div>
+</div>
+
+<!-- 충돌 해결 모달 -->
+<div id="conflict-resolution-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                    데이터 충돌 해결
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="conflict-details">
+                    <!-- 충돌 상세 정보가 동적으로 로드됩니다 -->
+                </div>
+                
+                <div class="resolution-options mt-4">
+                    <h6>해결 방법 선택:</h6>
+                    <div class="option-cards">
+                        <div class="resolution-card" data-choice="keep-local">
+                            <div class="card-header">
+                                <i class="fas fa-mobile-alt"></i>
+                                <strong>로컬 데이터 유지</strong>
+                            </div>
+                            <div class="card-body">
+                                <p>현재 기기에서 수정한 내용을 사용합니다.</p>
+                                <small class="text-muted">서버 데이터를 덮어씁니다.</small>
+                            </div>
+                        </div>
+                        
+                        <div class="resolution-card" data-choice="keep-server">
+                            <div class="card-header">
+                                <i class="fas fa-cloud"></i>
+                                <strong>서버 데이터 사용</strong>
+                            </div>
+                            <div class="card-body">
+                                <p>서버에 저장된 최신 데이터를 사용합니다.</p>
+                                <small class="text-muted">로컬 변경사항을 버립니다.</small>
+                            </div>
+                        </div>
+                        
+                        <div class="resolution-card" data-choice="merge">
+                            <div class="card-header">
+                                <i class="fas fa-code-merge"></i>
+                                <strong>자동 병합</strong>
+                            </div>
+                            <div class="card-body">
+                                <p>두 데이터를 지능적으로 병합합니다.</p>
+                                <small class="text-muted">충돌하지 않는 부분만 병합됩니다.</small>
+                            </div>
+                        </div>
+                        
+                        <div class="resolution-card" data-choice="custom">
+                            <div class="card-header">
+                                <i class="fas fa-edit"></i>
+                                <strong>수동 편집</strong>
+                            </div>
+                            <div class="card-body">
+                                <p>데이터를 직접 수정하여 해결합니다.</p>
+                                <small class="text-muted">고급 사용자용 옵션입니다.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 커스텀 편집 영역 (숨김 상태) -->
+                <div id="custom-edit-area" class="custom-edit-area mt-4" style="display: none;">
+                    <h6>데이터 수동 편집:</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">로컬 데이터</label>
+                            <textarea id="local-data-editor" class="form-control font-monospace" rows="8" readonly></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">편집된 데이터</label>
+                            <textarea id="custom-data-editor" class="form-control font-monospace" rows="8" placeholder="JSON 형태로 입력하세요..."></textarea>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle"></i>
+                            유효한 JSON 형식으로 입력해야 합니다. 오류가 있으면 저장되지 않습니다.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" id="apply-resolution-btn" class="btn btn-primary">해결 적용</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 오프라인 큐 보기 모달 -->
+<div id="offline-queue-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-clock"></i>
+                    동기화 대기 중인 작업
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="queue-items-list">
+                    <!-- 큐 항목들이 동적으로 로드됩니다 -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="clear-queue-btn">모든 대기작업 삭제</button>
+                <button type="button" class="btn btn-primary" id="force-sync-btn">지금 동기화</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CSS 스타일 -->
+<style>
+.offline-status-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    max-width: 300px;
+}
+
+.network-status {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.network-status.online {
+    border-left: 4px solid #28a745;
+}
+
+.network-status.offline {
+    border-left: 4px solid #dc3545;
+    background: #fff5f5;
+}
+
+.network-status.syncing {
+    border-left: 4px solid #ffc107;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #28a745;
+}
+
+.network-status.offline .status-dot {
+    background: #dc3545;
+}
+
+.network-status.syncing .status-dot {
+    background: #ffc107;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.sync-progress {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: #e9ecef;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #007bff;
+    transition: width 0.3s ease;
+}
+
+.conflict-notifications .alert {
+    margin-bottom: 10px;
+    font-size: 0.9em;
+}
+
+.offline-queue-status {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.9em;
+}
+
+.queue-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.queue-info i {
+    color: #856404;
+}
+
+.resolution-options .option-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.resolution-card {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.resolution-card:hover {
+    border-color: #007bff;
+    box-shadow: 0 2px 8px rgba(0,123,255,0.2);
+}
+
+.resolution-card.selected {
+    border-color: #007bff;
+    background: #f8f9ff;
+}
+
+.resolution-card .card-header {
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.resolution-card .card-body {
+    padding: 15px;
+}
+
+.custom-edit-area {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid #dee2e6;
+}
+
+.conflict-details-table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.conflict-details-table th {
+    background: #f8f9fa;
+    padding: 10px;
+    font-weight: 600;
+    width: 30%;
+}
+
+.conflict-details-table td {
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.data-preview {
+    background: #f8f9fa;
+    border-radius: 4px;
+    padding: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.severity-critical { color: #dc3545; font-weight: bold; }
+.severity-high { color: #fd7e14; font-weight: bold; }
+.severity-medium { color: #ffc107; font-weight: bold; }
+.severity-low { color: #28a745; }
+
+.queue-item {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.queue-item .item-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.queue-item .item-type {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.queue-item .item-timestamp {
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
+.queue-item .retry-info {
+    color: #ffc107;
+    font-size: 0.9em;
+}
+
+@media (max-width: 768px) {
+    .offline-status-container {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+    
+    .resolution-options .option-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .custom-edit-area .row {
+        flex-direction: column;
+    }
+}
+</style>
+
+<!-- JavaScript 모듈 로드 -->
+<script type="module">
+import conflictResolver from '/static/js/modules/conflict-resolution.js';
+import offlineDB from '/static/js/modules/offline-database.js';
+import syncManager from '/static/js/modules/offline-sync.js';
+
+// 전역 상태 관리
+class OfflineStatusUI {
+    constructor() {
+        this.currentConflict = null;
+        this.selectedResolution = null;
+        
+        this.initializeUI();
+        this.setupEventListeners();
+        this.startStatusUpdates();
+    }
+    
+    initializeUI() {
+        this.networkStatusEl = document.getElementById('network-status');
+        this.syncProgressEl = document.getElementById('sync-progress');
+        this.conflictNotificationsEl = document.getElementById('conflict-notifications');
+        this.queueStatusEl = document.getElementById('offline-queue-status');
+        this.lastSyncTimeEl = document.getElementById('last-sync-time');
+        this.queueCountEl = document.getElementById('queue-count');
+    }
+    
+    setupEventListeners() {
+        // 네트워크 상태 변경 감지
+        window.addEventListener('online', () => this.updateNetworkStatus());
+        window.addEventListener('offline', () => this.updateNetworkStatus());
+        
+        // 충돌 알림 이벤트
+        window.addEventListener('conflict-notification', (event) => {
+            this.handleConflictNotification(event.detail);
+        });
+        
+        // Service Worker 메시지
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('message', (event) => {
+                if (event.data.type === 'SYNC_START') {
+                    this.showSyncProgress();
+                } else if (event.data.type === 'SYNC_COMPLETE') {
+                    this.hideSyncProgress();
+                    this.updateLastSyncTime();
+                }
+            });
+        }
+        
+        // 모달 이벤트
+        this.setupModalEvents();
+    }
+    
+    setupModalEvents() {
+        // 충돌 해결 모달
+        const resolutionCards = document.querySelectorAll('.resolution-card');
+        resolutionCards.forEach(card => {
+            card.addEventListener('click', () => {
+                resolutionCards.forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                this.selectedResolution = card.dataset.choice;
+                
+                const customEditArea = document.getElementById('custom-edit-area');
+                if (this.selectedResolution === 'custom') {
+                    customEditArea.style.display = 'block';
+                    this.populateCustomEditor();
+                } else {
+                    customEditArea.style.display = 'none';
+                }
+            });
+        });
+        
+        // 해결 적용 버튼
+        document.getElementById('apply-resolution-btn').addEventListener('click', () => {
+            this.applySelectedResolution();
+        });
+        
+        // 큐 관리 버튼들
+        document.getElementById('view-queue-btn').addEventListener('click', () => {
+            this.showOfflineQueue();
+        });
+        
+        document.getElementById('clear-queue-btn').addEventListener('click', () => {
+            this.clearOfflineQueue();
+        });
+        
+        document.getElementById('force-sync-btn').addEventListener('click', () => {
+            this.forceSyncNow();
+        });
+    }
+    
+    startStatusUpdates() {
+        // 초기 상태 업데이트
+        this.updateNetworkStatus();
+        this.updateQueueStatus();
+        this.updateLastSyncTime();
+        
+        // 주기적 업데이트
+        setInterval(() => {
+            this.updateQueueStatus();
+        }, 10000); // 10초마다
+    }
+    
+    updateNetworkStatus() {
+        const isOnline = navigator.onLine;
+        const syncStatus = syncManager.getSyncStatus();
+        
+        this.networkStatusEl.classList.remove('online', 'offline', 'syncing');
+        
+        if (syncStatus.syncInProgress) {
+            this.networkStatusEl.classList.add('syncing');
+            this.networkStatusEl.querySelector('.status-text').textContent = '동기화 중';
+        } else if (isOnline) {
+            this.networkStatusEl.classList.add('online');
+            this.networkStatusEl.querySelector('.status-text').textContent = '온라인';
+        } else {
+            this.networkStatusEl.classList.add('offline');
+            this.networkStatusEl.querySelector('.status-text').textContent = '오프라인';
+        }
+    }
+    
+    async updateQueueStatus() {
+        try {
+            const queue = await offlineDB.getOfflineQueue();
+            const queueLength = queue.length;
+            
+            this.queueCountEl.textContent = queueLength;
+            
+            if (queueLength > 0) {
+                this.queueStatusEl.style.display = 'block';
+            } else {
+                this.queueStatusEl.style.display = 'none';
+            }
+        } catch (error) {
+            console.error('큐 상태 업데이트 실패:', error);
+        }
+    }
+    
+    async updateLastSyncTime() {
+        try {
+            const lastSync = await offlineDB.getSetting('last_sync_time');
+            if (lastSync) {
+                const syncDate = new Date(lastSync);
+                const now = new Date();
+                const diffMinutes = Math.floor((now - syncDate) / (1000 * 60));
+                
+                if (diffMinutes < 1) {
+                    this.lastSyncTimeEl.textContent = '방금 전';
+                } else if (diffMinutes < 60) {
+                    this.lastSyncTimeEl.textContent = `${diffMinutes}분 전`;
+                } else {
+                    this.lastSyncTimeEl.textContent = syncDate.toLocaleTimeString();
+                }
+            } else {
+                this.lastSyncTimeEl.textContent = '없음';
+            }
+        } catch (error) {
+            console.error('마지막 동기화 시간 조회 실패:', error);
+        }
+    }
+    
+    showSyncProgress() {
+        this.syncProgressEl.style.display = 'block';
+        this.updateNetworkStatus();
+    }
+    
+    hideSyncProgress() {
+        this.syncProgressEl.style.display = 'none';
+        this.updateNetworkStatus();
+    }
+    
+    handleConflictNotification(detail) {
+        switch (detail.type) {
+            case 'conflict-detected':
+                this.showConflictAlert(detail.conflict);
+                if (detail.requiresAttention) {
+                    this.showConflictModal(detail.conflict);
+                }
+                break;
+                
+            case 'conflict-resolved':
+                this.showResolutionSuccess(detail);
+                break;
+                
+            case 'manual-resolution-required':
+                this.showManualResolutionAlert(detail.conflict);
+                break;
+        }
+    }
+    
+    showConflictAlert(conflict) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-warning alert-dismissible fade show`;
+        alertDiv.innerHTML = `
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>데이터 충돌 감지</strong>
+            <br><small>${conflict.entityType} 데이터에서 충돌이 발생했습니다.</small>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        this.conflictNotificationsEl.appendChild(alertDiv);
+        
+        // 5초 후 자동 제거
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 5000);
+    }
+    
+    showResolutionSuccess(detail) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-success alert-dismissible fade show';
+        alertDiv.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            <strong>충돌 해결 완료</strong>
+            <br><small>${detail.message}</small>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        this.conflictNotificationsEl.appendChild(alertDiv);
+        
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 3000);
+    }
+    
+    showConflictModal(conflict) {
+        this.currentConflict = conflict;
+        
+        // 충돌 상세 정보 표시
+        const detailsEl = document.getElementById('conflict-details');
+        detailsEl.innerHTML = `
+            <table class="conflict-details-table">
+                <tr>
+                    <th>유형</th>
+                    <td>${conflict.entityType}</td>
+                </tr>
+                <tr>
+                    <th>심각도</th>
+                    <td><span class="severity-${conflict.severity}">${this.getSeverityText(conflict.severity)}</span></td>
+                </tr>
+                <tr>
+                    <th>충돌 시간</th>
+                    <td>${new Date(conflict.detectedAt).toLocaleString()}</td>
+                </tr>
+                <tr>
+                    <th>충돌 유형</th>
+                    <td>${this.getConflictTypeText(conflict.conflictType)}</td>
+                </tr>
+            </table>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>로컬 데이터</h6>
+                    <div class="data-preview">${this.formatDataPreview(conflict.localData)}</div>
+                </div>
+                <div class="col-md-6">
+                    <h6>서버 데이터</h6>
+                    <div class="data-preview">${this.formatDataPreview(conflict.serverData)}</div>
+                </div>
+            </div>
+        `;
+        
+        // 모달 표시
+        const modal = new bootstrap.Modal(document.getElementById('conflict-resolution-modal'));
+        modal.show();
+    }
+    
+    async showOfflineQueue() {
+        try {
+            const queue = await offlineDB.getOfflineQueue();
+            const listEl = document.getElementById('queue-items-list');
+            
+            if (queue.length === 0) {
+                listEl.innerHTML = '<p class="text-muted text-center">대기 중인 작업이 없습니다.</p>';
+            } else {
+                listEl.innerHTML = queue.map(item => `
+                    <div class="queue-item">
+                        <div class="item-header">
+                            <span class="item-type">${item.type.toUpperCase()}</span>
+                            <span class="item-timestamp">${new Date(item.timestamp).toLocaleString()}</span>
+                        </div>
+                        <div class="item-details">
+                            <strong>엔드포인트:</strong> ${item.endpoint}<br>
+                            <strong>방법:</strong> ${item.method}
+                            ${item.retryCount > 0 ? `<br><span class="retry-info">재시도 ${item.retryCount}/${item.maxRetries}</span>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            const modal = new bootstrap.Modal(document.getElementById('offline-queue-modal'));
+            modal.show();
+        } catch (error) {
+            console.error('오프라인 큐 로드 실패:', error);
+        }
+    }
+    
+    async applySelectedResolution() {
+        if (!this.currentConflict || !this.selectedResolution) {
+            alert('해결 방법을 선택해주세요.');
+            return;
+        }
+        
+        try {
+            let customData = null;
+            
+            if (this.selectedResolution === 'custom') {
+                const customDataText = document.getElementById('custom-data-editor').value;
+                if (!customDataText.trim()) {
+                    alert('커스텀 데이터를 입력해주세요.');
+                    return;
+                }
+                
+                try {
+                    customData = JSON.parse(customDataText);
+                } catch (error) {
+                    alert('유효하지 않은 JSON 형식입니다.');
+                    return;
+                }
+            }
+            
+            await conflictResolver.resolveConflictManually(
+                this.currentConflict.id,
+                this.selectedResolution,
+                customData
+            );
+            
+            // 모달 닫기
+            const modal = bootstrap.Modal.getInstance(document.getElementById('conflict-resolution-modal'));
+            modal.hide();
+            
+            // 상태 초기화
+            this.currentConflict = null;
+            this.selectedResolution = null;
+            
+        } catch (error) {
+            console.error('충돌 해결 실패:', error);
+            alert('충돌 해결에 실패했습니다: ' + error.message);
+        }
+    }
+    
+    populateCustomEditor() {
+        if (this.currentConflict) {
+            const localDataEditor = document.getElementById('local-data-editor');
+            const customDataEditor = document.getElementById('custom-data-editor');
+            
+            localDataEditor.value = JSON.stringify(this.currentConflict.localData, null, 2);
+            customDataEditor.value = JSON.stringify(this.currentConflict.localData, null, 2);
+        }
+    }
+    
+    async clearOfflineQueue() {
+        if (confirm('모든 대기 중인 작업을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
+            try {
+                await offlineDB.clearStore(offlineDB.stores.offlineQueue);
+                this.updateQueueStatus();
+                
+                const modal = bootstrap.Modal.getInstance(document.getElementById('offline-queue-modal'));
+                modal.hide();
+                
+                this.showSuccessAlert('모든 대기 작업이 삭제되었습니다.');
+            } catch (error) {
+                console.error('큐 삭제 실패:', error);
+                alert('큐 삭제에 실패했습니다.');
+            }
+        }
+    }
+    
+    async forceSyncNow() {
+        try {
+            this.showSyncProgress();
+            await syncManager.syncWithNotion();
+            await syncManager.processOfflineQueue();
+            this.hideSyncProgress();
+            this.updateLastSyncTime();
+            this.updateQueueStatus();
+            
+            const modal = bootstrap.Modal.getInstance(document.getElementById('offline-queue-modal'));
+            modal.hide();
+            
+            this.showSuccessAlert('동기화가 완료되었습니다.');
+        } catch (error) {
+            console.error('강제 동기화 실패:', error);
+            this.hideSyncProgress();
+            alert('동기화에 실패했습니다: ' + error.message);
+        }
+    }
+    
+    showSuccessAlert(message) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-success alert-dismissible fade show';
+        alertDiv.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        this.conflictNotificationsEl.appendChild(alertDiv);
+        
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 3000);
+    }
+    
+    getSeverityText(severity) {
+        const texts = {
+            critical: '치명적',
+            high: '높음',
+            medium: '중간',
+            low: '낮음'
+        };
+        return texts[severity] || severity;
+    }
+    
+    getConflictTypeText(type) {
+        const texts = {
+            concurrent: '동시 수정',
+            'local-newer': '로컬이 최신',
+            'server-newer': '서버가 최신'
+        };
+        return texts[type] || type;
+    }
+    
+    formatDataPreview(data) {
+        if (!data) return '(데이터 없음)';
+        
+        try {
+            return JSON.stringify(data, null, 2)
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        } catch (error) {
+            return String(data);
+        }
+    }
+}
+
+// UI 초기화
+document.addEventListener('DOMContentLoaded', () => {
+    new OfflineStatusUI();
+});
+</script>

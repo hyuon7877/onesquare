@@ -1,0 +1,402 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}연차 신청{% endblock %}
+
+{% block extra_css %}
+<style>
+    .request-form-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 30px;
+        margin-bottom: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #333;
+    }
+    
+    .form-control {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 12px;
+        transition: border-color 0.3s;
+    }
+    
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .date-input-group {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+    
+    .date-input-group .form-control {
+        flex: 1;
+    }
+    
+    .half-day-options {
+        display: flex;
+        gap: 15px;
+        margin-top: 10px;
+    }
+    
+    .checkbox-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .balance-info {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    .balance-number {
+        font-size: 20px;
+        font-weight: bold;
+        display: block;
+    }
+    
+    .balance-label {
+        font-size: 12px;
+        opacity: 0.8;
+    }
+    
+    .btn-submit {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 600;
+        width: 100%;
+        margin-top: 20px;
+        transition: transform 0.2s;
+    }
+    
+    .btn-submit:hover {
+        transform: translateY(-1px);
+    }
+    
+    .btn-submit:disabled {
+        opacity: 0.6;
+        transform: none;
+        cursor: not-allowed;
+    }
+    
+    .calculated-days {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        padding: 10px;
+        margin-top: 10px;
+        text-align: center;
+        font-weight: 600;
+        color: #495057;
+    }
+    
+    .error-message {
+        color: #dc3545;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+    
+    .success-message {
+        background: #d4edda;
+        color: #155724;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #c3e6cb;
+    }
+    
+    @media (max-width: 768px) {
+        .request-form-card {
+            padding: 20px;
+            margin: 10px;
+        }
+        
+        .date-input-group {
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .half-day-options {
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-3">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4>연차 신청</h4>
+        <a href="{% url 'leave_management:dashboard' %}" class="btn btn-outline-secondary btn-sm">
+            ← 돌아가기
+        </a>
+    </div>
+    
+    <div class="request-form-card">
+        <!-- 연차 잔여일수 표시 -->
+        <div class="balance-info">
+            <span class="balance-number">{{ balance.remaining_annual_days }}</span>
+            <span class="balance-label">잔여 연차 ({{ balance.year }}년)</span>
+        </div>
+        
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+        
+        <form id="leaveRequestForm" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- 연차 유형 선택 -->
+            <div class="form-group">
+                <label class="form-label">연차 유형 *</label>
+                <select name="leave_type_id" class="form-control" required>
+                    <option value="">연차 유형을 선택하세요</option>
+                    {% for leave_type in leave_types %}
+                    <option value="{{ leave_type.id }}">{{ leave_type.get_name_display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <!-- 날짜 선택 -->
+            <div class="form-group">
+                <label class="form-label">연차 기간 *</label>
+                <div class="date-input-group">
+                    <input type="date" name="start_date" class="form-control" required
+                           min="{{ today|date:'Y-m-d' }}" onchange="calculateDays()">
+                    <span>~</span>
+                    <input type="date" name="end_date" class="form-control" required
+                           min="{{ today|date:'Y-m-d' }}" onchange="calculateDays()">
+                </div>
+                
+                <!-- 반차 옵션 -->
+                <div class="half-day-options">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" name="is_half_day_start" id="half_day_start" onchange="calculateDays()">
+                        <label for="half_day_start">시작일 반차</label>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" name="is_half_day_end" id="half_day_end" onchange="calculateDays()">
+                        <label for="half_day_end">종료일 반차</label>
+                    </div>
+                </div>
+                
+                <!-- 계산된 일수 표시 -->
+                <div id="calculatedDays" class="calculated-days" style="display: none;">
+                    총 <span id="totalDays">0</span>일
+                </div>
+            </div>
+            
+            <!-- 연차 사유 -->
+            <div class="form-group">
+                <label class="form-label">연차 사유 *</label>
+                <textarea name="reason" class="form-control" rows="4" placeholder="연차 사유를 입력해주세요" required></textarea>
+            </div>
+            
+            <!-- 비상연락처 -->
+            <div class="form-group">
+                <label class="form-label">비상연락처</label>
+                <input type="tel" name="emergency_contact" class="form-control" placeholder="연차 중 비상연락처">
+            </div>
+            
+            <!-- 첨부파일 -->
+            <div class="form-group">
+                <label class="form-label">첨부파일</label>
+                <input type="file" name="attachment" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                <small class="form-text text-muted">PDF, 이미지, Word 문서만 첨부 가능</small>
+            </div>
+            
+            <!-- 제출 버튼 -->
+            <button type="submit" class="btn-submit" id="submitBtn">
+                연차 신청하기
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const balance = {{ balance.remaining_annual_days }};
+
+// 날짜 선택 시 총 일수 계산
+function calculateDays() {
+    const startDate = document.querySelector('input[name="start_date"]').value;
+    const endDate = document.querySelector('input[name="end_date"]').value;
+    const isHalfDayStart = document.getElementById('half_day_start').checked;
+    const isHalfDayEnd = document.getElementById('half_day_end').checked;
+    
+    if (!startDate || !endDate) {
+        document.getElementById('calculatedDays').style.display = 'none';
+        return;
+    }
+    
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    
+    if (start > end) {
+        showError('시작일이 종료일보다 늦을 수 없습니다.');
+        return;
+    }
+    
+    // 주말 제외 일수 계산
+    let totalDays = 0;
+    let currentDate = new Date(start);
+    
+    while (currentDate <= end) {
+        // 주말이 아닌 경우만 카운트 (0=일요일, 6=토요일)
+        if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
+            if (currentDate.getTime() === start.getTime() && isHalfDayStart) {
+                totalDays += 0.5;
+            } else if (currentDate.getTime() === end.getTime() && isHalfDayEnd) {
+                totalDays += 0.5;
+            } else {
+                totalDays += 1;
+            }
+        }
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+    
+    // 결과 표시
+    document.getElementById('totalDays').textContent = totalDays;
+    document.getElementById('calculatedDays').style.display = 'block';
+    
+    // 잔여 연차 부족 체크
+    const submitBtn = document.getElementById('submitBtn');
+    if (totalDays > balance) {
+        showError(`잔여 연차가 부족합니다. (필요: ${totalDays}일, 잔여: ${balance}일)`);
+        submitBtn.disabled = true;
+    } else {
+        clearError();
+        submitBtn.disabled = false;
+    }
+}
+
+// 폼 제출 처리
+document.getElementById('leaveRequestForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = '신청 처리 중...';
+    
+    try {
+        const formData = new FormData(this);
+        
+        const response = await fetch('', {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            showSuccess(result.message);
+            setTimeout(() => {
+                window.location.href = '{% url "leave_management:dashboard" %}';
+            }, 1500);
+        } else {
+            showError(result.message);
+            submitBtn.disabled = false;
+            submitBtn.textContent = '연차 신청하기';
+        }
+        
+    } catch (error) {
+        showError('연차 신청 중 오류가 발생했습니다.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = '연차 신청하기';
+    }
+});
+
+// 에러 메시지 표시
+function showError(message) {
+    clearMessages();
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'alert alert-danger';
+    errorDiv.textContent = message;
+    document.querySelector('.request-form-card').insertBefore(errorDiv, document.getElementById('leaveRequestForm'));
+}
+
+// 성공 메시지 표시
+function showSuccess(message) {
+    clearMessages();
+    const successDiv = document.createElement('div');
+    successDiv.className = 'alert alert-success';
+    successDiv.textContent = message;
+    document.querySelector('.request-form-card').insertBefore(successDiv, document.getElementById('leaveRequestForm'));
+}
+
+// 메시지 지우기
+function clearMessages() {
+    const alerts = document.querySelectorAll('.alert:not(.alert-dismissible)');
+    alerts.forEach(alert => alert.remove());
+}
+
+function clearError() {
+    clearMessages();
+}
+
+// 오늘 날짜 설정
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date().toISOString().split('T')[0];
+    const startDateInput = document.querySelector('input[name="start_date"]');
+    const endDateInput = document.querySelector('input[name="end_date"]');
+    
+    startDateInput.min = today;
+    endDateInput.min = today;
+    
+    // 시작일 변경 시 종료일 최소값 업데이트
+    startDateInput.addEventListener('change', function() {
+        endDateInput.min = this.value;
+        if (endDateInput.value && endDateInput.value < this.value) {
+            endDateInput.value = this.value;
+        }
+        calculateDays();
+    });
+});
+
+// PWA 오프라인 지원
+if ('serviceWorker' in navigator) {
+    // 오프라인 상태에서는 경고 표시
+    window.addEventListener('offline', () => {
+        showError('오프라인 상태입니다. 연차 신청은 온라인 상태에서만 가능합니다.');
+        document.getElementById('submitBtn').disabled = true;
+    });
+    
+    window.addEventListener('online', () => {
+        clearError();
+        document.getElementById('submitBtn').disabled = false;
+    });
+}
+</script>
+{% endblock %}

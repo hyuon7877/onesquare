@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }} - OneSquare</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#0A84FF">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="OneSquare 업무시간">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        .work-status-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .check-btn {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .check-in-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+        
+        .check-out-btn {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: white;
+        }
+        
+        .check-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #0A84FF;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        
+        .overtime-indicator {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .overtime-normal { background: #d4edda; color: #155724; }
+        .overtime-warning { background: #fff3cd; color: #856404; }
+        .overtime-danger { background: #f8d7da; color: #721c24; }
+        
+        .work-timer {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px 0;
+        }
+        
+        .floating-actions {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #0A84FF;
+            color: white;
+            border: none;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .fab:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-clock-history me-2"></i>업무시간 관리
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text">
+                    <i class="bi bi-person-circle me-1"></i>{{ user.get_full_name|default:user.username }}
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- 현재 근무 상태 카드 -->
+        <div class="work-status-card">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h4 class="mb-3">
+                        <i class="bi bi-calendar-date me-2"></i>{{ current_time|date:"Y년 m월 d일 (D)" }}
+                    </h4>
+                    
+                    {% if today_status.status == 'not_started' %}
+                        <h5 class="mb-2">오늘 아직 출근하지 않았습니다</h5>
+                        <p class="mb-0">출근 버튼을 눌러 근무를 시작하세요</p>
+                    {% elif today_status.status == 'in_progress' %}
+                        <h5 class="mb-2">근무 중입니다</h5>
+                        <p class="mb-1">출근: {{ today_status.check_in_time|time:"H:i" }}</p>
+                        <div class="work-timer" id="workTimer">
+                            <span id="currentWorkTime">00:00:00</span>
+                        </div>
+                    {% elif today_status.status == 'completed' %}
+                        <h5 class="mb-2">오늘 근무를 완료했습니다</h5>
+                        <p class="mb-1">출근: {{ today_status.check_in_time|time:"H:i" }} | 퇴근: {{ today_status.check_out_time|time:"H:i" }}</p>
+                        <p class="mb-0">총 근무시간: <strong>{{ today_status.current_work_time|floatformat:2 }}시간</strong></p>
+                    {% endif %}
+                </div>
+                
+                <div class="col-md-4 text-center">
+                    {% if today_status.status == 'not_started' %}
+                        <button class="check-btn check-in-btn" onclick="checkIn()">
+                            <i class="bi bi-play-circle"></i>
+                        </button>
+                        <div class="mt-2">출근</div>
+                    {% elif today_status.status == 'in_progress' %}
+                        <button class="check-btn check-out-btn" onclick="checkOut()">
+                            <i class="bi bi-stop-circle"></i>
+                        </button>
+                        <div class="mt-2">퇴근</div>
+                    {% else %}
+                        <div class="check-btn" style="background: #28a745; color: white;">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+                        <div class="mt-2">완료</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- 통계 카드 -->
+        <div class="row">
+            <div class="col-md-3 col-6">
+                <div class="stat-card">
+                    <div class="stat-number" id="monthlyHours">0.0</div>
+                    <div class="stat-label">이번 달 근무시간</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card">
+                    <div class="stat-number" id="weeklyHours">0.0</div>
+                    <div class="stat-label">이번 주 근무시간</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card">
+                    <div class="stat-number" id="overtimeHours">0.0</div>
+                    <div class="stat-label">초과근무시간</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card">
+                    <div class="stat-number" id="attendanceRate">0.0%</div>
+                    <div class="stat-label">출근율</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 차트 -->
+        <div class="chart-container">
+            <h5 class="mb-3">
+                <i class="bi bi-graph-up me-2"></i>최근 14일 근무시간 추이
+            </h5>
+            <canvas id="workTimeChart" width="400" height="200"></canvas>
+        </div>
+
+        <!-- 최근 근무기록 -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="bi bi-list-ul me-2"></i>최근 근무기록
+                </h5>
+                <a href="#" class="btn btn-sm btn-outline-primary" onclick="showAllRecords()">
+                    전체보기
+                </a>
+            </div>
+            <div class="card-body">
+                <div id="recentRecords" class="list-group list-group-flush">
+                    <!-- JavaScript로 동적 로드 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <button class="fab" onclick="exportExcel()" title="엑셀 내보내기">
+            <i class="bi bi-download"></i>
+        </button>
+        <button class="fab" onclick="refreshData()" title="데이터 새로고침">
+            <i class="bi bi-arrow-clockwise"></i>
+        </button>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // 전역 변수
+        let workTimer = null;
+        let chart = null;
+        
+        // CSRF 토큰
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value || 
+                         document.cookie.split('; ').find(row => row.startsWith('csrftoken='))?.split('=')[1] || '';
+        
+        // API 기본 설정
+        const API_BASE = '/time/api/';
+        
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDashboard();
+        });
+        
+        async function initializeDashboard() {
+            try {
+                await Promise.all([
+                    loadStatistics(),
+                    loadChart(),
+                    loadRecentRecords(),
+                    startWorkTimer()
+                ]);
+            } catch (error) {
+                console.error('Dashboard initialization failed:', error);
+                showToast('대시보드 로드 중 오류가 발생했습니다', 'error');
+            }
+        }
+        
+        // 출근 처리
+        async function checkIn() {
+            try {
+                // GPS 위치 정보 수집 (선택적)
+                const location = await getCurrentLocation();
+                
+                const response = await fetch(API_BASE + 'check-in/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken,
+                    },
+                    body: JSON.stringify({
+                        location: location
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showToast(data.message, 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showToast(data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Check-in failed:', error);
+                showToast('출근 처리 중 오류가 발생했습니다', 'error');
+            }
+        }
+        
+        // 퇴근 처리
+        async function checkOut() {
+            try {
+                const location = await getCurrentLocation();
+                
+                const response = await fetch(API_BASE + 'check-out/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken,
+                    },
+                    body: JSON.stringify({
+                        location: location
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showToast(data.message, 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showToast(data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Check-out failed:', error);
+                showToast('퇴근 처리 중 오류가 발생했습니다', 'error');
+            }
+        }
+        
+        // GPS 위치 정보 수집
+        async function getCurrentLocation() {
+            return new Promise((resolve) => {
+                if (!navigator.geolocation) {
+                    resolve({});
+                    return;
+                }
+                
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        resolve({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                            accuracy: position.coords.accuracy,
+                            timestamp: new Date().toISOString()
+                        });
+                    },
+                    () => resolve({}) // 위치 접근 실패 시 빈 객체 반환
+                );
+            });
+        }
+        
+        // 통계 데이터 로드
+        async function loadStatistics() {
+            try {
+                const [monthlyRes, weeklyRes] = await Promise.all([
+                    fetch(API_BASE + 'statistics/monthly/'),
+                    fetch(API_BASE + 'statistics/weekly/')
+                ]);
+                
+                const monthlyData = await monthlyRes.json();
+                const weeklyData = await weeklyRes.json();
+                
+                if (monthlyData.success) {
+                    document.getElementById('monthlyHours').textContent = monthlyData.data.actual_work_hours + 'h';
+                    document.getElementById('overtimeHours').textContent = monthlyData.data.overtime_hours + 'h';
+                    document.getElementById('attendanceRate').textContent = monthlyData.data.attendance_rate + '%';
+                }
+                
+                if (weeklyData.success) {
+                    document.getElementById('weeklyHours').textContent = weeklyData.data.actual_work_hours + 'h';
+                }
+            } catch (error) {
+                console.error('Failed to load statistics:', error);
+            }
+        }
+        
+        // 차트 로드
+        async function loadChart() {
+            try {
+                const response = await fetch(API_BASE + 'chart-data/');
+                const data = await response.json();
+                
+                if (data.success) {
+                    createWorkTimeChart(data.data);
+                }
+            } catch (error) {
+                console.error('Failed to load chart:', error);
+            }
+        }
+        
+        // 차트 생성
+        function createWorkTimeChart(chartData) {
+            const ctx = document.getElementById('workTimeChart').getContext('2d');
+            
+            if (chart) {
+                chart.destroy();
+            }
+            
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [
+                        {
+                            label: '실제 근무시간',
+                            data: chartData.datasets.actual_work_hours,
+                            borderColor: '#0A84FF',
+                            backgroundColor: 'rgba(10, 132, 255, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: '초과 근무시간',
+                            data: chartData.datasets.overtime_hours,
+                            borderColor: '#FF6B6B',
+                            backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: '표준시간 (8h)',
+                            data: chartData.datasets.standard_line,
+                            borderColor: '#28a745',
+                            borderDash: [5, 5],
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    interaction: {
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '시간 (h)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 최근 근무기록 로드
+        async function loadRecentRecords() {
+            try {
+                const response = await fetch(API_BASE + 'daily-records/?page_size=5');
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayRecentRecords(data.data.records);
+                }
+            } catch (error) {
+                console.error('Failed to load recent records:', error);
+            }
+        }
+        
+        // 최근 근무기록 표시
+        function displayRecentRecords(records) {
+            const container = document.getElementById('recentRecords');
+            container.innerHTML = '';
+            
+            if (records.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center py-3">최근 근무기록이 없습니다</p>';
+                return;
+            }
+            
+            records.forEach(record => {
+                const item = document.createElement('div');
+                item.className = 'list-group-item';
+                
+                const overtimeClass = record.overtime_hours > 0 ? 'overtime-danger' : 
+                                    record.is_undertime ? 'overtime-warning' : 'overtime-normal';
+                
+                item.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1">${formatDate(record.work_date)}</h6>
+                            <p class="mb-1">
+                                ${record.check_in_time ? formatTime(record.check_in_time) : '--:--'} ~ 
+                                ${record.check_out_time ? formatTime(record.check_out_time) : '--:--'}
+                            </p>
+                            ${record.memo ? `<small class="text-muted">${record.memo}</small>` : ''}
+                        </div>
+                        <div class="text-end">
+                            <span class="overtime-indicator ${overtimeClass}">
+                                ${record.work_time_formatted}
+                            </span>
+                            <small class="d-block text-muted mt-1">${record.status}</small>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(item);
+            });
+        }
+        
+        // 근무 타이머 시작
+        function startWorkTimer() {
+            const status = '{{ today_status.status }}';
+            if (status !== 'in_progress') return;
+            
+            const checkInTime = new Date('{{ today_status.check_in_time|date:"c" }}');
+            
+            workTimer = setInterval(() => {
+                const now = new Date();
+                const diff = now - checkInTime;
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('currentWorkTime').textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+        
+        // 데이터 새로고침
+        async function refreshData() {
+            const refreshBtn = document.querySelector('[onclick="refreshData()"]');
+            refreshBtn.innerHTML = '<i class="bi bi-arrow-clockwise spinner-border spinner-border-sm"></i>';
+            
+            try {
+                await initializeDashboard();
+                showToast('데이터가 새로고침되었습니다', 'success');
+            } catch (error) {
+                showToast('새로고침 중 오류가 발생했습니다', 'error');
+            } finally {
+                refreshBtn.innerHTML = '<i class="bi bi-arrow-clockwise"></i>';
+            }
+        }
+        
+        // 엑셀 내보내기
+        function exportExcel() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            
+            const url = API_BASE + `export/monthly-excel/?year=${year}&month=${month}`;
+            window.open(url, '_blank');
+        }
+        
+        // 전체 기록 보기 (모달 또는 새 페이지)
+        function showAllRecords() {
+            // TODO: 전체 기록 보기 구현
+            showToast('전체 기록 보기 기능을 준비 중입니다', 'info');
+        }
+        
+        // 유틸리티 함수들
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+            return `${date.getMonth() + 1}/${date.getDate()} (${weekdays[date.getDay()]})`;
+        }
+        
+        function formatTime(timeString) {
+            const time = new Date(timeString);
+            return `${time.getHours().toString().padStart(2, '0')}:${time.getMinutes().toString().padStart(2, '0')}`;
+        }
+        
+        // 토스트 메시지 표시
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer') || createToastContainer();
+            
+            const toastEl = document.createElement('div');
+            toastEl.className = `toast align-items-center text-white bg-${type === 'error' ? 'danger' : type === 'success' ? 'success' : 'info'} border-0`;
+            toastEl.setAttribute('role', 'alert');
+            toastEl.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">${message}</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            `;
+            
+            toastContainer.appendChild(toastEl);
+            
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+            
+            // 토스트가 숨겨진 후 DOM에서 제거
+            toastEl.addEventListener('hidden.bs.toast', () => {
+                toastEl.remove();
+            });
+        }
+        
+        function createToastContainer() {
+            const container = document.createElement('div');
+            container.id = 'toastContainer';
+            container.className = 'toast-container position-fixed top-0 end-0 p-3';
+            container.style.zIndex = '9999';
+            document.body.appendChild(container);
+            return container;
+        }
+    </script>
+    
+    <!-- CSRF Token -->
+    {% csrf_token %}
+</body>
+</html>

@@ -1,0 +1,31 @@
+# Task ID: 9
+# Title: 연차 관리 시스템
+# Status: pending
+# Dependencies: 3, 6
+# Priority: medium
+# Description: 연차 신청, 승인, 현황 관리 기능 구현
+# Details:
+연차 신청 폼, 승인/반려 프로세스, 연차 현황 대시보드, 팀 전체 연차 달력, 알림 시스템
+
+# Test Strategy:
+연차 신청 플로우 테스트, 승인 권한 테스트, 알림 전송 테스트
+
+# Subtasks:
+## 1. Notion 연차 데이터베이스 구조 설계 [pending]
+### Dependencies: None
+### Description: 연차 관리를 위한 Notion 데이터베이스 스키마 설계 및 Django 모델 매핑
+### Details:
+- 연차 신청 테이블 (신청일, 시작일, 종료일, 사유, 상태, 승인자)\n- 연차 잔여일수 테이블 (사용자별 총 연차, 사용 연차, 잔여 연차)\n- 공휴일 및 회사 휴무일 관리 테이블\n- Django 모델과 Notion DB 간 동기화 로직
+
+## 2. 연차 신청 PWA 인터페이스 개발 [pending]
+### Dependencies: None
+### Description: 모바일 최적화된 연차 신청 폼 및 UI 컴포넌트 구현
+### Details:
+- 반응형 연차 신청 폼 (날짜 선택, 사유 입력, 첨부파일)\n- 연차 잔여일수 표시 위젯\n- 캘린더 뷰에서 연차 신청 기능\n- 오프라인 모드에서 임시 저장 기능\n- PWA 설치 후 네이티브 앱처럼 작동
+
+## 3. 승인 워크플로우 및 권한 시스템 [pending]
+### Dependencies: None
+### Description: 6개 사용자 그룹별 연차 승인 권한 및 프로세스 구현
+### Details:
+- 최고관리자: 모든 연차 승인/반려 권한\n- 중간관리자: 팀원 연차 승인 권한\n- 팀원: 본인 연차 신청만 가능\n- 파트너/도급사: 연차 시스템 접근 불가\n- 다단계 승인 프로세스 (팀장 → 부서장)\n- 자동 승인 규칙 설정 기능
+

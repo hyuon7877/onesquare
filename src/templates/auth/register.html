@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}OneSquare - 회원가입{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card register-card">
+        <div class="auth-header">
+            <img src="{% static 'images/logo.png' %}" alt="OneSquare" class="logo">
+            <h1>회원가입</h1>
+            <p>OneSquare 통합 팀 관리 시스템</p>
+        </div>
+
+        <form id="register-form" class="auth-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="username">사용자명 *</label>
+                    <input type="text" id="username" name="username" required>
+                    <div class="form-help">영문, 숫자, 특수문자(_)만 사용 가능</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">이메일 *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="first_name">이름 *</label>
+                    <input type="text" id="first_name" name="first_name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="last_name">성 *</label>
+                    <input type="text" id="last_name" name="last_name" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="user_type">사용자 구분 *</label>
+                <select id="user_type" name="user_type" required>
+                    <option value="">선택하세요</option>
+                    <option value="TEAM_MEMBER">팀원</option>
+                    <option value="MANAGER">중간관리자</option>
+                    <option value="PARTNER">파트너</option>
+                    <option value="CONTRACTOR">도급사</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="phone-group" style="display: none;">
+                <label for="phone_number">전화번호</label>
+                <input type="tel" id="phone_number" name="phone_number" placeholder="010-1234-5678">
+                <div class="form-help">파트너/도급사는 OTP 인증을 위해 필수입니다.</div>
+            </div>
+
+            <div class="company-fields" style="display: none;">
+                <div class="form-group">
+                    <label for="company">회사명</label>
+                    <input type="text" id="company" name="company">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="department">부서</label>
+                        <input type="text" id="department" name="department">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="position">직급</label>
+                        <input type="text" id="position" name="position">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">비밀번호 *</label>
+                    <input type="password" id="password" name="password" required>
+                    <div class="password-strength">
+                        <div class="strength-bar">
+                            <div class="strength-fill"></div>
+                        </div>
+                        <div class="strength-text">비밀번호 강도</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password_confirm">비밀번호 확인 *</label>
+                    <input type="password" id="password_confirm" name="password_confirm" required>
+                    <div class="password-match" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div class="password-requirements">
+                <h4>비밀번호 요구사항:</h4>
+                <ul>
+                    <li id="req-length">최소 8자 이상</li>
+                    <li id="req-complexity">영문 대소문자, 숫자, 특수문자 중 3종류 이상</li>
+                </ul>
+            </div>
+
+            <div class="form-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="agree-terms" required>
+                    <span class="checkmark"></span>
+                    <a href="#" class="terms-link">이용약관</a> 및 <a href="#" class="privacy-link">개인정보처리방침</a>에 동의합니다 *
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="register-btn">
+                <span class="btn-text">회원가입</span>
+                <span class="btn-loading" style="display: none;">
+                    <i class="spinner"></i> 처리 중...
+                </span>
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            <p>이미 계정이 있으신가요? <a href="{% url 'auth:login' %}">로그인</a></p>
+            <div class="user-type-info">
+                <h4>사용자 구분 안내:</h4>
+                <ul>
+                    <li><strong>팀원:</strong> 일반 직원 (즉시 승인)</li>
+                    <li><strong>중간관리자:</strong> 부서 관리자 (즉시 승인)</li>
+                    <li><strong>파트너:</strong> 협력업체 (관리자 승인 후 이용)</li>
+                    <li><strong>도급사:</strong> 외부 업체 (관리자 승인 후 이용)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 알림 메시지 -->
+<div id="toast-container"></div>
+
+<!-- 약관 모달 -->
+<div id="terms-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>이용약관</h2>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>OneSquare 이용약관 내용...</p>
+        </div>
+    </div>
+</div>
+
+<div id="privacy-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>개인정보처리방침</h2>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>개인정보처리방침 내용...</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/auth/register.js' %}"></script>
+{% endblock %}

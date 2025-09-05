@@ -1,0 +1,46 @@
+# OneSquare Notion API 동기화 Crontab 설정 예제
+# 
+# 이 파일을 참고하여 crontab을 설정하세요:
+# crontab -e 명령어로 편집한 후 아래 내용을 추가하세요.
+
+# Notion 데이터베이스 동기화 - 매 5분마다 실행
+*/5 * * * * /home/user/onesquare/scripts/notion_sync_cron.sh
+
+# Notion 시스템 건강성 검사 - 매 30분마다 실행
+*/30 * * * * /home/user/onesquare/scripts/notion_health_check.sh
+
+# 변경사항 감지 - 매 10분마다 실행 (선택사항)
+*/10 * * * * cd /home/user/onesquare && docker-compose exec -T web python manage.py sync_notion detect >> /home/user/onesquare/src/logs/notion_detect.log 2>&1
+
+# 로그 정리 - 매일 새벽 2시에 실행
+0 2 * * * find /home/user/onesquare/src/logs -name "*.log" -type f -mtime +7 -delete
+
+# 데이터베이스 상태 리포트 - 매일 오전 9시에 실행
+0 9 * * * cd /home/user/onesquare && docker-compose exec -T web python manage.py sync_notion status --json > /home/user/onesquare/src/logs/daily_status_$(date +\%Y\%m\%d).json
+
+# 성능 메트릭 수집 - 매주 월요일 오전 8시에 실행
+0 8 * * 1 cd /home/user/onesquare && echo "
+import os, sys, django, json
+sys.path.append('/home/user/onesquare/src')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+django.setup()
+from apps.notion_api.monitoring import get_sync_metrics
+metrics = get_sync_metrics(7)
+print(json.dumps(metrics, indent=2, ensure_ascii=False, default=str))
+" | docker-compose exec -T web python > /home/user/onesquare/src/logs/weekly_metrics_$(date +\%Y\%m\%d).json
+
+# 설정 방법:
+# 1. crontab -e 명령어 실행
+# 2. 위의 필요한 라인들을 복사해서 추가
+# 3. 저장하고 종료 (:wq)
+# 4. crontab -l 명령어로 설정 확인
+
+# 주의사항:
+# - Docker Compose를 사용하는 경우 컨테이너가 실행 중이어야 합니다
+# - 로그 디렉토리(/home/user/onesquare/src/logs)가 존재해야 합니다
+# - 스크립트 파일들이 실행 권한을 가져야 합니다 (chmod +x)
+# - 필요에 따라 경로를 실제 환경에 맞게 수정하세요
+
+# 테스트 방법:
+# ./scripts/notion_sync_cron.sh    # 동기화 스크립트 테스트
+# ./scripts/notion_health_check.sh # 건강성 검사 스크립트 테스트

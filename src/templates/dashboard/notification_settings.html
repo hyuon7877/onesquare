@@ -1,0 +1,815 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}알림 설정 - OneSquare{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/notification-system.css' %}" rel="stylesheet">
+<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+<style>
+.notification-settings-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.notification-settings-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.setting-item {
+    padding: 1rem;
+    border-bottom: 1px solid #f1f3f4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+}
+
+.setting-info h6 {
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+}
+
+.setting-info p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.custom-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.custom-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #3788d8;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.time-input {
+    width: 100px;
+    text-align: center;
+}
+
+.notification-preview {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
+
+.browser-support-info {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.support-status {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.support-status.supported {
+    background: #d4edda;
+    color: #155724;
+}
+
+.support-status.not-supported {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.test-section {
+    background: #e3f2fd;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
+    text-align: center;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <!-- 헤더 -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2><i class="fas fa-bell text-primary"></i> 알림 설정</h2>
+                    <p class="text-muted">PWA 푸시 알림 및 시스템 알림을 관리합니다</p>
+                </div>
+                <a href="/dashboard/" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> 대시보드로 돌아가기
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- 기본 설정 -->
+        <div class="col-lg-6 col-xl-4 mb-4">
+            <div class="card notification-settings-card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-toggle-on"></i> 기본 설정</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h6>푸시 알림 활성화</h6>
+                            <p>브라우저 푸시 알림을 받습니다</p>
+                        </div>
+                        <label class="custom-switch">
+                            <input type="checkbox" id="push-enabled" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h6>소리 알림</h6>
+                            <p>알림 시 소리를 재생합니다</p>
+                        </div>
+                        <label class="custom-switch">
+                            <input type="checkbox" id="sound-enabled" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h6>진동 알림 (모바일)</h6>
+                            <p>모바일에서 진동으로 알립니다</p>
+                        </div>
+                        <label class="custom-switch">
+                            <input type="checkbox" id="vibration-enabled" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 알림 유형 설정 -->
+        <div class="col-lg-6 col-xl-4 mb-4">
+            <div class="card notification-settings-card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-filter"></i> 알림 유형</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h6>Notion 동기화</h6>
+                            <p>Notion 데이터 동기화 완료 알림</p>
+                        </div>
+                        <label class="custom-switch">
+                            <input type="checkbox" id="notion-sync" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h6>작업 업데이트</h6>
+                            <p>할일, 프로젝트 업데이트 알림</p>
+                        </div>
+                        <label class="custom-switch">
+                            <input type="checkbox" id="task-updates" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h6>시스템 업데이트</h6>
+                            <p>앱 업데이트, 점검 알림</p>
+                        </div>
+                        <label class="custom-switch">
+                            <input type="checkbox" id="system-updates">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h6>오프라인 동기화</h6>
+                            <p>오프라인 데이터 동기화 완료 알림</p>
+                        </div>
+                        <label class="custom-switch">
+                            <input type="checkbox" id="offline-sync" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 방해 금지 시간 -->
+        <div class="col-lg-12 col-xl-4 mb-4">
+            <div class="card notification-settings-card">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="mb-0"><i class="fas fa-moon"></i> 방해 금지 시간</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="quiet-hours-enabled">
+                        <label class="form-check-label" for="quiet-hours-enabled">
+                            방해 금지 시간 활성화
+                        </label>
+                    </div>
+                    
+                    <div id="quiet-hours-settings" class="d-none">
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="form-label">시작 시간</label>
+                                <input type="time" class="form-control time-input" id="quiet-start" value="22:00">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label">종료 시간</label>
+                                <input type="time" class="form-control time-input" id="quiet-end" value="08:00">
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="form-label">시간대</label>
+                            <select class="form-select" id="timezone">
+                                <option value="Asia/Seoul">한국 표준시 (KST)</option>
+                                <option value="Asia/Tokyo">일본 표준시 (JST)</option>
+                                <option value="America/New_York">동부 표준시 (EST)</option>
+                                <option value="Europe/London">그리니치 평균시 (GMT)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- 브라우저 지원 상태 -->
+        <div class="col-lg-6 mb-4">
+            <div class="card notification-settings-card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-globe"></i> 브라우저 지원 상태</h5>
+                </div>
+                <div class="card-body" id="browser-support-content">
+                    <div class="browser-support-info">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span><i class="fas fa-bell"></i> 푸시 알림</span>
+                            <span class="support-status supported" id="push-support">지원됨</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span><i class="fas fa-cog"></i> Service Worker</span>
+                            <span class="support-status supported" id="sw-support">지원됨</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span><i class="fas fa-sync"></i> 백그라운드 동기화</span>
+                            <span class="support-status" id="bg-sync-support">확인 중...</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span><i class="fas fa-download"></i> 앱 설치</span>
+                            <span class="support-status" id="install-support">확인 중...</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h6>현재 권한 상태</h6>
+                        <div class="alert" id="permission-status">
+                            확인 중...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 알림 통계 -->
+        <div class="col-lg-6 mb-4">
+            <div class="card notification-settings-card">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="fas fa-chart-bar"></i> 알림 통계</h5>
+                </div>
+                <div class="card-body">
+                    <div class="stats-grid" id="notification-stats">
+                        <div class="stat-card">
+                            <div class="stat-number text-primary" id="total-sent">0</div>
+                            <div class="text-muted">총 발송</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number text-success" id="total-delivered">0</div>
+                            <div class="text-muted">전달됨</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number text-info" id="total-clicked">0</div>
+                            <div class="text-muted">클릭됨</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number text-warning" id="last-7-days">0</div>
+                            <div class="text-muted">최근 7일</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle"></i>
+                            통계는 브라우저별로 다를 수 있습니다
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 테스트 섹션 -->
+    <div class="row">
+        <div class="col-12">
+            <div class="test-section">
+                <h4><i class="fas fa-vial text-primary"></i> 알림 테스트</h4>
+                <p class="mb-4">알림 설정이 올바르게 작동하는지 테스트해보세요</p>
+                
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="d-flex gap-3 justify-content-center">
+                            <button class="btn btn-primary" onclick="testLocalNotification()">
+                                <i class="fas fa-desktop"></i> 로컬 알림 테스트
+                            </button>
+                            <button class="btn btn-success" onclick="testPushNotification()">
+                                <i class="fas fa-cloud"></i> 푸시 알림 테스트
+                            </button>
+                            <button class="btn btn-info" onclick="subscribeToPush()">
+                                <i class="fas fa-bell-slash"></i> 푸시 구독
+                            </button>
+                            <button class="btn btn-secondary" onclick="requestPermission()">
+                                <i class="fas fa-key"></i> 권한 요청
+                            </button>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <div class="alert alert-info d-none" id="test-result">
+                                테스트 결과가 여기에 표시됩니다
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 저장 버튼 -->
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="card notification-settings-card">
+                <div class="card-body">
+                    <button class="btn btn-primary btn-lg me-3" onclick="saveNotificationSettings()">
+                        <i class="fas fa-save"></i> 설정 저장
+                    </button>
+                    <button class="btn btn-outline-secondary btn-lg" onclick="resetToDefaults()">
+                        <i class="fas fa-undo"></i> 기본값으로 초기화
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/modules/push-notifications.js' %}"></script>
+<script src="{% static 'js/modules/notification-system.js' %}"></script>
+<script>
+class NotificationSettingsManager {
+    constructor() {
+        this.settings = {};
+        this.pushManager = null;
+        this.init();
+    }
+    
+    async init() {
+        console.log('🔧 Notification Settings Manager initializing...');
+        
+        try {
+            // Push Manager 초기화
+            if (typeof pushManager !== 'undefined') {
+                this.pushManager = pushManager;
+            }
+            
+            // 현재 설정 로드
+            await this.loadSettings();
+            
+            // 브라우저 지원 상태 확인
+            this.checkBrowserSupport();
+            
+            // 권한 상태 확인
+            this.checkPermissionStatus();
+            
+            // 통계 로드
+            await this.loadStats();
+            
+            // 이벤트 리스너 등록
+            this.setupEventListeners();
+            
+            console.log('✅ Notification Settings Manager initialized');
+            
+        } catch (error) {
+            console.error('❌ Failed to initialize notification settings:', error);
+        }
+    }
+    
+    async loadSettings() {
+        try {
+            const response = await fetch('/api/pwa/push/settings/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                this.settings = await response.json();
+                this.applySettingsToUI();
+            }
+        } catch (error) {
+            console.error('Failed to load notification settings:', error);
+            this.useDefaultSettings();
+        }
+    }
+    
+    applySettingsToUI() {
+        // 기본 설정
+        document.getElementById('push-enabled').checked = this.settings.enabled || false;
+        document.getElementById('sound-enabled').checked = this.settings.sound?.enabled || false;
+        document.getElementById('vibration-enabled').checked = this.settings.vibration?.enabled || false;
+        
+        // 알림 유형
+        document.getElementById('notion-sync').checked = this.settings.types?.notion_sync || false;
+        document.getElementById('task-updates').checked = this.settings.types?.task_updates || false;
+        document.getElementById('system-updates').checked = this.settings.types?.system_updates || false;
+        document.getElementById('offline-sync').checked = this.settings.types?.offline_sync || false;
+        
+        // 방해 금지 시간
+        const quietHours = this.settings.quiet_hours || {};
+        document.getElementById('quiet-hours-enabled').checked = quietHours.enabled || false;
+        document.getElementById('quiet-start').value = quietHours.start || '22:00';
+        document.getElementById('quiet-end').value = quietHours.end || '08:00';
+        document.getElementById('timezone').value = quietHours.timezone || 'Asia/Seoul';
+        
+        // 방해 금지 시간 섹션 표시/숨김
+        this.toggleQuietHours();
+    }
+    
+    useDefaultSettings() {
+        this.settings = {
+            enabled: true,
+            types: {
+                notion_sync: true,
+                task_updates: true,
+                system_updates: false,
+                offline_sync: true
+            },
+            quiet_hours: {
+                enabled: false,
+                start: '22:00',
+                end: '08:00',
+                timezone: 'Asia/Seoul'
+            },
+            sound: {
+                enabled: true,
+                volume: 0.8
+            },
+            vibration: {
+                enabled: true,
+                pattern: [100, 50, 100]
+            }
+        };
+        this.applySettingsToUI();
+    }
+    
+    checkBrowserSupport() {
+        const support = pushManager?.constructor.getBrowserSupport() || {};
+        
+        // 푸시 알림 지원
+        const pushSupport = document.getElementById('push-support');
+        if (support.pushSupported) {
+            pushSupport.textContent = '지원됨';
+            pushSupport.className = 'support-status supported';
+        } else {
+            pushSupport.textContent = '지원 안됨';
+            pushSupport.className = 'support-status not-supported';
+        }
+        
+        // Service Worker 지원
+        const swSupport = document.getElementById('sw-support');
+        if ('serviceWorker' in navigator) {
+            swSupport.textContent = '지원됨';
+            swSupport.className = 'support-status supported';
+        } else {
+            swSupport.textContent = '지원 안됨';
+            swSupport.className = 'support-status not-supported';
+        }
+        
+        // 백그라운드 동기화 지원
+        const bgSyncSupport = document.getElementById('bg-sync-support');
+        if (support.browser?.chrome || support.browser?.edge) {
+            bgSyncSupport.textContent = '지원됨';
+            bgSyncSupport.className = 'support-status supported';
+        } else {
+            bgSyncSupport.textContent = '제한적 지원';
+            bgSyncSupport.className = 'support-status not-supported';
+        }
+        
+        // 앱 설치 지원
+        const installSupport = document.getElementById('install-support');
+        if (support.browser?.chrome || support.browser?.edge) {
+            installSupport.textContent = '지원됨';
+            installSupport.className = 'support-status supported';
+        } else {
+            installSupport.textContent = '지원 안됨';
+            installSupport.className = 'support-status not-supported';
+        }
+    }
+    
+    checkPermissionStatus() {
+        const permissionDiv = document.getElementById('permission-status');
+        const permission = pushManager?.constructor.checkPermissionStatus() || 'unsupported';
+        
+        let alertClass = 'alert-warning';
+        let message = '';
+        
+        switch (permission) {
+            case 'granted':
+                alertClass = 'alert-success';
+                message = '<i class="fas fa-check-circle"></i> 알림 권한이 허용되었습니다';
+                break;
+            case 'denied':
+                alertClass = 'alert-danger';
+                message = '<i class="fas fa-times-circle"></i> 알림 권한이 거부되었습니다';
+                break;
+            case 'default':
+                alertClass = 'alert-info';
+                message = '<i class="fas fa-question-circle"></i> 알림 권한을 요청하지 않았습니다';
+                break;
+            default:
+                alertClass = 'alert-warning';
+                message = '<i class="fas fa-exclamation-triangle"></i> 이 브라우저는 알림을 지원하지 않습니다';
+        }
+        
+        permissionDiv.className = `alert ${alertClass}`;
+        permissionDiv.innerHTML = message;
+    }
+    
+    async loadStats() {
+        try {
+            const response = await fetch('/api/pwa/push/stats/');
+            if (response.ok) {
+                const stats = await response.json();
+                this.displayStats(stats);
+            }
+        } catch (error) {
+            console.error('Failed to load notification stats:', error);
+        }
+    }
+    
+    displayStats(stats) {
+        document.getElementById('total-sent').textContent = stats.total_sent || 0;
+        document.getElementById('total-delivered').textContent = stats.total_delivered || 0;
+        document.getElementById('total-clicked').textContent = stats.total_clicked || 0;
+        document.getElementById('last-7-days').textContent = stats.last_7_days?.sent || 0;
+    }
+    
+    setupEventListeners() {
+        // 방해 금지 시간 토글
+        document.getElementById('quiet-hours-enabled').addEventListener('change', () => {
+            this.toggleQuietHours();
+        });
+    }
+    
+    toggleQuietHours() {
+        const enabled = document.getElementById('quiet-hours-enabled').checked;
+        const settings = document.getElementById('quiet-hours-settings');
+        
+        if (enabled) {
+            settings.classList.remove('d-none');
+        } else {
+            settings.classList.add('d-none');
+        }
+    }
+    
+    getSettingsFromUI() {
+        return {
+            enabled: document.getElementById('push-enabled').checked,
+            types: {
+                notion_sync: document.getElementById('notion-sync').checked,
+                task_updates: document.getElementById('task-updates').checked,
+                system_updates: document.getElementById('system-updates').checked,
+                offline_sync: document.getElementById('offline-sync').checked
+            },
+            quiet_hours: {
+                enabled: document.getElementById('quiet-hours-enabled').checked,
+                start: document.getElementById('quiet-start').value,
+                end: document.getElementById('quiet-end').value,
+                timezone: document.getElementById('timezone').value
+            },
+            sound: {
+                enabled: document.getElementById('sound-enabled').checked,
+                volume: 0.8
+            },
+            vibration: {
+                enabled: document.getElementById('vibration-enabled').checked,
+                pattern: [100, 50, 100]
+            }
+        };
+    }
+    
+    async saveSettings() {
+        try {
+            const settings = this.getSettingsFromUI();
+            
+            const response = await fetch('/api/pwa/push/settings/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify(settings)
+            });
+            
+            if (response.ok) {
+                this.settings = settings;
+                this.showTestResult('설정이 성공적으로 저장되었습니다', 'success');
+                
+                // Push Manager 설정 업데이트
+                if (this.pushManager) {
+                    await this.pushManager.updateNotificationSettings(settings);
+                }
+            } else {
+                throw new Error('저장 실패');
+            }
+        } catch (error) {
+            console.error('Failed to save settings:', error);
+            this.showTestResult('설정 저장에 실패했습니다', 'danger');
+        }
+    }
+    
+    resetToDefaults() {
+        this.useDefaultSettings();
+        this.showTestResult('기본 설정으로 초기화되었습니다', 'info');
+    }
+    
+    showTestResult(message, type = 'info') {
+        const resultDiv = document.getElementById('test-result');
+        resultDiv.className = `alert alert-${type}`;
+        resultDiv.textContent = message;
+        resultDiv.classList.remove('d-none');
+        
+        setTimeout(() => {
+            resultDiv.classList.add('d-none');
+        }, 5000);
+    }
+}
+
+// 전역 함수들
+async function saveNotificationSettings() {
+    if (window.settingsManager) {
+        await window.settingsManager.saveSettings();
+    }
+}
+
+function resetToDefaults() {
+    if (window.settingsManager) {
+        window.settingsManager.resetToDefaults();
+    }
+}
+
+async function requestPermission() {
+    if (window.pushManager) {
+        try {
+            const granted = await window.pushManager.requestPermission();
+            if (granted) {
+                window.settingsManager.showTestResult('알림 권한이 허용되었습니다', 'success');
+                window.settingsManager.checkPermissionStatus();
+            } else {
+                window.settingsManager.showTestResult('알림 권한이 거부되었습니다', 'danger');
+            }
+        } catch (error) {
+            window.settingsManager.showTestResult('권한 요청 중 오류가 발생했습니다', 'danger');
+        }
+    }
+}
+
+async function subscribeToPush() {
+    if (window.pushManager) {
+        try {
+            await window.pushManager.subscribe();
+            window.settingsManager.showTestResult('푸시 알림 구독이 완료되었습니다', 'success');
+        } catch (error) {
+            window.settingsManager.showTestResult('푸시 알림 구독에 실패했습니다: ' + error.message, 'danger');
+        }
+    }
+}
+
+async function testLocalNotification() {
+    if (window.pushManager) {
+        try {
+            await window.pushManager.showLocalNotification('테스트 알림', {
+                body: '로컬 알림 테스트가 성공적으로 실행되었습니다!',
+                icon: '/static/images/icons/icon-192x192.png'
+            });
+            window.settingsManager.showTestResult('로컬 알림이 전송되었습니다', 'success');
+        } catch (error) {
+            window.settingsManager.showTestResult('로컬 알림 전송에 실패했습니다: ' + error.message, 'danger');
+        }
+    }
+}
+
+async function testPushNotification() {
+    if (window.pushManager) {
+        try {
+            await window.pushManager.sendTestNotification();
+            window.settingsManager.showTestResult('푸시 알림 테스트 요청이 전송되었습니다', 'success');
+        } catch (error) {
+            window.settingsManager.showTestResult('푸시 알림 테스트에 실패했습니다: ' + error.message, 'danger');
+        }
+    }
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// 초기화
+document.addEventListener('DOMContentLoaded', () => {
+    window.settingsManager = new NotificationSettingsManager();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,1023 @@
+{% extends 'field_report/base_mobile.html' %}
+{% load static %}
+
+{% block title %}사진 업로드 - OneSquare{% endblock %}
+
+{% block extra_head %}
+<style>
+    .photo-upload-container {
+        padding: 20px;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    .camera-container {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 4/3;
+        background: #000;
+        border-radius: 20px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+    
+    .camera-video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .camera-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 20px;
+        background: linear-gradient(
+            to bottom,
+            rgba(0,0,0,0.3) 0%,
+            transparent 20%,
+            transparent 80%,
+            rgba(0,0,0,0.3) 100%
+        );
+    }
+    
+    .camera-controls-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .camera-controls-bottom {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+    }
+    
+    .camera-btn {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    
+    .camera-btn:hover {
+        transform: scale(1.1);
+    }
+    
+    .camera-btn:active {
+        transform: scale(0.95);
+    }
+    
+    .capture-btn {
+        width: 80px;
+        height: 80px;
+        background: white;
+        color: #333;
+        border: 6px solid rgba(255,255,255,0.3);
+        position: relative;
+    }
+    
+    .capture-btn::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 60px;
+        background: #fff;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+    }
+    
+    .capture-btn:active::after {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .switch-camera-btn {
+        background: rgba(255,255,255,0.2);
+        color: white;
+    }
+    
+    .flash-btn {
+        background: rgba(255,255,255,0.2);
+        color: white;
+    }
+    
+    .flash-btn.active {
+        background: #ffc107;
+        color: #000;
+    }
+    
+    .camera-status {
+        background: rgba(0,0,0,0.6);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        backdrop-filter: blur(10px);
+    }
+    
+    .photo-gallery {
+        margin: 30px 0;
+    }
+    
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+        margin: 20px 0;
+    }
+    
+    .photo-item {
+        position: relative;
+        aspect-ratio: 1;
+        border-radius: 15px;
+        overflow: hidden;
+        background: #f8f9fa;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .photo-item.selected {
+        border-color: #007bff;
+        transform: scale(0.95);
+    }
+    
+    .photo-item.uploading {
+        border-color: #ffc107;
+    }
+    
+    .photo-item.uploaded {
+        border-color: #28a745;
+    }
+    
+    .photo-item.error {
+        border-color: #dc3545;
+    }
+    
+    .photo-thumbnail {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .photo-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 8px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .photo-item:hover .photo-overlay {
+        opacity: 1;
+    }
+    
+    .photo-actions {
+        display: flex;
+        justify-content: flex-end;
+    }
+    
+    .photo-action-btn {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        margin-left: 4px;
+    }
+    
+    .delete-btn {
+        background: #dc3545;
+        color: white;
+    }
+    
+    .photo-info {
+        color: white;
+        font-size: 0.7rem;
+    }
+    
+    .upload-progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: rgba(255,255,255,0.3);
+        overflow: hidden;
+    }
+    
+    .progress-bar {
+        height: 100%;
+        background: #007bff;
+        width: 0;
+        transition: width 0.3s ease;
+    }
+    
+    .batch-upload-controls {
+        display: flex;
+        gap: 10px;
+        margin: 20px 0;
+    }
+    
+    .batch-btn {
+        flex: 1;
+        height: 50px;
+        border-radius: 12px;
+        border: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    
+    .upload-all-btn {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    }
+    
+    .upload-all-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+    }
+    
+    .upload-all-btn:disabled {
+        background: #6c757d;
+        transform: none;
+        box-shadow: none;
+    }
+    
+    .delete-selected-btn {
+        background: #dc3545;
+        color: white;
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+    }
+    
+    .upload-stats {
+        background: rgba(108, 117, 125, 0.1);
+        border: 1px solid rgba(108, 117, 125, 0.2);
+        border-radius: 12px;
+        padding: 15px;
+        margin: 20px 0;
+    }
+    
+    .stats-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 5px 0;
+    }
+    
+    .compression-info {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-top: 10px;
+        text-align: center;
+    }
+    
+    .photo-type-selector {
+        margin: 20px 0;
+    }
+    
+    .photo-type-selector select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        font-size: 1rem;
+    }
+    
+    .capture-mode-toggle {
+        display: flex;
+        background: rgba(255,255,255,0.2);
+        border-radius: 25px;
+        padding: 4px;
+        backdrop-filter: blur(10px);
+    }
+    
+    .mode-btn {
+        padding: 8px 16px;
+        border: none;
+        background: transparent;
+        color: white;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+    }
+    
+    .mode-btn.active {
+        background: white;
+        color: #333;
+    }
+    
+    @keyframes flash-animation {
+        0% { background: transparent; }
+        50% { background: rgba(255,255,255,0.8); }
+        100% { background: transparent; }
+    }
+    
+    .camera-flash {
+        animation: flash-animation 0.3s ease;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="photo-upload-container">
+    <!-- 카메라 컨테이너 -->
+    <div class="camera-container" id="camera-container" style="display: none;">
+        <video id="camera-video" class="camera-video" autoplay playsinline muted></video>
+        
+        <div class="camera-overlay">
+            <div class="camera-controls-top">
+                <div class="camera-status" id="camera-status">
+                    <i class="bi bi-camera"></i>
+                    <span>카메라 준비 중...</span>
+                </div>
+                
+                <div class="capture-mode-toggle">
+                    <button class="mode-btn active" data-mode="single">단일</button>
+                    <button class="mode-btn" data-mode="continuous">연속</button>
+                </div>
+            </div>
+            
+            <div class="camera-controls-bottom">
+                <button id="switch-camera-btn" class="camera-btn switch-camera-btn" title="카메라 전환">
+                    <i class="bi bi-arrow-repeat"></i>
+                </button>
+                
+                <button id="capture-btn" class="camera-btn capture-btn" title="사진 촬영">
+                </button>
+                
+                <button id="flash-btn" class="camera-btn flash-btn" title="플래시">
+                    <i class="bi bi-lightning"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 카메라 시작 버튼 -->
+    <div id="start-camera-section">
+        <div class="text-center mb-4">
+            <button id="start-camera-btn" class="btn btn-primary btn-lg">
+                <i class="bi bi-camera"></i>
+                카메라 시작
+            </button>
+        </div>
+    </div>
+
+    <!-- 사진 유형 선택 -->
+    <div class="photo-type-selector">
+        <label class="form-label">사진 유형</label>
+        <select id="photo-type-select" class="form-select">
+            <option value="before">작업 전</option>
+            <option value="during">작업 중</option>
+            <option value="after">작업 후</option>
+            <option value="issue">문제점</option>
+            <option value="equipment">장비</option>
+            <option value="material">자재</option>
+            <option value="other">기타</option>
+        </select>
+    </div>
+
+    <!-- 사진 갤러리 -->
+    <div class="photo-gallery">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5><i class="bi bi-images"></i> 촬영한 사진 (<span id="photo-count">0</span>)</h5>
+            <button id="select-all-btn" class="btn btn-outline-secondary btn-sm">전체 선택</button>
+        </div>
+        
+        <div id="gallery-grid" class="gallery-grid">
+            <!-- 동적으로 사진들이 추가됨 -->
+        </div>
+        
+        <!-- 배치 업로드 컨트롤 -->
+        <div class="batch-upload-controls">
+            <button id="upload-all-btn" class="batch-btn upload-all-btn" disabled>
+                <i class="bi bi-cloud-upload"></i>
+                모두 업로드 (<span id="selected-count">0</span>)
+            </button>
+            <button id="delete-selected-btn" class="batch-btn delete-selected-btn" disabled>
+                <i class="bi bi-trash"></i>
+                선택 삭제
+            </button>
+        </div>
+    </div>
+
+    <!-- 업로드 통계 -->
+    <div class="upload-stats" id="upload-stats" style="display: none;">
+        <div class="stats-row">
+            <span>총 사진:</span>
+            <span id="total-photos">0개</span>
+        </div>
+        <div class="stats-row">
+            <span>업로드 완료:</span>
+            <span id="uploaded-photos">0개</span>
+        </div>
+        <div class="stats-row">
+            <span>업로드 중:</span>
+            <span id="uploading-photos">0개</span>
+        </div>
+        <div class="stats-row">
+            <span>총 용량 (압축 전):</span>
+            <span id="original-size">0 MB</span>
+        </div>
+        <div class="stats-row">
+            <span>압축 후 용량:</span>
+            <span id="compressed-size">0 MB</span>
+        </div>
+        <div class="compression-info">
+            평균 압축률: <strong id="compression-ratio">0%</strong> 절약
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block bottom_actions %}
+<div class="d-flex gap-2 p-3">
+    <button class="btn btn-outline-primary flex-fill" onclick="goBack()">
+        <i class="bi bi-arrow-left"></i> 뒤로
+    </button>
+    <button class="btn btn-success flex-fill" onclick="finishPhotoUpload()" disabled id="finish-btn">
+        <i class="bi bi-check-circle"></i> 완료
+    </button>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- 카메라 캡처 모듈 -->
+<script src="{% static 'js/modules/camera-capture.js' %}"></script>
+<!-- 오프라인 저장 모듈 -->
+<script src="{% static 'js/modules/offline-storage.js' %}"></script>
+
+<script>
+class PhotoUploadManager {
+    constructor() {
+        this.photos = [];
+        this.selectedPhotos = new Set();
+        this.isUploading = false;
+        this.captureMode = 'single';
+        this.currentPhotoType = 'other';
+        this.uploadProgress = {};
+        
+        this.init();
+    }
+
+    async init() {
+        console.log('[PhotoUploadManager] Initializing photo upload manager...');
+        
+        // 카메라 캡처 이벤트 등록
+        cameraCapture.on('photoTaken', this.handlePhotoTaken.bind(this));
+        cameraCapture.on('error', this.handleCameraError.bind(this));
+        cameraCapture.on('streamReady', this.handleStreamReady.bind(this));
+        
+        // UI 이벤트 등록
+        this.setupEventListeners();
+        
+        // 초기 상태 설정
+        this.updateUI();
+        
+        console.log('[PhotoUploadManager] Photo upload manager initialized');
+    }
+
+    setupEventListeners() {
+        // 카메라 시작 버튼
+        document.getElementById('start-camera-btn').addEventListener('click', () => {
+            this.startCamera();
+        });
+
+        // 촬영 버튼
+        document.getElementById('capture-btn').addEventListener('click', () => {
+            this.capturePhoto();
+        });
+
+        // 카메라 전환 버튼
+        document.getElementById('switch-camera-btn').addEventListener('click', () => {
+            this.switchCamera();
+        });
+
+        // 플래시 버튼
+        document.getElementById('flash-btn').addEventListener('click', () => {
+            this.toggleFlash();
+        });
+
+        // 촬영 모드 전환
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                this.switchCaptureMode(e.target.dataset.mode);
+            });
+        });
+
+        // 사진 유형 선택
+        document.getElementById('photo-type-select').addEventListener('change', (e) => {
+            this.currentPhotoType = e.target.value;
+        });
+
+        // 배치 업로드 컨트롤
+        document.getElementById('upload-all-btn').addEventListener('click', () => {
+            this.uploadSelectedPhotos();
+        });
+
+        document.getElementById('delete-selected-btn').addEventListener('click', () => {
+            this.deleteSelectedPhotos();
+        });
+
+        document.getElementById('select-all-btn').addEventListener('click', () => {
+            this.toggleSelectAll();
+        });
+    }
+
+    async startCamera() {
+        try {
+            const video = document.getElementById('camera-video');
+            const success = await cameraCapture.startCamera(video);
+            
+            if (success) {
+                document.getElementById('start-camera-section').style.display = 'none';
+                document.getElementById('camera-container').style.display = 'block';
+            }
+        } catch (error) {
+            console.error('[PhotoUploadManager] Failed to start camera:', error);
+            this.showToast('카메라를 시작할 수 없습니다.', 'error');
+        }
+    }
+
+    async capturePhoto() {
+        if (!cameraCapture.isCapturing) {
+            this.showToast('카메라가 준비되지 않았습니다.', 'warning');
+            return;
+        }
+
+        try {
+            // 플래시 효과
+            this.triggerFlashEffect();
+
+            // 사진 촬영
+            const processedImages = await cameraCapture.capturePhoto({
+                photoType: this.currentPhotoType
+            });
+
+            // 햅틱 피드백
+            if (window.touchGestureManager) {
+                window.touchGestureManager.hapticFeedback('success');
+            }
+
+            this.showToast('사진이 촬영되었습니다.', 'success');
+
+        } catch (error) {
+            console.error('[PhotoUploadManager] Failed to capture photo:', error);
+            this.showToast('사진 촬영에 실패했습니다.', 'error');
+        }
+    }
+
+    handlePhotoTaken(processedImages) {
+        const photo = {
+            id: Date.now() + Math.random(),
+            ...processedImages,
+            type: this.currentPhotoType,
+            selected: false,
+            uploadStatus: 'pending', // pending, uploading, uploaded, error
+            uploadProgress: 0,
+            capturedAt: new Date(),
+            caption: ''
+        };
+
+        this.photos.unshift(photo);
+        this.addPhotoToGallery(photo);
+        this.updateUI();
+        
+        console.log('[PhotoUploadManager] Photo added to gallery:', photo.id);
+    }
+
+    addPhotoToGallery(photo) {
+        const galleryGrid = document.getElementById('gallery-grid');
+        const photoElement = document.createElement('div');
+        photoElement.className = 'photo-item';
+        photoElement.dataset.photoId = photo.id;
+        
+        photoElement.innerHTML = `
+            <img src="${photo.thumbnail.dataUrl}" alt="사진" class="photo-thumbnail">
+            <div class="photo-overlay">
+                <div class="photo-actions">
+                    <button class="photo-action-btn delete-btn" onclick="photoManager.deletePhoto('${photo.id}')">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+                <div class="photo-info">
+                    <div>${this.getPhotoTypeLabel(photo.type)}</div>
+                    <div>${this.formatFileSize(photo.compressed.size)}</div>
+                    <div>압축률: ${photo.compressionRatio}%</div>
+                </div>
+            </div>
+            <div class="upload-progress">
+                <div class="progress-bar" style="width: ${photo.uploadProgress}%"></div>
+            </div>
+        `;
+        
+        // 클릭 이벤트 (선택/해제)
+        photoElement.addEventListener('click', (e) => {
+            if (!e.target.closest('.photo-action-btn')) {
+                this.togglePhotoSelection(photo.id);
+            }
+        });
+        
+        galleryGrid.insertBefore(photoElement, galleryGrid.firstChild);
+    }
+
+    togglePhotoSelection(photoId) {
+        const photo = this.photos.find(p => p.id == photoId);
+        const photoElement = document.querySelector(`[data-photo-id="${photoId}"]`);
+        
+        if (!photo || !photoElement) return;
+
+        if (this.selectedPhotos.has(photoId)) {
+            this.selectedPhotos.delete(photoId);
+            photoElement.classList.remove('selected');
+            photo.selected = false;
+        } else {
+            this.selectedPhotos.add(photoId);
+            photoElement.classList.add('selected');
+            photo.selected = true;
+        }
+        
+        this.updateUI();
+    }
+
+    toggleSelectAll() {
+        const selectAllBtn = document.getElementById('select-all-btn');
+        
+        if (this.selectedPhotos.size === this.photos.length) {
+            // 전체 해제
+            this.selectedPhotos.clear();
+            this.photos.forEach(photo => photo.selected = false);
+            document.querySelectorAll('.photo-item').forEach(el => el.classList.remove('selected'));
+            selectAllBtn.textContent = '전체 선택';
+        } else {
+            // 전체 선택
+            this.selectedPhotos.clear();
+            this.photos.forEach(photo => {
+                this.selectedPhotos.add(photo.id);
+                photo.selected = true;
+            });
+            document.querySelectorAll('.photo-item').forEach(el => el.classList.add('selected'));
+            selectAllBtn.textContent = '선택 해제';
+        }
+        
+        this.updateUI();
+    }
+
+    async uploadSelectedPhotos() {
+        if (this.selectedPhotos.size === 0) {
+            this.showToast('업로드할 사진을 선택해주세요.', 'warning');
+            return;
+        }
+
+        this.isUploading = true;
+        this.updateUI();
+
+        const selectedPhotoIds = Array.from(this.selectedPhotos);
+        let uploadedCount = 0;
+        let errorCount = 0;
+
+        for (const photoId of selectedPhotoIds) {
+            try {
+                const success = await this.uploadSinglePhoto(photoId);
+                if (success) {
+                    uploadedCount++;
+                } else {
+                    errorCount++;
+                }
+            } catch (error) {
+                console.error('[PhotoUploadManager] Upload error:', error);
+                errorCount++;
+            }
+        }
+
+        this.isUploading = false;
+        this.updateUI();
+
+        const message = `업로드 완료: ${uploadedCount}개 성공${errorCount > 0 ? `, ${errorCount}개 실패` : ''}`;
+        this.showToast(message, errorCount > 0 ? 'warning' : 'success');
+    }
+
+    async uploadSinglePhoto(photoId) {
+        const photo = this.photos.find(p => p.id == photoId);
+        const photoElement = document.querySelector(`[data-photo-id="${photoId}"]`);
+        
+        if (!photo || !photoElement) return false;
+
+        try {
+            photo.uploadStatus = 'uploading';
+            photoElement.classList.add('uploading');
+            
+            // FormData 준비
+            const formData = new FormData();
+            formData.append('original_image', photo.original.blob);
+            formData.append('compressed_image', await this.dataUrlToBlob(photo.compressed.dataUrl));
+            formData.append('thumbnail', await this.dataUrlToBlob(photo.thumbnail.dataUrl));
+            formData.append('photo_type', photo.type);
+            formData.append('caption', photo.caption || '');
+            formData.append('metadata', JSON.stringify({
+                ...photo.original.metadata,
+                compressionRatio: photo.compressionRatio,
+                originalSize: photo.original.size,
+                compressedSize: photo.compressed.size
+            }));
+
+            // 업로드 진행상황 추적
+            const progressBar = photoElement.querySelector('.progress-bar');
+            
+            const response = await fetch('/api/field-report/upload-photo/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': window.csrfToken
+                },
+                body: formData
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                photo.uploadStatus = 'uploaded';
+                photo.serverId = result.photo_id;
+                photoElement.classList.remove('uploading');
+                photoElement.classList.add('uploaded');
+                progressBar.style.width = '100%';
+                
+                console.log('[PhotoUploadManager] Photo uploaded successfully:', result.photo_id);
+                return true;
+            } else {
+                throw new Error('Upload failed');
+            }
+
+        } catch (error) {
+            console.error('[PhotoUploadManager] Failed to upload photo:', error);
+            photo.uploadStatus = 'error';
+            photoElement.classList.remove('uploading');
+            photoElement.classList.add('error');
+            
+            // 오프라인 상태면 오프라인 저장소에 저장
+            if (!navigator.onLine && window.offlineStorage) {
+                await this.savePhotoOffline(photo);
+            }
+            
+            return false;
+        }
+    }
+
+    async savePhotoOffline(photo) {
+        try {
+            const offlineData = {
+                type: 'photo',
+                photoId: photo.id,
+                data: {
+                    originalBlob: photo.original.blob,
+                    compressedDataUrl: photo.compressed.dataUrl,
+                    thumbnailDataUrl: photo.thumbnail.dataUrl,
+                    photoType: photo.type,
+                    caption: photo.caption,
+                    metadata: photo.original.metadata
+                },
+                priority: 2
+            };
+
+            await offlineStorage.addToSyncQueue(offlineData);
+            console.log('[PhotoUploadManager] Photo saved offline for later sync');
+        } catch (error) {
+            console.error('[PhotoUploadManager] Failed to save photo offline:', error);
+        }
+    }
+
+    deletePhoto(photoId) {
+        if (confirm('이 사진을 삭제하시겠습니까?')) {
+            this.photos = this.photos.filter(p => p.id != photoId);
+            this.selectedPhotos.delete(photoId);
+            
+            const photoElement = document.querySelector(`[data-photo-id="${photoId}"]`);
+            if (photoElement) {
+                photoElement.remove();
+            }
+            
+            this.updateUI();
+            this.showToast('사진이 삭제되었습니다.', 'info');
+        }
+    }
+
+    deleteSelectedPhotos() {
+        if (this.selectedPhotos.size === 0) {
+            this.showToast('삭제할 사진을 선택해주세요.', 'warning');
+            return;
+        }
+
+        if (confirm(`선택한 ${this.selectedPhotos.size}개의 사진을 삭제하시겠습니까?`)) {
+            const selectedIds = Array.from(this.selectedPhotos);
+            
+            selectedIds.forEach(photoId => {
+                const photoElement = document.querySelector(`[data-photo-id="${photoId}"]`);
+                if (photoElement) {
+                    photoElement.remove();
+                }
+            });
+            
+            this.photos = this.photos.filter(p => !selectedIds.includes(p.id));
+            this.selectedPhotos.clear();
+            
+            this.updateUI();
+            this.showToast(`${selectedIds.length}개 사진이 삭제되었습니다.`, 'info');
+        }
+    }
+
+    switchCaptureMode(mode) {
+        this.captureMode = mode;
+        
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.mode === mode);
+        });
+        
+        console.log('[PhotoUploadManager] Capture mode switched to:', mode);
+    }
+
+    async switchCamera() {
+        try {
+            await cameraCapture.switchCamera();
+            this.showToast('카메라를 전환했습니다.', 'info');
+        } catch (error) {
+            console.error('[PhotoUploadManager] Failed to switch camera:', error);
+            this.showToast('카메라 전환에 실패했습니다.', 'error');
+        }
+    }
+
+    toggleFlash() {
+        const flashBtn = document.getElementById('flash-btn');
+        flashBtn.classList.toggle('active');
+        
+        const isActive = flashBtn.classList.contains('active');
+        this.showToast(isActive ? '플래시가 켜졌습니다.' : '플래시가 꺼졌습니다.', 'info');
+    }
+
+    triggerFlashEffect() {
+        const cameraContainer = document.getElementById('camera-container');
+        cameraContainer.classList.add('camera-flash');
+        setTimeout(() => {
+            cameraContainer.classList.remove('camera-flash');
+        }, 300);
+    }
+
+    handleStreamReady() {
+        const statusElement = document.getElementById('camera-status');
+        statusElement.innerHTML = '<i class="bi bi-camera"></i><span>카메라 준비 완료</span>';
+    }
+
+    handleCameraError(error) {
+        this.showToast(error.message, 'error');
+    }
+
+    updateUI() {
+        // 사진 개수 업데이트
+        document.getElementById('photo-count').textContent = this.photos.length;
+        document.getElementById('selected-count').textContent = this.selectedPhotos.size;
+        
+        // 버튼 상태 업데이트
+        const uploadBtn = document.getElementById('upload-all-btn');
+        const deleteBtn = document.getElementById('delete-selected-btn');
+        const finishBtn = document.getElementById('finish-btn');
+        
+        uploadBtn.disabled = this.selectedPhotos.size === 0 || this.isUploading;
+        deleteBtn.disabled = this.selectedPhotos.size === 0 || this.isUploading;
+        finishBtn.disabled = this.photos.length === 0;
+        
+        // 선택 버튼 텍스트 업데이트
+        const selectAllBtn = document.getElementById('select-all-btn');
+        selectAllBtn.textContent = this.selectedPhotos.size === this.photos.length && this.photos.length > 0 ? '선택 해제' : '전체 선택';
+        
+        // 통계 업데이트
+        this.updateStats();
+    }
+
+    updateStats() {
+        if (this.photos.length === 0) {
+            document.getElementById('upload-stats').style.display = 'none';
+            return;
+        }
+
+        document.getElementById('upload-stats').style.display = 'block';
+        
+        const uploadedPhotos = this.photos.filter(p => p.uploadStatus === 'uploaded').length;
+        const uploadingPhotos = this.photos.filter(p => p.uploadStatus === 'uploading').length;
+        
+        const totalOriginalSize = this.photos.reduce((sum, p) => sum + p.original.size, 0);
+        const totalCompressedSize = this.photos.reduce((sum, p) => sum + p.compressed.size, 0);
+        const averageCompressionRatio = Math.round((totalOriginalSize - totalCompressedSize) / totalOriginalSize * 100);
+        
+        document.getElementById('total-photos').textContent = `${this.photos.length}개`;
+        document.getElementById('uploaded-photos').textContent = `${uploadedPhotos}개`;
+        document.getElementById('uploading-photos').textContent = `${uploadingPhotos}개`;
+        document.getElementById('original-size').textContent = this.formatFileSize(totalOriginalSize);
+        document.getElementById('compressed-size').textContent = this.formatFileSize(totalCompressedSize);
+        document.getElementById('compression-ratio').textContent = `${averageCompressionRatio}%`;
+    }
+
+    getPhotoTypeLabel(type) {
+        const labels = {
+            'before': '작업 전',
+            'during': '작업 중',
+            'after': '작업 후',
+            'issue': '문제점',
+            'equipment': '장비',
+            'material': '자재',
+            'other': '기타'
+        };
+        return labels[type] || type;
+    }
+
+    formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    async dataUrlToBlob(dataUrl) {
+        return await cameraCapture.dataUrlToBlob(dataUrl);
+    }
+
+    showToast(message, type = 'info') {
+        const toast = document.getElementById('toast');
+        const toastBody = toast ? toast.querySelector('.toast-body') : null;
+        
+        if (toastBody) {
+            toastBody.textContent = message;
+            const bootstrapToast = new bootstrap.Toast(toast);
+            bootstrapToast.show();
+        } else {
+            alert(message);
+        }
+    }
+
+    cleanup() {
+        cameraCapture.stopCamera();
+        this.photos = [];
+        this.selectedPhotos.clear();
+        console.log('[PhotoUploadManager] Resources cleaned up');
+    }
+}
+
+// 전역 함수들
+function goBack() {
+    if (photoManager) {
+        photoManager.cleanup();
+    }
+    window.history.back();
+}
+
+function finishPhotoUpload() {
+    const uploadedCount = photoManager.photos.filter(p => p.uploadStatus === 'uploaded').length;
+    
+    if (uploadedCount === 0) {
+        alert('업로드된 사진이 없습니다.');
+        return;
+    }
+    
+    if (confirm(`${uploadedCount}개의 사진이 업로드되었습니다. 완료하시겠습니까?`)) {
+        // 리포트 페이지로 이동 또는 완료 처리
+        window.location.href = '/field-report/';
+    }
+}
+
+// 페이지 로드 시 초기화
+let photoManager;
+document.addEventListener('DOMContentLoaded', () => {
+    photoManager = new PhotoUploadManager();
+});
+
+// 페이지 언로드 시 정리
+window.addEventListener('beforeunload', () => {
+    if (photoManager) {
+        photoManager.cleanup();
+    }
+});
+</script>
+{% endblock %}

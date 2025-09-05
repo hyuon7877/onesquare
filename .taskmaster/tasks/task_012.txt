@@ -1,0 +1,19 @@
+# Task ID: 12
+# Title: 멀티미디어 피드백 시스템
+# Status: pending
+# Dependencies: 7, 8
+# Priority: medium
+# Description: 파트너-관리자 간 양방향 피드백 시스템
+# Details:
+사진/동영상 업로드, 인라인 댓글, 스레드형 대화, 피드백 상태 관리, 자동 압축
+
+# Test Strategy:
+파일 업로드 테스트, 압축 용량 확인, 실시간 피드백 전송 테스트
+
+# Subtasks:
+## 1. 멀티미디어 업로드 및 피드백 시스템 [pending]
+### Dependencies: None
+### Description: 사진/동영상 업로드, 스레드형 댓글 시스템
+### Details:
+파일 업로드, 자동 압축, 인라인 댓글, 스레드형 대화, 피드백 상태 관리
+

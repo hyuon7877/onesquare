@@ -1,0 +1,614 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}통합 관리 대시보드 - OneSquare{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="OneSquare 통합 관리 대시보드 - 실시간 매출, 프로젝트, 일정 관리">
+<meta name="keywords" content="대시보드, 매출관리, 프로젝트관리, 일정관리">
+
+<!-- PWA 매니페스트 -->
+<link rel="manifest" href="{% static 'manifest.json' %}">
+<meta name="theme-color" content="{{ user_dashboard.primary_color|default:'#3788d8' }}">
+
+<!-- Dashboard 전용 스타일 -->
+<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+<link href="{% static 'css/widgets.css' %}" rel="stylesheet">
+<link href="{% static 'css/notification-system.css' %}" rel="stylesheet">
+<link href="{% static 'css/performance-optimization.css' %}" rel="stylesheet">
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+    /* 커스텀 테마 적용 */
+    :root {
+        --primary-color: {{ user_dashboard.primary_color|default:'#3788d8' }};
+        --dashboard-theme: {{ user_dashboard.theme|default:'light' }};
+    }
+    
+    .dashboard-container {
+        padding: 20px;
+        background: {{ user_dashboard.theme == 'dark'|yesno:'#1a1a1a,#f8f9fa' }};
+        min-height: 100vh;
+    }
+    
+    .widget-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+    
+    .dashboard-widget {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+    }
+    
+    .dashboard-widget:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    
+    .widget-header {
+        padding: 15px 20px;
+        border-bottom: 1px solid #eee;
+        background: linear-gradient(135deg, var(--primary-color), #4a9eff);
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .widget-body {
+        padding: 20px;
+        min-height: 200px;
+    }
+    
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .connection-status {
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        z-index: 1000;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    
+    .connection-status.online {
+        background: #28a745;
+        color: white;
+    }
+    
+    .connection-status.offline {
+        background: #ffc107;
+        color: #333;
+    }
+    
+    .notification-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: #dc3545;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    
+    @media (max-width: 768px) {
+        .dashboard-container {
+            padding: 10px;
+        }
+        
+        .widget-grid {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .dashboard-header {
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- 연결 상태 표시 -->
+    <div class="connection-status online" id="connectionStatus">
+        <i class="fas fa-wifi"></i> 온라인
+    </div>
+
+    <!-- 대시보드 헤더 -->
+    <div class="dashboard-header">
+        <div class="dashboard-title">
+            <h1 class="mb-0">
+                <i class="fas fa-tachometer-alt text-primary"></i>
+                통합 관리 대시보드
+            </h1>
+            <p class="text-muted mb-0">
+                안녕하세요, {{ user.get_full_name|default:user.username }}님 
+                ({{ user.get_user_type_display }})
+            </p>
+        </div>
+        
+        <div class="dashboard-controls">
+            <!-- 새로고침 버튼 -->
+            <button class="btn btn-outline-primary me-2" onclick="dashboard.refreshAll()">
+                <i class="fas fa-sync-alt"></i> 새로고침
+            </button>
+            
+            <!-- Notion 동기화 버튼 -->
+            <button class="btn btn-outline-info me-2" onclick="triggerNotionSync()">
+                <i class="fas fa-cloud-download-alt"></i> Notion 동기화
+            </button>
+            
+            <!-- 알림 버튼 -->
+            <div id="notification-bell" class="notification-bell">
+                <i class="fas fa-bell"></i>
+                <span class="badge" id="notification-badge">0</span>
+            </div>
+            
+            <!-- 알림 설정 버튼 -->
+            <a href="/dashboard/notifications/settings/" class="btn btn-outline-secondary me-2" title="알림 설정">
+                <i class="fas fa-cog"></i>
+            </a>
+            
+            <!-- 위젯 추가 버튼 -->
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addWidgetModal">
+                <i class="fas fa-plus"></i> 위젯 추가
+            </button>
+        </div>
+    </div>
+
+    <!-- 위젯 그리드 -->
+    <div class="widget-grid" id="widgetGrid">
+        {% for user_widget in user_widgets %}
+            <div class="dashboard-widget" 
+                 data-widget-id="{{ user_widget.widget.id }}"
+                 data-widget-type="{{ user_widget.widget.widget_type }}"
+                 data-data-source="{{ user_widget.widget.data_source }}"
+                 data-order="{{ user_widget.order }}"
+                 data-priority="{% if user_widget.widget.widget_type == 'stats' or user_widget.widget.data_source == 'realtime' %}high{% elif user_widget.widget.widget_type == 'chart' %}normal{% else %}low{% endif %}"
+                 data-chart-type="{{ user_widget.widget.config.chart_type|default:'bar' }}"
+                 data-title="{{ user_widget.custom_title|default:user_widget.widget.title }}"
+                 data-icon="{{ user_widget.widget.config.icon|default:'chart-line' }}"
+                 style="grid-column: span {{ user_widget.width|default:4 }}; min-height: 250px;">
+                
+                <div class="widget-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-{{ user_widget.widget.config.icon|default:'chart-line' }}"></i>
+                        {{ user_widget.custom_title|default:user_widget.widget.title }}
+                    </h5>
+                    
+                    <div class="widget-actions">
+                        <button class="btn btn-sm btn-outline-light" onclick="refreshWidget('{{ user_widget.widget.id }}')">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-light" onclick="removeWidget('{{ user_widget.widget.id }}')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="widget-body" id="widget_{{ user_widget.widget.id }}">
+                    <!-- 위젯 내용이 여기에 동적으로 로드됩니다 -->
+                    <div class="widget-loading text-center py-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">위젯을 로드하는 중...</p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-chart-line fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">표시할 위젯이 없습니다</h4>
+                <p class="text-muted">아래 버튼을 클릭하여 위젯을 추가해보세요.</p>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addWidgetModal">
+                    <i class="fas fa-plus"></i> 첫 번째 위젯 추가하기
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- 위젯 추가 모달 -->
+<div class="modal fade" id="addWidgetModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-plus text-primary"></i>
+                    위젯 추가
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="row">
+                    {% for widget in available_widgets %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card widget-card h-100" onclick="selectWidget('{{ widget.id }}')">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        <i class="fas fa-{{ widget.config.icon|default:'chart-line' }} text-primary"></i>
+                                        {{ widget.title }}
+                                    </h6>
+                                    <p class="card-text text-muted">{{ widget.description }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">{{ widget.get_widget_type_display }}</small>
+                                        <small class="text-muted">{{ widget.get_data_source_display }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 알림 모달 -->
+<div class="modal fade" id="notificationsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-bell text-primary"></i>
+                    알림
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            
+            <div class="modal-body" id="notificationsContent">
+                <div class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p class="mt-2">알림을 불러오는 중...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- 성능 최적화 모듈 -->
+<script src="{% static 'js/modules/performance-monitor.js' %}"></script>
+<script src="{% static 'js/modules/resource-optimizer.js' %}"></script>
+<script src="{% static 'js/modules/dashboard-performance-optimizer.js' %}"></script>
+
+<!-- Chart 라이브러리 -->
+<script src="{% static 'js/modules/charts/svg-charts.js' %}"></script>
+
+<!-- Dashboard 관리자 -->
+<script src="{% static 'js/modules/dashboard-realtime.js' %}"></script>
+
+<!-- Notification System -->
+<script src="{% static 'js/modules/notification-system.js' %}"></script>
+
+<script>
+    // 전역 대시보드 관리자 초기화
+    const dashboard = new DashboardManager({
+        refreshInterval: 300000, // 5분
+        enableOffline: true,
+        enableNotifications: true,
+        apiEndpoint: '{% url "dashboard:data_api" %}'.replace(/data\/$/, '')
+    });
+
+    // 페이지 로드 완료 후 초기화
+    document.addEventListener('DOMContentLoaded', function() {
+        // 기존 위젯들 등록
+        {% for user_widget in user_widgets %}
+            dashboard.registerWidget('{{ user_widget.widget.id }}', {
+                type: '{{ user_widget.widget.widget_type }}',
+                dataSource: '{{ user_widget.widget.data_source }}',
+                container: 'widget_{{ user_widget.widget.id }}',
+                refreshInterval: {{ user_widget.widget.refresh_interval|default:300 }}000,
+                chartOptions: {
+                    title: '{{ user_widget.custom_title|default:user_widget.widget.title }}',
+                    width: {{ user_widget.width|default:4 }} * 80,
+                    height: {{ user_widget.height|default:300 }},
+                    ...{{ user_widget.widget.config|safe }}
+                }
+            });
+        {% endfor %}
+
+        // 알림 로드
+        loadNotifications();
+        
+        // 연결 상태 체크
+        updateConnectionStatus();
+        
+        console.log('✅ Dashboard initialized with {{ user_widgets.count }} widgets');
+    });
+
+    // 위젯 관련 함수들
+    function selectWidget(widgetId) {
+        // AJAX 요청으로 위젯 추가
+        fetch('{% url "dashboard:add_widget" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: `widget_id=${widgetId}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload(); // 페이지 새로고침
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Widget add failed:', error);
+            alert('위젯 추가 중 오류가 발생했습니다.');
+        });
+        
+        // 모달 닫기
+        bootstrap.Modal.getInstance(document.getElementById('addWidgetModal')).hide();
+    }
+
+    function refreshWidget(widgetId) {
+        dashboard.loadWidgetData(widgetId, false);
+    }
+
+    function removeWidget(widgetId) {
+        if (confirm('이 위젯을 제거하시겠습니까?')) {
+            // TODO: 위젯 제거 API 구현
+            console.log('Remove widget:', widgetId);
+        }
+    }
+
+    // Notion 동기화 함수
+    function triggerNotionSync() {
+        const button = event.target;
+        const originalText = button.innerHTML;
+        
+        // 버튼 비활성화 및 로딩 표시
+        button.disabled = true;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 동기화 중...';
+        
+        fetch('/dashboard/api/notion-sync/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // 알림 표시
+                showNotification('success', 'Notion 동기화가 완료되었습니다.');
+                
+                // 알림 및 대시보드 새로고침
+                if (window.notificationSystem) {
+                    window.notificationSystem.loadNotifications();
+                }
+                dashboard.refreshAll();
+            } else {
+                showNotification('error', data.message || 'Notion 동기화 중 오류가 발생했습니다.');
+            }
+        })
+        .catch(error => {
+            console.error('Notion sync failed:', error);
+            showNotification('error', 'Notion 동기화 중 오류가 발생했습니다.');
+        })
+        .finally(() => {
+            // 버튼 원상복구
+            button.disabled = false;
+            button.innerHTML = originalText;
+        });
+    }
+
+    // 알림 관련 함수들
+    function loadNotifications() {
+        fetch('/dashboard/api/notifications/')
+            .then(response => response.json())
+            .then(data => {
+                updateNotificationBadge(data.unread_count);
+                renderNotifications(data.notifications);
+            })
+            .catch(error => {
+                console.error('Notifications load failed:', error);
+            });
+    }
+
+    function renderNotifications(notifications) {
+        const content = document.getElementById('notificationsContent');
+        
+        if (notifications.length === 0) {
+            content.innerHTML = `
+                <div class="text-center py-4">
+                    <i class="fas fa-bell-slash fa-2x text-muted mb-3"></i>
+                    <p class="text-muted">새로운 알림이 없습니다.</p>
+                </div>
+            `;
+            return;
+        }
+
+        const notificationsHtml = notifications.map(notification => `
+            <div class="notification-item ${notification.is_read ? '' : 'unread'}" data-id="${notification.id}">
+                <div class="d-flex">
+                    <div class="notification-icon me-3">
+                        <i class="fas fa-${getNotificationIcon(notification.type)} text-${getNotificationColor(notification.type)}"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h6 class="mb-1">${notification.title}</h6>
+                        <p class="mb-1 text-muted">${notification.message}</p>
+                        <small class="text-muted">${formatDateTime(notification.created_at)}</small>
+                    </div>
+                    ${!notification.is_read ? `
+                        <div class="notification-actions">
+                            <button class="btn btn-sm btn-outline-primary" onclick="markAsRead('${notification.id}')">
+                                읽음
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+        `).join('');
+
+        content.innerHTML = notificationsHtml;
+    }
+
+    function markAsRead(notificationId) {
+        fetch(`/dashboard/notification/${notificationId}/read/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                loadNotifications(); // 알림 목록 새로고침
+            }
+        })
+        .catch(error => {
+            console.error('Mark as read failed:', error);
+        });
+    }
+
+    function updateNotificationBadge(count) {
+        const badge = document.getElementById('notificationBadge');
+        badge.textContent = count;
+        badge.style.display = count > 0 ? 'flex' : 'none';
+    }
+
+    function updateConnectionStatus() {
+        const statusElement = document.getElementById('connectionStatus');
+        if (navigator.onLine) {
+            statusElement.className = 'connection-status online';
+            statusElement.innerHTML = '<i class="fas fa-wifi"></i> 온라인';
+        } else {
+            statusElement.className = 'connection-status offline';
+            statusElement.innerHTML = '<i class="fas fa-wifi-slash"></i> 오프라인';
+        }
+    }
+
+    // 유틸리티 함수들
+    function getNotificationIcon(type) {
+        const icons = {
+            'info': 'info-circle',
+            'warning': 'exclamation-triangle',
+            'error': 'times-circle',
+            'success': 'check-circle',
+            'urgent': 'exclamation'
+        };
+        return icons[type] || 'bell';
+    }
+
+    function getNotificationColor(type) {
+        const colors = {
+            'info': 'info',
+            'warning': 'warning',
+            'error': 'danger',
+            'success': 'success',
+            'urgent': 'danger'
+        };
+        return colors[type] || 'primary';
+    }
+
+    function formatDateTime(isoString) {
+        const date = new Date(isoString);
+        return date.toLocaleDateString('ko-KR') + ' ' + date.toLocaleTimeString('ko-KR');
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // 네트워크 상태 변경 감지
+    window.addEventListener('online', updateConnectionStatus);
+    window.addEventListener('offline', updateConnectionStatus);
+
+    // PWA 설치 프롬프트
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        deferredPrompt = e;
+        // PWA 설치 버튼 표시 로직
+        console.log('PWA install prompt available');
+    });
+</script>
+
+<style>
+.widget-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.widget-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.notification-item {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
+}
+
+.notification-item:hover {
+    background-color: #f8f9fa;
+}
+
+.notification-item.unread {
+    background-color: rgba(55, 136, 216, 0.05);
+    border-left: 3px solid var(--primary-color);
+}
+
+.notification-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
+{% endblock %}

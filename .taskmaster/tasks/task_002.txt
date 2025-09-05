@@ -1,0 +1,61 @@
+# Task ID: 2
+# Title: 사용자 인증 시스템 개발
+# Status: done
+# Dependencies: 1
+# Priority: high
+# Description: Django 기반 다중 사용자 타입별 인증 시스템 구현
+# Details:
+파트너용 OTP 인증, 관리자/팀원용 이메일+비밀번호 인증, 세션 관리, CSRF 토큰 보안, 자동 로그아웃 기능
+
+# Test Strategy:
+각 사용자 타입별 로그인 테스트, 세션 만료 테스트, 동시 로그인 제한 테스트
+
+# Subtasks:
+## 1. Django User 모델 확장 [done]
+### Dependencies: None
+### Description: 기본 User 모델 확장 및 커스텀 필드 추가
+### Details:
+AbstractUser 상속, 사용자 타입 필드, 전화번호, 프로필 이미지
+
+## 2. 6개 사용자 그룹 생성 및 권한 설정 [done]
+### Dependencies: None
+### Description: 최고관리자, 중간관리자, 팀원, 파트너, 도급사, 커스텀 그룹
+### Details:
+Django Groups 모델 활용, 각 그룹별 기본 권한 할당
+
+## 3. 파트너용 OTP 인증 시스템 [done]
+### Dependencies: None
+### Description: SMS/이메일 OTP 발송 및 검증 시스템
+### Details:
+OTP 생성, SMS API 연동, 이메일 발송, 6자리 코드 검증, 5분 만료
+
+## 4. 관리자/팀원용 이메일 로그인 [done]
+### Dependencies: None
+### Description: 이메일+비밀번호 기반 로그인 시스템
+### Details:
+Django 기본 인증 확장, 로그인 폼, 비밀번호 복잡도 검증
+
+## 5. 세션 관리 시스템 [done]
+### Dependencies: None
+### Description: 세션 만료, 자동 로그아웃, 보안 설정
+### Details:
+세션 만료 시간, 비활성 시간 체크, 중복 로그인 방지
+
+## 6. CSRF 보안 설정 [done]
+### Dependencies: None
+### Description: CSRF 토큰 관리 및 보안 헤더
+### Details:
+CSRF 미들웨어, 토큰 검증, 보안 헤더 설정
+
+## 7. 사용자 권한 검증 데코레이터 [done]
+### Dependencies: None
+### Description: 뷰에서 권한 체크를 위한 데코레이터
+### Details:
+@login_required, @group_required, @permission_required 데코레이터
+
+## 8. 인증 테스트 및 UI 연동 [done]
+### Dependencies: None
+### Description: 로그인 폼, 테스트 케이스, UI 연동
+### Details:
+로그인/로그아웃 템플릿, 단위 테스트, 통합 테스트, 프론트엔드 연동
+

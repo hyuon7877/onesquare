@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}OneSquare - 로그인{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <img src="{% static 'images/logo.png' %}" alt="OneSquare" class="logo">
+            <h1>OneSquare</h1>
+            <p>통합 팀 관리 시스템</p>
+        </div>
+
+        <div class="auth-tabs">
+            <button class="tab-btn active" data-tab="email">이메일 로그인</button>
+            <button class="tab-btn" data-tab="otp">OTP 인증</button>
+        </div>
+
+        <!-- 이메일 로그인 폼 -->
+        <form id="email-login-form" class="auth-form active">
+            <div class="form-group">
+                <label for="email">이메일</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <div class="form-options">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="remember-me">
+                    <span class="checkmark"></span>
+                    로그인 상태 유지
+                </label>
+                <a href="#" class="forgot-password">비밀번호를 잊으셨나요?</a>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" id="email-login-btn">
+                <span class="btn-text">로그인</span>
+                <span class="btn-loading" style="display: none;">
+                    <i class="spinner"></i> 로그인 중...
+                </span>
+            </button>
+        </form>
+
+        <!-- OTP 인증 폼 -->
+        <form id="otp-form" class="auth-form">
+            <div class="otp-step" id="otp-request-step">
+                <div class="form-group">
+                    <label for="otp-username">사용자명</label>
+                    <input type="text" id="otp-username" name="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>인증 방법</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="delivery_method" value="sms" checked>
+                            <span class="radio-mark"></span>
+                            SMS 인증
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="delivery_method" value="email">
+                            <span class="radio-mark"></span>
+                            이메일 인증
+                        </label>
+                    </div>
+                </div>
+                
+                <button type="button" class="btn btn-primary" id="request-otp-btn">
+                    <span class="btn-text">인증코드 요청</span>
+                    <span class="btn-loading" style="display: none;">
+                        <i class="spinner"></i> 전송 중...
+                    </span>
+                </button>
+            </div>
+
+            <div class="otp-step" id="otp-verify-step" style="display: none;">
+                <div class="form-group">
+                    <label for="otp-code">인증코드</label>
+                    <input type="text" id="otp-code" name="otp_code" maxlength="6" placeholder="6자리 숫자 입력">
+                    <div class="form-help">
+                        <span id="otp-target"></span>로 전송된 6자리 인증코드를 입력하세요.
+                    </div>
+                </div>
+                
+                <div class="otp-timer">
+                    <span id="timer-text">남은 시간: </span>
+                    <span id="timer-countdown">05:00</span>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="resend-otp-btn">
+                        재전송
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="verify-otp-btn">
+                        <span class="btn-text">인증 확인</span>
+                        <span class="btn-loading" style="display: none;">
+                            <i class="spinner"></i> 확인 중...
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="auth-footer">
+            <p>계정이 없으신가요? <a href="{% url 'auth:register' %}">회원가입</a></p>
+            <p class="help-text">
+                파트너/도급사는 OTP 인증을 이용해주세요.<br>
+                관리자 승인 후 로그인 가능합니다.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- 알림 메시지 -->
+<div id="toast-container"></div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/auth/login.js' %}"></script>
+{% endblock %}

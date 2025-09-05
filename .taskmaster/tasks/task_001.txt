@@ -1,0 +1,61 @@
+# Task ID: 1
+# Title: 프로젝트 초기 설정 및 환경 구축
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: Django 5 + PWA + Notion API 통합 개발 환경 구축
+# Details:
+Docker Compose 설정, Django 프로젝트 생성, PWA 기본 구조 설정, HTTPS 인증서 설정, Notion API 연동 테스트
+
+# Test Strategy:
+Docker 컨테이너 실행 확인, HTTPS 접속 테스트, Notion API 연결 테스트
+
+# Subtasks:
+## 1. Docker Compose 기본 설정 [done]
+### Dependencies: None
+### Description: docker-compose.yml 파일 생성 및 기본 서비스 구성
+### Details:
+web, nginx, db 서비스 정의, 네트워크 설정, 볼륨 매핑
+
+## 2. Django Dockerfile 작성 [done]
+### Dependencies: None
+### Description: Django 웹 서비스용 Dockerfile 생성
+### Details:
+Python 3.12 베이스, requirements.txt 설치, 작업 디렉토리 설정
+
+## 3. Nginx 설정 및 Dockerfile [done]
+### Dependencies: None
+### Description: Nginx 역방향 프록시 설정
+### Details:
+nginx.conf 작성, 프록시 패스 설정, 정적 파일 서빙
+
+## 4. SSL 인증서 생성 및 설정 [done]
+### Dependencies: None
+### Description: HTTPS 개발환경용 SSL 인증서
+### Details:
+mkcert 또는 openssl 자체 서명 인증서, nginx SSL 설정
+
+## 5. Django 프로젝트 구조 생성 [done]
+### Dependencies: None
+### Description: src 디렉토리 내 Django 프로젝트 구조
+### Details:
+manage.py, config 디렉토리, apps 디렉토리, templates, static
+
+## 6. Django settings.py 구성 [done]
+### Dependencies: None
+### Description: Django 기본 설정 및 환경별 설정
+### Details:
+DEBUG, ALLOWED_HOSTS, 데이터베이스, 정적파일, CORS 설정
+
+## 7. secrets.json 파일 설정 [done]
+### Dependencies: None
+### Description: 민감한 설정 정보 파일 생성
+### Details:
+Django SECRET_KEY, 데이터베이스 정보, Notion API 키 템플릿
+
+## 8. Docker 컨테이너 실행 및 테스트 [done]
+### Dependencies: None
+### Description: 전체 환경 구동 및 HTTPS 접속 테스트
+### Details:
+docker-compose up, https://localhost:8081 접속, 기본 Django 페이지 확인
+

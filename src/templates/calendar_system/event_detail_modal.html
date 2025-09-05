@@ -1,0 +1,361 @@
+<div class="event-detail-container">
+    <div class="row mb-3">
+        <div class="col-12">
+            <h4 class="mb-1 d-flex align-items-center">
+                <span class="badge me-2" style="background-color: {{ event.category.color|default:'#007bff' }};">
+                    {{ event.category.name|default:'일반' }}
+                </span>
+                {{ event.title }}
+            </h4>
+            <div class="d-flex align-items-center text-muted">
+                <i class="fas fa-user me-1"></i>
+                <span>{{ event.creator.get_full_name }}</span>
+                <span class="mx-2">•</span>
+                <span class="badge badge-{{ event.priority }}" style="
+                    background-color: {% if event.priority == 'low' %}#28a745{% elif event.priority == 'high' %}#ffc107{% elif event.priority == 'urgent' %}#dc3545{% else %}#007bff{% endif %};
+                    color: {% if event.priority == 'high' %}#000{% else %}#fff{% endif %};
+                ">
+                    {{ event.get_priority_display }}
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 기본 정보 -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="info-item mb-2">
+                <strong><i class="fas fa-calendar-alt me-2 text-primary"></i>일정</strong>
+                <div class="ms-4">
+                    {% if event.is_all_day %}
+                        <div>{{ event.start_datetime|date:"Y년 m월 d일 (l)" }}</div>
+                        {% if event.start_datetime.date != event.end_datetime.date %}
+                            <div class="text-muted">~ {{ event.end_datetime|date:"Y년 m월 d일 (l)" }}</div>
+                        {% endif %}
+                        <span class="badge bg-info">종일</span>
+                    {% else %}
+                        <div>{{ event.start_datetime|date:"Y년 m월 d일 (l)" }}</div>
+                        <div class="text-primary">
+                            {{ event.start_datetime|time:"H:i" }} ~ {{ event.end_datetime|time:"H:i" }}
+                        </div>
+                        <small class="text-muted">{{ event.duration_minutes }}분</small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="info-item mb-2">
+                <strong><i class="fas fa-tag me-2 text-success"></i>유형</strong>
+                <div class="ms-4">{{ event.get_event_type_display }}</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 위치 및 URL -->
+    {% if event.location or event.url %}
+    <div class="row mb-3">
+        {% if event.location %}
+        <div class="col-md-6">
+            <div class="info-item mb-2">
+                <strong><i class="fas fa-map-marker-alt me-2 text-danger"></i>장소</strong>
+                <div class="ms-4">{{ event.location }}</div>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if event.url %}
+        <div class="col-md-6">
+            <div class="info-item mb-2">
+                <strong><i class="fas fa-link me-2 text-info"></i>링크</strong>
+                <div class="ms-4">
+                    <a href="{{ event.url }}" target="_blank" class="text-decoration-none">
+                        {{ event.url|truncatechars:50 }} <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+    <!-- 설명 -->
+    {% if event.description %}
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="info-item">
+                <strong><i class="fas fa-align-left me-2 text-secondary"></i>설명</strong>
+                <div class="ms-4 mt-2">
+                    <div class="border rounded p-3 bg-light">
+                        {{ event.description|linebreaks }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- 반복 설정 -->
+    {% if event.recurrence_type != 'none' %}
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="info-item">
+                <strong><i class="fas fa-redo me-2 text-warning"></i>반복 설정</strong>
+                <div class="ms-4">
+                    <span class="badge bg-warning text-dark">{{ event.get_recurrence_type_display }}</span>
+                    {% if event.recurrence_end_date %}
+                        <span class="text-muted ms-2">~ {{ event.recurrence_end_date|date:"Y-m-d" }}까지</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- 참석자 정보 -->
+    {% if attendees %}
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="info-item">
+                <strong><i class="fas fa-users me-2 text-primary"></i>참석자 ({{ attendees.count }}명)</strong>
+                <div class="ms-4 mt-2">
+                    <div class="row">
+                        {% for attendee in attendees %}
+                        <div class="col-md-6 mb-2">
+                            <div class="d-flex align-items-center">
+                                <div class="me-2">
+                                    {% if attendee.status == 'accepted' %}
+                                        <i class="fas fa-check-circle text-success"></i>
+                                    {% elif attendee.status == 'declined' %}
+                                        <i class="fas fa-times-circle text-danger"></i>
+                                    {% elif attendee.status == 'tentative' %}
+                                        <i class="fas fa-question-circle text-warning"></i>
+                                    {% else %}
+                                        <i class="fas fa-clock text-muted"></i>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <div class="fw-medium">{{ attendee.user.get_full_name }}</div>
+                                    <small class="text-muted">{{ attendee.get_status_display }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- 알림 설정 -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="info-item">
+                <strong><i class="fas fa-bell me-2 text-info"></i>알림</strong>
+                <div class="ms-4">{{ event.reminder_minutes }}분 전</div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="info-item">
+                <strong><i class="fas fa-clock me-2 text-secondary"></i>생성일</strong>
+                <div class="ms-4">{{ event.created_at|date:"Y-m-d H:i" }}</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notion 연동 정보 -->
+    {% if event.notion_page_id %}
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="info-item">
+                <strong><i class="fas fa-sync me-2 text-primary"></i>Notion 연동</strong>
+                <div class="ms-4">
+                    <span class="badge bg-success">연동됨</span>
+                    {% if event.last_synced_at %}
+                        <small class="text-muted ms-2">마지막 동기화: {{ event.last_synced_at|date:"Y-m-d H:i" }}</small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- 사용자별 응답 폼 -->
+    {% if user_attendee and can_respond %}
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="alert alert-light border">
+                <strong>참석 응답</strong>
+                <div class="mt-2">
+                    <div class="btn-group" role="group" aria-label="참석 응답">
+                        <button type="button" class="btn btn-outline-success response-btn" data-status="accepted" 
+                                {% if user_attendee.status == 'accepted' %}disabled{% endif %}>
+                            <i class="fas fa-check"></i> 참석
+                        </button>
+                        <button type="button" class="btn btn-outline-warning response-btn" data-status="tentative"
+                                {% if user_attendee.status == 'tentative' %}disabled{% endif %}>
+                            <i class="fas fa-question"></i> 미정
+                        </button>
+                        <button type="button" class="btn btn-outline-danger response-btn" data-status="declined"
+                                {% if user_attendee.status == 'declined' %}disabled{% endif %}>
+                            <i class="fas fa-times"></i> 불참
+                        </button>
+                    </div>
+                    <div class="mt-2">
+                        <small class="text-muted">현재 상태: <strong>{{ user_attendee.get_status_display }}</strong></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- 액션 버튼들 -->
+    <div class="d-flex justify-content-between">
+        <div>
+            {% if can_edit %}
+            <button type="button" class="btn btn-primary" onclick="editEvent({{ event.id }})">
+                <i class="fas fa-edit"></i> 수정
+            </button>
+            <button type="button" class="btn btn-danger" onclick="deleteEvent({{ event.id }})">
+                <i class="fas fa-trash"></i> 삭제
+            </button>
+            {% endif %}
+        </div>
+        <div>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.info-item {
+    margin-bottom: 15px;
+}
+
+.info-item strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #495057;
+}
+
+.event-detail-container .badge {
+    font-size: 0.8rem;
+}
+
+.response-btn.active {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: white;
+}
+
+.btn-group .btn {
+    min-width: 80px;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 참석 응답 버튼 처리
+    const responseButtons = document.querySelectorAll('.response-btn');
+    responseButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const status = this.dataset.status;
+            respondToEvent({{ event.id }}, status);
+        });
+    });
+});
+
+// 이벤트 수정
+function editEvent(eventId) {
+    // 현재 모달 닫기
+    bootstrap.Modal.getInstance(document.getElementById('eventDetailModal')).hide();
+    
+    // 수정 모달 열기
+    setTimeout(() => {
+        showEventModal(`{% url 'calendar_system:edit_event' 0 %}`.replace('0', eventId), 'GET');
+    }, 300);
+}
+
+// 이벤트 삭제
+function deleteEvent(eventId) {
+    if (confirm('정말로 이 이벤트를 삭제하시겠습니까?')) {
+        fetch(`{% url 'calendar_system:delete_event' 0 %}`.replace('0', eventId), {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': getCSRFToken()
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showToast('success', data.message);
+                bootstrap.Modal.getInstance(document.getElementById('eventDetailModal')).hide();
+                // 캘린더 새로고침 (부모 창의 함수 호출)
+                if (window.calendar) {
+                    window.calendar.refetchEvents();
+                }
+                if (window.loadCalendarStats) {
+                    window.loadCalendarStats();
+                }
+            } else {
+                showToast('error', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('이벤트 삭제 실패:', error);
+            showToast('error', '이벤트 삭제에 실패했습니다.');
+        });
+    }
+}
+
+// 참석 응답
+function respondToEvent(eventId, status) {
+    const formData = new FormData();
+    formData.append('status', status);
+    formData.append('csrfmiddlewaretoken', getCSRFToken());
+    
+    fetch(`{% url 'calendar_system:respond_to_event' 0 %}`.replace('0', eventId), {
+        method: 'POST',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast('success', data.message);
+            // 버튼 상태 업데이트
+            document.querySelectorAll('.response-btn').forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-status="${status}"]`).disabled = true;
+            document.querySelector(`[data-status="${status}"]`).classList.add('active');
+        } else {
+            showToast('error', data.message || '응답 처리에 실패했습니다.');
+        }
+    })
+    .catch(error => {
+        console.error('응답 처리 실패:', error);
+        showToast('error', '응답 처리에 실패했습니다.');
+    });
+}
+
+// CSRF 토큰 가져오기
+function getCSRFToken() {
+    return document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+           document.querySelector('meta[name=csrf-token]')?.content || '';
+}
+
+// 부모 창의 함수들에 접근할 수 있도록 전역 참조
+if (window.parent && window.parent.showToast) {
+    window.showToast = window.parent.showToast;
+}
+if (window.parent && window.parent.showEventModal) {
+    window.showEventModal = window.parent.showEventModal;
+}
+</script>

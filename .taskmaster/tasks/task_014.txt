@@ -1,0 +1,19 @@
+# Task ID: 14
+# Title: 알림 시스템 및 PWA 푸시
+# Status: done
+# Dependencies: 4
+# Priority: medium
+# Description: 실시간 알림 및 PWA 푸시 알림 구현
+# Details:
+일정/연차/업무시간 알림, PWA 푸시 알림, 배지 표시, 개인별 알림 설정
+
+# Test Strategy:
+푸시 알림 수신 테스트, 알림 필터링 테스트
+
+# Subtasks:
+## 1. PWA 푸시 알림 시스템 [done]
+### Dependencies: None
+### Description: 실시간 알림, 푸시 알림, 개인별 알림 설정
+### Details:
+Push API 구현, 알림 권한 요청, 배지 표시, 개인별 설정, 알림 히스토리
+

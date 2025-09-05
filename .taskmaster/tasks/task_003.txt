@@ -1,0 +1,37 @@
+# Task ID: 3
+# Title: 사용자 권한 관리 시스템
+# Status: done
+# Dependencies: 2
+# Priority: high
+# Description: 6개 사용자 그룹별 권한 체계 구현
+# Details:
+최고 관리자, 중간 관리자, 팀원, 파트너, 도급사, 커스텀 권한 그룹 구현, 권한별 접근 제어
+
+# Test Strategy:
+각 권한별 기능 접근 테스트, 권한 변경 실시간 반영 테스트
+
+# Subtasks:
+## 1. 6개 사용자 그룹 권한 매트릭스 설계 [done]
+### Dependencies: None
+### Description: 각 사용자 그룹별 기능 접근 권한 정의
+### Details:
+최고관리자, 중간관리자, 팀원, 파트너, 도급사, 커스텀 그룹별 권한 매핑
+
+## 2. Django 권한 시스템 구현 [done]
+### Dependencies: None
+### Description: Django Permission과 Group을 활용한 권한 관리
+### Details:
+커스텀 Permission 생성, Group 권한 할당, 권한 확인 미들웨어
+
+## 3. 뷰 레벨 권한 제어 구현 [done]
+### Dependencies: None
+### Description: 각 뷰와 API에서 권한 체크 로직
+### Details:
+클래스 기반 뷰 권한, API 권한 클래스, 템플릿 권한 태그
+
+## 4. 권한 테스트 및 관리자 인터페이스 [done]
+### Dependencies: None
+### Description: 권한 시스템 테스트 및 관리자 페이지 구성
+### Details:
+권한별 접근 테스트, Django admin 권한 관리, 사용자 그룹 변경 기능
+

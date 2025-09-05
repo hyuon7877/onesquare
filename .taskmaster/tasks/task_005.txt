@@ -1,0 +1,49 @@
+# Task ID: 5
+# Title: Notion API 연동 시스템
+# Status: done
+# Dependencies: 1
+# Priority: high
+# Description: Notion Database와의 실시간 동기화 시스템 구축
+# Details:
+Notion API SDK 통합, 자동 스키마 감지, 동적 데이터 매핑, 실시간 동기화, 오류 복구 메커니즘
+
+# Test Strategy:
+데이터 CRUD 테스트, 스키마 변경 대응 테스트, 동기화 정확도 테스트
+
+# Subtasks:
+## 1. Notion Python SDK 설치 및 설정 [done]
+### Dependencies: None
+### Description: notion-client 패키지 설치 및 기본 연결 설정
+### Details:
+pip install notion-client, API 토큰 설정, 연결 테스트
+
+## 2. NotionService 클래스 개발 [done]
+### Dependencies: None
+### Description: Notion API 래퍼 클래스 구현
+### Details:
+기본 CRUD 메서드, 에러 핸들링, 로깅 시스템
+
+## 3. 데이터베이스 스키마 자동 감지 [done]
+### Dependencies: None
+### Description: Notion 데이터베이스 구조 분석 및 Django 모델 매핑
+### Details:
+속성 타입 분석, 동적 모델 생성, 스키마 캐싱
+
+## 4. 실시간 동기화 스케줄러 [done]
+### Dependencies: None
+### Description: 주기적 데이터 동기화 및 변경사항 감지
+### Details:
+Celery 작업, 동기화 스케줄링, 변경 감지 알고리즘
+
+## 5. 오류 복구 및 재시도 메커니즘 [done]
+### Dependencies: None
+### Description: API 오류 처리 및 자동 재시도 시스템
+### Details:
+지수 백오프, 재시도 큐, 오류 로깅, 알림 시스템
+
+## 6. Notion API 테스트 및 통합 [done]
+### Dependencies: None
+### Description: API 연동 테스트 및 Django 프로젝트 통합
+### Details:
+단위 테스트, 통합 테스트, Django 앱 등록, 설정 통합
+

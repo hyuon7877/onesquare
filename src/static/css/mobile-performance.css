@@ -1,0 +1,389 @@
+/**
+ * OneSquare - 모바일 성능 최적화 CSS
+ * 
+ * 60fps 애니메이션, 하드웨어 가속, 메모리 최적화
+ */
+
+/* ===============================
+   하드웨어 가속 및 성능 최적화
+   =============================== */
+
+.gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000;
+    will-change: transform;
+}
+
+.smooth-scroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+/* 애니메이션 성능 최적화 */
+@keyframes slideInUp {
+    from {
+        transform: translate3d(0, 100%, 0);
+        opacity: 0;
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translate3d(0, -100%, 0);
+        opacity: 0;
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        transform: scale3d(0.8, 0.8, 1);
+        opacity: 0;
+    }
+    to {
+        transform: scale3d(1, 1, 1);
+        opacity: 1;
+    }
+}
+
+/* ===============================
+   레이아웃 최적화
+   =============================== */
+
+/* Flexbox 최적화 */
+.flex-optimized {
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Firefox flexbox 버그 방지 */
+}
+
+/* Grid 최적화 */
+.grid-optimized {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+/* 컨테이너 쿼리 지원 */
+@supports (container-type: inline-size) {
+    .card-container {
+        container-type: inline-size;
+    }
+    
+    @container (min-width: 400px) {
+        .card {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+}
+
+/* ===============================
+   터치 최적화
+   =============================== */
+
+/* 터치 타겟 크기 최적화 */
+.touch-target {
+    min-height: 44px; /* iOS 권장 최소 크기 */
+    min-width: 44px;
+    padding: 12px;
+    margin: 4px;
+    position: relative;
+}
+
+/* 터치 리플 효과 */
+.ripple-effect {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.ripple-effect::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+}
+
+.ripple-effect:active::after {
+    width: 200px;
+    height: 200px;
+}
+
+/* ===============================
+   스크롤 최적화
+   =============================== */
+
+/* 가상 스크롤링을 위한 컨테이너 */
+.virtual-scroll-container {
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: y mandatory;
+}
+
+.virtual-scroll-item {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+}
+
+/* 무한 스크롤 최적화 */
+.infinite-scroll-container {
+    contain: layout style paint;
+}
+
+.infinite-scroll-item {
+    contain: layout style;
+    min-height: 80px; /* 최소 높이로 layout thrashing 방지 */
+}
+
+/* ===============================
+   이미지 최적화
+   =============================== */
+
+/* Lazy loading 이미지 */
+.lazy-image {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+.lazy-image.loaded {
+    opacity: 1;
+    background: none;
+    animation: none;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* 반응형 이미지 최적화 */
+.responsive-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* ===============================
+   폰트 최적화
+   =============================== */
+
+/* 폰트 로딩 최적화 */
+@font-face {
+    font-family: 'NotoSansKR-Optimized';
+    src: url('/static/fonts/NotoSansKR-Regular.woff2') format('woff2');
+    font-display: swap;
+    unicode-range: U+AC00-D7AF, U+1100-11FF, U+3130-318F, U+A960-A97F, U+D7B0-D7FF;
+}
+
+/* 시스템 폰트 우선 사용 */
+.system-font {
+    font-family: 
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans KR",
+        "Malgun Gothic",
+        system-ui,
+        sans-serif;
+}
+
+/* ===============================
+   CSS 그리드 최적화
+   =============================== */
+
+/* 카드 그리드 (masonry 레이아웃) */
+.masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-gap: 16px;
+    align-items: start;
+}
+
+@supports (grid-template-rows: masonry) {
+    .masonry-grid {
+        grid-template-rows: masonry;
+    }
+}
+
+/* 적응형 그리드 */
+.adaptive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 1rem;
+}
+
+/* ===============================
+   배터리 절약 모드
+   =============================== */
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* 다크 모드 최적화 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #1a1a1a;
+        --bg-secondary: #2d2d2d;
+        --text-primary: #ffffff;
+        --text-secondary: #cccccc;
+    }
+    
+    .battery-save-mode {
+        background-color: #000000;
+        color: #ffffff;
+    }
+    
+    .battery-save-mode * {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+}
+
+/* ===============================
+   메모리 최적화
+   =============================== */
+
+/* 대용량 리스트 최적화 */
+.large-list {
+    contain: layout style;
+}
+
+.large-list-item {
+    contain: layout style paint;
+    will-change: auto; /* 필요할 때만 활성화 */
+}
+
+/* CSS containment 사용 */
+.isolated-component {
+    contain: layout style paint;
+}
+
+.isolated-component.animating {
+    will-change: transform;
+}
+
+.isolated-component:not(.animating) {
+    will-change: auto;
+}
+
+/* ===============================
+   네트워크 최적화
+   =============================== */
+
+/* 저대역폭 최적화 */
+@media (max-width: 480px) and (max-resolution: 150dpi) {
+    .low-bandwidth-optimize {
+        background-image: none !important;
+        box-shadow: none !important;
+        border-radius: 4px;
+    }
+}
+
+/* 연결 속도 기반 최적화 */
+@media (connection-type: cellular) {
+    .cellular-optimize {
+        background: none;
+        filter: none;
+    }
+    
+    .cellular-optimize img {
+        max-width: 50%;
+    }
+}
+
+/* ===============================
+   접근성 최적화
+   =============================== */
+
+/* 고대비 모드 */
+@media (prefers-contrast: high) {
+    .high-contrast {
+        border: 2px solid;
+        background: white;
+        color: black;
+    }
+}
+
+/* 큰 텍스트 모드 */
+@media (prefers-reduced-data: reduce) {
+    .data-saver {
+        background-image: none;
+        font-weight: normal;
+    }
+}
+
+/* Focus 최적화 */
+.focus-optimized:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+.focus-optimized:focus-visible {
+    outline: 3px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* ===============================
+   유틸리티 클래스
+   =============================== */
+
+/* 성능 모니터링용 */
+.performance-critical {
+    contain: strict;
+    isolation: isolate;
+}
+
+/* 지연 로딩 */
+.lazy-load {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.lazy-load.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 프리로딩 */
+.preload-hint {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 200px;
+}
+
+/* GPU 레이어 강제 생성 */
+.force-layer {
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+/* 3D 변환 최적화 */
+.transform-3d {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}

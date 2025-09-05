@@ -1,108 +1,88 @@
 #!/bin/bash
+
+# OneSquare Django Entrypoint Script
+
 set -e
 
-# 한글 환경 설정
-export LANG=ko_KR.UTF-8
-export LC_ALL=ko_KR.UTF-8
-export PYTHONIOENCODING=utf-8
-
-# 색상 정의
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-RED='\033[0;31m'
-NC='\033[0m'
-
-echo -e "${GREEN}Django 컨테이너 시작${NC}"
-echo "프로젝트: $PROJECT_NAME"
+echo "=== OneSquare Django Container Starting ==="
+echo "Time: $(date)"
+echo "Environment: ${DEBUG:-production}"
 echo "Python: $(python --version)"
-echo "한글 설정: $LANG"
-echo "시스템 시간: $(date +'%Y년 %m월 %d일 %H시 %M분 %S초')"
+echo "Django: $(python -c 'import django; print(django.get_version())')"
 
-cd /var/www/html/$PROJECT_NAME
+# Wait for services to be ready
+echo "Waiting for dependencies..."
+sleep 5
 
-# 데이터베이스 연결 대기 (최대 30초)
-echo "데이터베이스 연결 대기 중..."
-timeout=30
-counter=0
-while ! mysqladmin ping -h db -P 3306 -u$DB_USER -p$DB_PASS --silent 2>/dev/null; do
-    counter=$((counter+1))
-    if [ $counter -gt $timeout ]; then
-        echo -e "${RED}데이터베이스 연결 실패 (${timeout}초 초과)${NC}"
-        exit 1
-    fi
-    echo -n "."
-    sleep 1
-done
-echo -e "\n${GREEN}데이터베이스 연결 성공!${NC}"
+# Change to Django project directory
+cd /var/www/html/${PROJECT_NAME}
 
-# Django 프로젝트가 없으면 생성
-if [ ! -f "manage.py" ]; then
-    echo "Django 프로젝트 생성 중..."
-    django-admin startproject config .
-    
-    # secrets.json 생성
-    python /scripts/create_secrets.py
-    
-    # settings.py 교체
-    cp /scripts/settings.py config/settings.py
-    
-    # urls.py 교체
-    cp /scripts/urls.py config/urls.py
-    
-    # __init__.py 설정
-    cat > config/__init__.py << 'INIT'
-# -*- coding: utf-8 -*-
-import pymysql
-pymysql.install_as_MySQLdb()
+# Create logs directory if it doesn't exist
+mkdir -p logs
 
-# 버전 정보
-__version__ = '1.0.0'
-INIT
-    
-    # 기본 앱 생성
-    python manage.py startapp main
-    
-    # main 앱의 기본 구조 생성
-    mkdir -p main/templates/main
-    mkdir -p main/static/main/{css,js,img}
-    
-    # main/apps.py 한글 설정
-    cat > main/apps.py << 'APPS'
-from django.apps import AppConfig
-
-class MainConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'main'
-    verbose_name = '메인'
-APPS
+# Check if secrets.json exists and has required keys
+if [ ! -f "secrets.json" ]; then
+    echo "Warning: secrets.json not found, using environment variables"
 fi
 
-# 마이그레이션
-echo "마이그레이션 실행 중..."
-python manage.py makemigrations
-python manage.py migrate
+# Run Django management commands
+echo "Checking Django configuration..."
+python manage.py check --deploy 2>/dev/null || python manage.py check
 
-# static 파일 수집
-echo "Static 파일 수집 중..."
-python manage.py collectstatic --noinput
+# Create database tables (for user sessions and admin)
+echo "Running database migrations..."
+python manage.py migrate --verbosity=1
 
-# 디렉토리 권한 설정
-mkdir -p logs staticfiles media run
-chmod -R 755 logs/ staticfiles/ media/ run/
+# Collect static files
+echo "Collecting static files..."
+python manage.py collectstatic --noinput --verbosity=1
 
-# 소켓 파일 위치 확인
-rm -f run/$PROJECT_NAME.sock
+# Create superuser if in DEBUG mode and doesn't exist
+if [ "${DEBUG}" = "1" ] || [ "${DEBUG}" = "true" ]; then
+    echo "Development mode: Setting up admin user..."
+    python manage.py shell << EOF
+from django.contrib.auth.models import User
+if not User.objects.filter(username='admin').exists():
+    User.objects.create_superuser('admin', 'admin@localhost', 'admin123')
+    print('Admin user created: admin/admin123')
+else:
+    print('Admin user already exists')
+EOF
+fi
 
-# Gunicorn 실행
-echo -e "${GREEN}Gunicorn 시작 (Workers: ${GUNICORN_WORKERS:-4})${NC}"
-exec gunicorn config.wsgi:application \
-    --name $PROJECT_NAME \
-    --bind unix:run/$PROJECT_NAME.sock \
-    --workers ${GUNICORN_WORKERS:-4} \
-    --timeout ${GUNICORN_TIMEOUT:-300} \
-    --graceful-timeout 30 \
-    --max-requests 1000 \
-    --max-requests-jitter 50 \
-    --access-logfile logs/gunicorn_access.log \
-    --error-logfile logs/gunicorn_error.log \
-    --log-level info
+# Check Notion API configuration
+echo "Checking Notion API configuration..."
+python manage.py shell << EOF
+try:
+    from django.conf import settings
+    notion_token = getattr(settings, 'NOTION_TOKEN', None)
+    notion_db_id = getattr(settings, 'NOTION_DATABASE_ID', None)
+    
+    if notion_token and notion_db_id:
+        print('✅ Notion API configuration found')
+    else:
+        print('⚠️  Notion API not configured - please update secrets.json')
+except Exception as e:
+    print(f'❌ Configuration error: {e}')
+EOF
+
+# Start the Django development server or Gunicorn
+if [ "${DEBUG}" = "1" ] || [ "${DEBUG}" = "true" ]; then
+    echo "Starting Django development server..."
+    echo "Access the application at:"
+    echo "  HTTP:  http://localhost:${WEB_PORT:-8081}"
+    echo "  HTTPS: https://localhost:${HTTPS_PORT:-8443}"
+    echo "  Admin: https://localhost:${HTTPS_PORT:-8443}/admin (admin/admin123)"
+    echo ""
+    
+    python manage.py runserver 0.0.0.0:8000
+else
+    echo "Starting Gunicorn production server..."
+    gunicorn config.wsgi:application \
+        --bind 0.0.0.0:8000 \
+        --workers ${GUNICORN_WORKERS:-2} \
+        --timeout ${GUNICORN_TIMEOUT:-300} \
+        --access-logfile - \
+        --error-logfile - \
+        --log-level info
+fi

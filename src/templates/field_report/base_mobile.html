@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>{% block title %}OneSquare 현장 리포트{% endblock %}</title>
+    
+    <!-- PWA 매니페스트 -->
+    <link rel="manifest" href="{% load static %}{% static 'manifest.json' %}">
+    
+    <!-- 아이콘들 -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% load static %}{% static 'images/icons/icon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% load static %}{% static 'images/icons/icon-192x192.png' %}">
+    <link rel="apple-touch-icon" href="{% load static %}{% static 'images/icons/icon-192x192.png' %}">
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% load static %}{% static 'css/field_report.css' %}">
+    <link rel="stylesheet" href="{% load static %}{% static 'css/mobile-performance.css' %}">
+    
+    <!-- CSRF Token -->
+    {% csrf_token %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="mobile-optimized">
+    <!-- 네트워크 상태 표시 -->
+    <div id="network-status" class="network-status d-none">
+        <i class="bi bi-wifi-off"></i> 오프라인 모드
+    </div>
+    
+    <!-- 상단 네비게이션 -->
+    <nav class="navbar navbar-dark bg-primary fixed-top mobile-nav">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'field_report:dashboard' %}">
+                <i class="bi bi-clipboard-check"></i>
+                현장 리포트
+            </a>
+            
+            <!-- 햄버거 메뉴 -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- 사이드 메뉴 (오프캔버스) -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu">
+        <div class="offcanvas-header bg-primary text-white">
+            <h5 class="offcanvas-title">
+                <i class="bi bi-person-circle"></i>
+                {{ user.get_full_name|default:user.username }}
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="list-group list-group-flush">
+                <a href="{% url 'field_report:dashboard' %}" class="list-group-item list-group-item-action">
+                    <i class="bi bi-house"></i> 대시보드
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" id="sync-data-btn">
+                    <i class="bi bi-arrow-clockwise"></i> 데이터 동기화
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" onclick="showOfflineData()">
+                    <i class="bi bi-database"></i> 오프라인 데이터
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" onclick="showSettings()">
+                    <i class="bi bi-gear"></i> 설정
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="/logout/" class="list-group-item list-group-item-action text-danger">
+                    <i class="bi bi-box-arrow-right"></i> 로그아웃
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 메인 컨텐츠 -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- 하단 고정 버튼 영역 -->
+    <div class="bottom-actions d-none" id="bottom-actions">
+        {% block bottom_actions %}{% endblock %}
+    </div>
+    
+    <!-- 토스트 알림 영역 -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toast" class="toast" role="alert">
+            <div class="toast-header">
+                <i class="bi bi-info-circle text-primary me-2"></i>
+                <strong class="me-auto">알림</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body"></div>
+        </div>
+    </div>
+    
+    <!-- 로딩 스피너 -->
+    <div id="loading-spinner" class="loading-spinner d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">로딩 중...</span>
+        </div>
+    </div>
+    
+    <!-- 확인 모달 -->
+    <div class="modal fade" id="confirmModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">확인</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="confirm-message"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary" id="confirm-ok">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% load static %}{% static 'js/pwa-manager.js' %}"></script>
+    <script src="{% load static %}{% static 'js/modules/offline-api.js' %}"></script>
+    <script src="{% load static %}{% static 'js/field_report.js' %}"></script>
+    
+    {% block extra_scripts %}{% endblock %}
+    
+    <script>
+        // PWA 설치 상태 확인
+        if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
+            document.body.classList.add('pwa-installed');
+        }
+        
+        // 네트워크 상태 모니터링
+        function updateNetworkStatus() {
+            const statusElement = document.getElementById('network-status');
+            if (navigator.onLine) {
+                statusElement.classList.add('d-none');
+                document.body.classList.remove('offline-mode');
+            } else {
+                statusElement.classList.remove('d-none');
+                document.body.classList.add('offline-mode');
+            }
+        }
+        
+        window.addEventListener('online', updateNetworkStatus);
+        window.addEventListener('offline', updateNetworkStatus);
+        updateNetworkStatus();
+        
+        // CSRF 토큰 설정
+        window.csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    </script>
+    
+    <!-- 터치 제스처 모듈 -->
+    <script src="{% load static %}{% static 'js/modules/touch-gestures.js' %}"></script>
+</body>
+</html>

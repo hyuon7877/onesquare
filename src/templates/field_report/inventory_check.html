@@ -1,0 +1,1297 @@
+{% extends 'field_report/base_mobile.html' %}
+{% load static %}
+
+{% block title %}재고 체크 - OneSquare{% endblock %}
+
+{% block extra_head %}
+<style>
+    .inventory-container {
+        padding: 20px;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    .search-section {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        z-index: 100;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 20px;
+    }
+    
+    .search-input {
+        width: 100%;
+        padding: 12px 20px 12px 45px;
+        border: 2px solid #e9ecef;
+        border-radius: 25px;
+        font-size: 16px;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236c757d' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E") no-repeat 15px center;
+        transition: all 0.3s ease;
+    }
+    
+    .search-input:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        outline: none;
+    }
+    
+    .filter-tabs {
+        display: flex;
+        gap: 8px;
+        margin: 15px 0;
+        overflow-x: auto;
+        padding: 5px 0;
+    }
+    
+    .filter-tab {
+        padding: 8px 16px;
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .filter-tab.active {
+        background: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+    
+    .filter-tab:hover {
+        background: #e9ecef;
+    }
+    
+    .filter-tab.active:hover {
+        background: #0056b3;
+    }
+    
+    .inventory-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+        margin: 20px 0;
+    }
+    
+    .stat-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+        font-weight: bold;
+        display: block;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+        opacity: 0.9;
+        margin-top: 5px;
+    }
+    
+    .inventory-list {
+        margin: 20px 0;
+    }
+    
+    .category-section {
+        margin-bottom: 25px;
+    }
+    
+    .category-header {
+        background: #f8f9fa;
+        padding: 12px 15px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border-left: 4px solid #007bff;
+        font-weight: bold;
+        color: #495057;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .category-header:hover {
+        background: #e9ecef;
+    }
+    
+    .category-header.collapsed {
+        border-left-color: #6c757d;
+    }
+    
+    .category-count {
+        background: #007bff;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+    }
+    
+    .category-items {
+        display: block;
+    }
+    
+    .category-items.collapsed {
+        display: none;
+    }
+    
+    .inventory-item {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 15px;
+        margin: 10px 0;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .inventory-item.low-stock {
+        border-color: #ffc107;
+        background: rgba(255, 193, 7, 0.05);
+    }
+    
+    .inventory-item.out-of-stock {
+        border-color: #dc3545;
+        background: rgba(220, 53, 69, 0.05);
+    }
+    
+    .inventory-item.sufficient {
+        border-color: #28a745;
+        background: rgba(40, 167, 69, 0.05);
+    }
+    
+    .item-header {
+        display: flex;
+        justify-content: between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+    }
+    
+    .item-info {
+        flex: 1;
+    }
+    
+    .item-name {
+        font-weight: bold;
+        font-size: 1.1rem;
+        margin-bottom: 4px;
+        color: #333;
+    }
+    
+    .item-code {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .item-status {
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-left: 10px;
+    }
+    
+    .status-sufficient {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .status-low {
+        background: #fff3cd;
+        color: #856404;
+    }
+    
+    .status-out {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    
+    .quantity-input-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin: 15px 0;
+    }
+    
+    .quantity-field {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .quantity-label {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #495057;
+        margin-bottom: 5px;
+    }
+    
+    .quantity-input {
+        padding: 10px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 1rem;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .quantity-input:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        outline: none;
+    }
+    
+    .quantity-controls {
+        display: flex;
+        margin-top: 8px;
+    }
+    
+    .qty-btn {
+        width: 35px;
+        height: 35px;
+        border: 1px solid #dee2e6;
+        background: #f8f9fa;
+        color: #495057;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .qty-btn:hover {
+        background: #e9ecef;
+        border-color: #adb5bd;
+    }
+    
+    .qty-btn:first-child {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    
+    .qty-btn:last-child {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-left: none;
+    }
+    
+    .notes-section {
+        margin: 15px 0;
+    }
+    
+    .notes-input {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        resize: vertical;
+        min-height: 60px;
+        transition: all 0.3s ease;
+    }
+    
+    .notes-input:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        outline: none;
+    }
+    
+    .item-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    
+    .action-btn {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .save-btn {
+        background: #28a745;
+        color: white;
+    }
+    
+    .save-btn:hover {
+        background: #218838;
+        transform: translateY(-1px);
+    }
+    
+    .reset-btn {
+        background: #6c757d;
+        color: white;
+    }
+    
+    .reset-btn:hover {
+        background: #5a6268;
+    }
+    
+    .batch-actions {
+        position: fixed;
+        bottom: 80px;
+        left: 20px;
+        right: 20px;
+        background: white;
+        border-radius: 15px;
+        padding: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 200;
+    }
+    
+    .batch-actions.visible {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    
+    .batch-actions-content {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .batch-btn {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .save-all-btn {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    }
+    
+    .save-all-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+    }
+    
+    .summary-section {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 20px;
+        margin: 25px 0;
+    }
+    
+    .summary-title {
+        font-weight: bold;
+        color: #495057;
+        margin-bottom: 15px;
+    }
+    
+    .summary-stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .summary-stat {
+        text-align: center;
+    }
+    
+    .summary-number {
+        font-size: 1.5rem;
+        font-weight: bold;
+        display: block;
+    }
+    
+    .summary-label {
+        font-size: 0.8rem;
+        color: #6c757d;
+        margin-top: 5px;
+    }
+    
+    .low-stock-alert {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        color: #856404;
+        padding: 12px 15px;
+        border-radius: 10px;
+        margin: 15px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .alert-icon {
+        font-size: 1.2rem;
+    }
+    
+    .barcode-scanner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        z-index: 300;
+        width: 90%;
+        max-width: 400px;
+        display: none;
+    }
+    
+    .barcode-scanner.visible {
+        display: block;
+    }
+    
+    .scanner-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .scanner-video {
+        width: 100%;
+        border-radius: 10px;
+        background: #000;
+    }
+    
+    .scanner-controls {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    
+    .floating-search {
+        position: fixed;
+        top: 120px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 150;
+        transition: all 0.3s ease;
+    }
+    
+    .floating-search:hover {
+        transform: scale(1.1);
+        box-shadow: 0 12px 35px rgba(0, 123, 255, 0.6);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="inventory-container">
+    <!-- 검색 섹션 -->
+    <div class="search-section">
+        <input type="text" id="search-input" class="search-input" placeholder="비품명, 코드로 검색...">
+        
+        <div class="filter-tabs">
+            <div class="filter-tab active" data-filter="all">전체</div>
+            <div class="filter-tab" data-filter="tool">공구</div>
+            <div class="filter-tab" data-filter="material">자재</div>
+            <div class="filter-tab" data-filter="equipment">장비</div>
+            <div class="filter-tab" data-filter="safety">안전용품</div>
+            <div class="filter-tab" data-filter="consumable">소모품</div>
+            <div class="filter-tab" data-filter="low-stock">재고 부족</div>
+        </div>
+    </div>
+
+    <!-- 재고 통계 -->
+    <div class="inventory-stats">
+        <div class="stat-card">
+            <span class="stat-number" id="total-items">0</span>
+            <div class="stat-label">전체 품목</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number" id="checked-items">0</span>
+            <div class="stat-label">체크 완료</div>
+        </div>
+        <div class="stat-card" style="background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);">
+            <span class="stat-number" id="low-stock-items">0</span>
+            <div class="stat-label">재고 부족</div>
+        </div>
+        <div class="stat-card" style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);">
+            <span class="stat-number" id="out-of-stock-items">0</span>
+            <div class="stat-label">품절</div>
+        </div>
+    </div>
+
+    <!-- 재고 부족 알림 -->
+    <div id="low-stock-alert" class="low-stock-alert" style="display: none;">
+        <i class="bi bi-exclamation-triangle alert-icon"></i>
+        <div>
+            <strong>재고 부족 알림!</strong><br>
+            <span id="alert-message">일부 품목의 재고가 부족합니다.</span>
+        </div>
+    </div>
+
+    <!-- 재고 목록 -->
+    <div class="inventory-list" id="inventory-list">
+        <!-- 동적으로 로드됨 -->
+    </div>
+
+    <!-- 요약 섹션 -->
+    <div class="summary-section" id="summary-section" style="display: none;">
+        <div class="summary-title">
+            <i class="bi bi-clipboard-check"></i> 재고 체크 요약
+        </div>
+        <div class="summary-stats">
+            <div class="summary-stat">
+                <span class="summary-number text-success" id="summary-sufficient">0</span>
+                <div class="summary-label">충분</div>
+            </div>
+            <div class="summary-stat">
+                <span class="summary-number text-warning" id="summary-low">0</span>
+                <div class="summary-label">부족</div>
+            </div>
+            <div class="summary-stat">
+                <span class="summary-number text-danger" id="summary-out">0</span>
+                <div class="summary-label">품절</div>
+            </div>
+            <div class="summary-stat">
+                <span class="summary-number text-info" id="summary-replenish">0</span>
+                <div class="summary-label">보충 필요</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 배치 액션 패널 -->
+<div class="batch-actions" id="batch-actions">
+    <div class="batch-actions-content">
+        <button class="batch-btn save-all-btn" id="save-all-btn">
+            <i class="bi bi-check-circle"></i>
+            모든 체크 저장
+        </button>
+    </div>
+</div>
+
+<!-- 플로팅 바코드 스캐너 버튼 -->
+<button class="floating-search" id="barcode-scan-btn" title="바코드 스캔">
+    <i class="bi bi-qr-code-scan"></i>
+</button>
+
+<!-- 바코드 스캐너 모달 -->
+<div class="barcode-scanner" id="barcode-scanner">
+    <div class="scanner-header">
+        <h5>바코드 스캔</h5>
+        <p>비품 바코드를 카메라에 맞춰주세요</p>
+    </div>
+    <video id="scanner-video" class="scanner-video" autoplay></video>
+    <div class="scanner-controls">
+        <button class="btn btn-secondary flex-fill" id="cancel-scan-btn">취소</button>
+        <button class="btn btn-primary flex-fill" id="switch-camera-btn">카메라 전환</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block bottom_actions %}
+<div class="d-flex gap-2 p-3">
+    <button class="btn btn-outline-primary flex-fill" onclick="goBack()">
+        <i class="bi bi-arrow-left"></i> 뒤로
+    </button>
+    <button class="btn btn-success flex-fill" onclick="finishInventoryCheck()" id="finish-btn">
+        <i class="bi bi-clipboard-check"></i> 완료
+    </button>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- 카메라 모듈 (바코드 스캐너용) -->
+<script src="{% static 'js/modules/camera-capture.js' %}"></script>
+
+<script>
+class InventoryCheckManager {
+    constructor() {
+        this.inventoryItems = [];
+        this.filteredItems = [];
+        this.checkedItems = new Map();
+        this.currentFilter = 'all';
+        this.searchTerm = '';
+        this.categories = {};
+        this.barcodeScanner = null;
+        
+        this.init();
+    }
+
+    async init() {
+        console.log('[InventoryCheckManager] Initializing inventory check manager...');
+        
+        // 이벤트 리스너 설정
+        this.setupEventListeners();
+        
+        // 재고 데이터 로드
+        await this.loadInventoryItems();
+        
+        // UI 렌더링
+        this.renderInventoryList();
+        this.updateStats();
+        
+        console.log('[InventoryCheckManager] Inventory check manager initialized');
+    }
+
+    setupEventListeners() {
+        // 검색 입력
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('input', (e) => {
+            this.searchTerm = e.target.value.toLowerCase();
+            this.filterItems();
+        });
+
+        // 필터 탭
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                this.setActiveFilter(e.target.dataset.filter);
+            });
+        });
+
+        // 배치 저장 버튼
+        document.getElementById('save-all-btn').addEventListener('click', () => {
+            this.saveAllChecks();
+        });
+
+        // 바코드 스캐너
+        document.getElementById('barcode-scan-btn').addEventListener('click', () => {
+            this.openBarcodeScanner();
+        });
+
+        document.getElementById('cancel-scan-btn').addEventListener('click', () => {
+            this.closeBarcodeScanner();
+        });
+    }
+
+    async loadInventoryItems() {
+        try {
+            const response = await fetch('/field-report/api/inventory-items/');
+            const data = await response.json();
+            
+            if (data.success) {
+                this.inventoryItems = data.items;
+                this.groupItemsByCategory();
+                this.filteredItems = [...this.inventoryItems];
+                
+                console.log(`[InventoryCheckManager] Loaded ${this.inventoryItems.length} inventory items`);
+            } else {
+                throw new Error(data.error || 'Failed to load inventory items');
+            }
+        } catch (error) {
+            console.error('[InventoryCheckManager] Failed to load inventory items:', error);
+            this.showToast('재고 목록을 불러올 수 없습니다.', 'error');
+            
+            // 테스트 데이터로 대체
+            this.loadMockData();
+        }
+    }
+
+    loadMockData() {
+        // 테스트용 목데이터
+        this.inventoryItems = [
+            {
+                id: '1',
+                name: '전동 드릴',
+                code: 'TOOL-001',
+                category: 'tool',
+                categoryDisplay: '공구',
+                unit: 'ea',
+                minimumStock: 2,
+                maximumStock: 10,
+                description: '18V 전동 드릴'
+            },
+            {
+                id: '2',
+                name: '안전 헬멧',
+                code: 'SAFE-001',
+                category: 'safety',
+                categoryDisplay: '안전용품',
+                unit: 'ea',
+                minimumStock: 5,
+                maximumStock: 20,
+                description: '작업용 안전 헬멧'
+            },
+            {
+                id: '3',
+                name: '스크류',
+                code: 'MAT-001',
+                category: 'material',
+                categoryDisplay: '자재',
+                unit: 'box',
+                minimumStock: 10,
+                maximumStock: 50,
+                description: '6mm 스크류 (100개입)'
+            }
+        ];
+        
+        this.groupItemsByCategory();
+        this.filteredItems = [...this.inventoryItems];
+    }
+
+    groupItemsByCategory() {
+        this.categories = this.inventoryItems.reduce((acc, item) => {
+            const category = item.category;
+            if (!acc[category]) {
+                acc[category] = {
+                    name: item.categoryDisplay,
+                    items: []
+                };
+            }
+            acc[category].items.push(item);
+            return acc;
+        }, {});
+    }
+
+    setActiveFilter(filter) {
+        this.currentFilter = filter;
+        
+        // 탭 활성화 상태 업데이트
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.classList.toggle('active', tab.dataset.filter === filter);
+        });
+        
+        this.filterItems();
+    }
+
+    filterItems() {
+        this.filteredItems = this.inventoryItems.filter(item => {
+            // 카테고리 필터
+            const categoryMatch = this.currentFilter === 'all' || 
+                                  item.category === this.currentFilter ||
+                                  (this.currentFilter === 'low-stock' && this.isLowStock(item));
+            
+            // 검색어 필터
+            const searchMatch = this.searchTerm === '' ||
+                               item.name.toLowerCase().includes(this.searchTerm) ||
+                               item.code.toLowerCase().includes(this.searchTerm);
+            
+            return categoryMatch && searchMatch;
+        });
+        
+        this.renderInventoryList();
+        this.updateStats();
+    }
+
+    renderInventoryList() {
+        const listContainer = document.getElementById('inventory-list');
+        listContainer.innerHTML = '';
+
+        if (this.filteredItems.length === 0) {
+            listContainer.innerHTML = `
+                <div class="text-center py-5">
+                    <i class="bi bi-search" style="font-size: 3rem; color: #6c757d;"></i>
+                    <p class="mt-3 text-muted">조건에 맞는 품목이 없습니다.</p>
+                </div>
+            `;
+            return;
+        }
+
+        // 카테고리별로 그룹화하여 렌더링
+        const categorizedItems = this.filteredItems.reduce((acc, item) => {
+            const category = item.category;
+            if (!acc[category]) {
+                acc[category] = [];
+            }
+            acc[category].push(item);
+            return acc;
+        }, {});
+
+        Object.entries(categorizedItems).forEach(([categoryKey, items]) => {
+            const categoryData = this.categories[categoryKey];
+            if (!categoryData) return;
+
+            // 카테고리 헤더
+            const categorySection = document.createElement('div');
+            categorySection.className = 'category-section';
+            
+            const categoryHeader = document.createElement('div');
+            categoryHeader.className = 'category-header';
+            categoryHeader.innerHTML = `
+                <div>
+                    <i class="bi bi-chevron-down"></i>
+                    ${categoryData.name}
+                </div>
+                <div class="category-count">${items.length}</div>
+            `;
+            
+            const categoryItems = document.createElement('div');
+            categoryItems.className = 'category-items';
+            
+            // 카테고리 접기/펼치기
+            categoryHeader.addEventListener('click', () => {
+                categoryItems.classList.toggle('collapsed');
+                categoryHeader.classList.toggle('collapsed');
+                
+                const icon = categoryHeader.querySelector('i');
+                icon.classList.toggle('bi-chevron-down');
+                icon.classList.toggle('bi-chevron-right');
+            });
+
+            // 품목들 렌더링
+            items.forEach(item => {
+                const itemElement = this.createInventoryItemElement(item);
+                categoryItems.appendChild(itemElement);
+            });
+
+            categorySection.appendChild(categoryHeader);
+            categorySection.appendChild(categoryItems);
+            listContainer.appendChild(categorySection);
+        });
+    }
+
+    createInventoryItemElement(item) {
+        const checkData = this.checkedItems.get(item.id) || {
+            currentQuantity: '',
+            requiredQuantity: item.minimumStock || 0,
+            notes: '',
+            isChecked: false
+        };
+
+        const itemElement = document.createElement('div');
+        itemElement.className = `inventory-item ${this.getItemStatusClass(item, checkData)}`;
+        itemElement.dataset.itemId = item.id;
+
+        itemElement.innerHTML = `
+            <div class="item-header">
+                <div class="item-info">
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-code">${item.code} • ${item.unit}</div>
+                </div>
+                <div class="item-status ${this.getStatusClass(item, checkData)}">
+                    ${this.getStatusText(item, checkData)}
+                </div>
+            </div>
+            
+            <div class="quantity-input-section">
+                <div class="quantity-field">
+                    <label class="quantity-label">현재 수량</label>
+                    <input type="number" class="quantity-input current-qty" 
+                           value="${checkData.currentQuantity}" 
+                           placeholder="수량 입력" min="0">
+                    <div class="quantity-controls">
+                        <button class="qty-btn" data-action="decrease">-</button>
+                        <button class="qty-btn" data-action="increase">+</button>
+                    </div>
+                </div>
+                <div class="quantity-field">
+                    <label class="quantity-label">필요 수량</label>
+                    <input type="number" class="quantity-input required-qty" 
+                           value="${checkData.requiredQuantity}" 
+                           placeholder="필요량" min="0">
+                    <div class="text-center mt-2" style="font-size: 0.8rem; color: #6c757d;">
+                        최소: ${item.minimumStock} ${item.unit}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="notes-section">
+                <label class="quantity-label">메모</label>
+                <textarea class="notes-input" placeholder="특이사항, 상태 등을 기록하세요...">${checkData.notes}</textarea>
+            </div>
+            
+            <div class="item-actions">
+                <button class="action-btn save-btn" data-action="save">
+                    <i class="bi bi-check-circle"></i> 저장
+                </button>
+                <button class="action-btn reset-btn" data-action="reset">
+                    <i class="bi bi-arrow-clockwise"></i> 초기화
+                </button>
+            </div>
+        `;
+
+        // 이벤트 리스너 추가
+        this.setupItemEventListeners(itemElement, item);
+
+        return itemElement;
+    }
+
+    setupItemEventListeners(itemElement, item) {
+        const itemId = item.id;
+
+        // 수량 입력 필드
+        const currentQtyInput = itemElement.querySelector('.current-qty');
+        const requiredQtyInput = itemElement.querySelector('.required-qty');
+        const notesInput = itemElement.querySelector('.notes-input');
+
+        [currentQtyInput, requiredQtyInput, notesInput].forEach(input => {
+            input.addEventListener('input', () => {
+                this.updateItemCheck(itemId, {
+                    currentQuantity: parseInt(currentQtyInput.value) || 0,
+                    requiredQuantity: parseInt(requiredQtyInput.value) || 0,
+                    notes: notesInput.value,
+                    isChecked: true
+                });
+                this.updateItemStatus(itemElement, item);
+            });
+        });
+
+        // 수량 증감 버튼
+        itemElement.querySelectorAll('.qty-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const action = e.target.dataset.action;
+                const input = e.target.closest('.quantity-controls').previousElementSibling;
+                let value = parseInt(input.value) || 0;
+                
+                if (action === 'increase') {
+                    value++;
+                } else if (action === 'decrease' && value > 0) {
+                    value--;
+                }
+                
+                input.value = value;
+                input.dispatchEvent(new Event('input'));
+            });
+        });
+
+        // 액션 버튼
+        itemElement.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const action = e.target.closest('.action-btn').dataset.action;
+                
+                if (action === 'save') {
+                    this.saveItemCheck(itemId);
+                } else if (action === 'reset') {
+                    this.resetItemCheck(itemId, itemElement);
+                }
+            });
+        });
+    }
+
+    updateItemCheck(itemId, checkData) {
+        this.checkedItems.set(itemId, {
+            ...this.checkedItems.get(itemId),
+            ...checkData
+        });
+        
+        this.updateStats();
+        this.checkBatchActionsVisibility();
+    }
+
+    updateItemStatus(itemElement, item) {
+        const checkData = this.checkedItems.get(item.id);
+        if (!checkData) return;
+
+        const statusElement = itemElement.querySelector('.item-status');
+        const statusClass = this.getStatusClass(item, checkData);
+        
+        // 기존 상태 클래스 제거
+        statusElement.classList.remove('status-sufficient', 'status-low', 'status-out');
+        statusElement.classList.add(statusClass);
+        statusElement.textContent = this.getStatusText(item, checkData);
+
+        // 아이템 컨테이너 상태 업데이트
+        itemElement.classList.remove('sufficient', 'low-stock', 'out-of-stock');
+        itemElement.classList.add(this.getItemStatusClass(item, checkData));
+    }
+
+    getStatusClass(item, checkData) {
+        const currentQty = checkData.currentQuantity || 0;
+        const minStock = item.minimumStock || 0;
+
+        if (currentQty === 0) return 'status-out';
+        if (currentQty < minStock) return 'status-low';
+        return 'status-sufficient';
+    }
+
+    getStatusText(item, checkData) {
+        const currentQty = checkData.currentQuantity || 0;
+        const minStock = item.minimumStock || 0;
+
+        if (currentQty === 0) return '품절';
+        if (currentQty < minStock) return '부족';
+        return '충분';
+    }
+
+    getItemStatusClass(item, checkData) {
+        const currentQty = checkData.currentQuantity || 0;
+        const minStock = item.minimumStock || 0;
+
+        if (currentQty === 0) return 'out-of-stock';
+        if (currentQty < minStock) return 'low-stock';
+        return 'sufficient';
+    }
+
+    isLowStock(item) {
+        const checkData = this.checkedItems.get(item.id);
+        if (!checkData) return false;
+        
+        const currentQty = checkData.currentQuantity || 0;
+        const minStock = item.minimumStock || 0;
+        
+        return currentQty > 0 && currentQty < minStock;
+    }
+
+    async saveItemCheck(itemId) {
+        const checkData = this.checkedItems.get(itemId);
+        if (!checkData) return;
+
+        try {
+            const response = await fetch('/field-report/api/save-inventory-check/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': window.csrfToken
+                },
+                body: JSON.stringify({
+                    item_id: itemId,
+                    current_quantity: checkData.currentQuantity,
+                    required_quantity: checkData.requiredQuantity,
+                    notes: checkData.notes
+                })
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                this.showToast('재고 체크가 저장되었습니다.', 'success');
+                
+                // 저장 상태 표시
+                const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
+                const saveBtn = itemElement.querySelector('.save-btn');
+                
+                const originalText = saveBtn.innerHTML;
+                saveBtn.innerHTML = '<i class="bi bi-check2"></i> 저장됨';
+                saveBtn.style.background = '#28a745';
+                
+                setTimeout(() => {
+                    saveBtn.innerHTML = originalText;
+                    saveBtn.style.background = '';
+                }, 2000);
+                
+            } else {
+                throw new Error(result.error);
+            }
+        } catch (error) {
+            console.error('[InventoryCheckManager] Failed to save item check:', error);
+            this.showToast('저장에 실패했습니다.', 'error');
+        }
+    }
+
+    resetItemCheck(itemId, itemElement) {
+        this.checkedItems.delete(itemId);
+        
+        // UI 초기화
+        itemElement.querySelector('.current-qty').value = '';
+        itemElement.querySelector('.required-qty').value = this.inventoryItems.find(i => i.id === itemId)?.minimumStock || 0;
+        itemElement.querySelector('.notes-input').value = '';
+        
+        // 상태 업데이트
+        const item = this.inventoryItems.find(i => i.id === itemId);
+        this.updateItemStatus(itemElement, item);
+        this.updateStats();
+    }
+
+    async saveAllChecks() {
+        if (this.checkedItems.size === 0) {
+            this.showToast('체크된 항목이 없습니다.', 'warning');
+            return;
+        }
+
+        const saveBtn = document.getElementById('save-all-btn');
+        const originalText = saveBtn.innerHTML;
+        saveBtn.innerHTML = '<i class="spinner-border spinner-border-sm"></i> 저장 중...';
+        saveBtn.disabled = true;
+
+        try {
+            const checkData = {};
+            this.checkedItems.forEach((data, itemId) => {
+                checkData[itemId] = data;
+            });
+
+            const response = await fetch('/field-report/api/save-all-inventory-checks/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': window.csrfToken
+                },
+                body: JSON.stringify({
+                    checks: checkData
+                })
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                this.showToast(`${result.saved_count}개 항목이 저장되었습니다.`, 'success');
+                this.showSummary();
+            } else {
+                throw new Error(result.error);
+            }
+
+        } catch (error) {
+            console.error('[InventoryCheckManager] Failed to save all checks:', error);
+            this.showToast('일괄 저장에 실패했습니다.', 'error');
+        } finally {
+            saveBtn.innerHTML = originalText;
+            saveBtn.disabled = false;
+        }
+    }
+
+    updateStats() {
+        const totalItems = this.inventoryItems.length;
+        const checkedItems = this.checkedItems.size;
+        let lowStockItems = 0;
+        let outOfStockItems = 0;
+
+        this.checkedItems.forEach((checkData, itemId) => {
+            const item = this.inventoryItems.find(i => i.id === itemId);
+            if (!item) return;
+
+            const currentQty = checkData.currentQuantity || 0;
+            const minStock = item.minimumStock || 0;
+
+            if (currentQty === 0) {
+                outOfStockItems++;
+            } else if (currentQty < minStock) {
+                lowStockItems++;
+            }
+        });
+
+        // 통계 업데이트
+        document.getElementById('total-items').textContent = totalItems;
+        document.getElementById('checked-items').textContent = checkedItems;
+        document.getElementById('low-stock-items').textContent = lowStockItems;
+        document.getElementById('out-of-stock-items').textContent = outOfStockItems;
+
+        // 재고 부족 알림
+        const alertElement = document.getElementById('low-stock-alert');
+        const alertMessage = document.getElementById('alert-message');
+        
+        if (lowStockItems > 0 || outOfStockItems > 0) {
+            let message = '';
+            if (outOfStockItems > 0) {
+                message += `${outOfStockItems}개 품목이 품절되었습니다. `;
+            }
+            if (lowStockItems > 0) {
+                message += `${lowStockItems}개 품목의 재고가 부족합니다.`;
+            }
+            
+            alertMessage.textContent = message;
+            alertElement.style.display = 'flex';
+        } else {
+            alertElement.style.display = 'none';
+        }
+
+        this.checkBatchActionsVisibility();
+    }
+
+    checkBatchActionsVisibility() {
+        const batchActions = document.getElementById('batch-actions');
+        const hasCheckedItems = this.checkedItems.size > 0;
+        
+        batchActions.classList.toggle('visible', hasCheckedItems);
+    }
+
+    showSummary() {
+        let sufficient = 0, low = 0, out = 0, replenish = 0;
+
+        this.checkedItems.forEach((checkData, itemId) => {
+            const item = this.inventoryItems.find(i => i.id === itemId);
+            if (!item) return;
+
+            const currentQty = checkData.currentQuantity || 0;
+            const minStock = item.minimumStock || 0;
+            const requiredQty = checkData.requiredQuantity || 0;
+
+            if (currentQty === 0) {
+                out++;
+            } else if (currentQty < minStock) {
+                low++;
+            } else {
+                sufficient++;
+            }
+
+            if (currentQty < requiredQty) {
+                replenish++;
+            }
+        });
+
+        // 요약 섹션 업데이트
+        document.getElementById('summary-sufficient').textContent = sufficient;
+        document.getElementById('summary-low').textContent = low;
+        document.getElementById('summary-out').textContent = out;
+        document.getElementById('summary-replenish').textContent = replenish;
+        
+        document.getElementById('summary-section').style.display = 'block';
+        
+        // 요약 섹션으로 스크롤
+        document.getElementById('summary-section').scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+    }
+
+    async openBarcodeScanner() {
+        // 바코드 스캐너 구현 (향후 확장)
+        this.showToast('바코드 스캐너 기능은 개발 중입니다.', 'info');
+    }
+
+    closeBarcodeScanner() {
+        const scanner = document.getElementById('barcode-scanner');
+        scanner.classList.remove('visible');
+        
+        if (this.barcodeScanner) {
+            this.barcodeScanner.stop();
+        }
+    }
+
+    showToast(message, type = 'info') {
+        const toast = document.getElementById('toast');
+        const toastBody = toast ? toast.querySelector('.toast-body') : null;
+        
+        if (toastBody) {
+            toastBody.textContent = message;
+            const bootstrapToast = new bootstrap.Toast(toast);
+            bootstrapToast.show();
+        } else {
+            alert(message);
+        }
+    }
+}
+
+// 전역 함수들
+function goBack() {
+    window.history.back();
+}
+
+function finishInventoryCheck() {
+    const checkedCount = inventoryManager.checkedItems.size;
+    
+    if (checkedCount === 0) {
+        alert('재고 체크를 완료한 항목이 없습니다.');
+        return;
+    }
+    
+    if (confirm(`${checkedCount}개 항목의 재고 체크가 완료되었습니다. 작업을 완료하시겠습니까?`)) {
+        // 메인 리포트 페이지로 이동
+        window.location.href = '/field-report/';
+    }
+}
+
+// 페이지 로드 시 초기화
+let inventoryManager;
+document.addEventListener('DOMContentLoaded', () => {
+    inventoryManager = new InventoryCheckManager();
+});
+</script>
+{% endblock %}

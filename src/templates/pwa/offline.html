@@ -1,0 +1,371 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}오프라인 - OneSquare{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pwa.css' %}">
+<style>
+  .offline-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .offline-icon {
+    font-size: 4rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+  }
+  
+  .offline-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #343a40;
+    margin-bottom: 1rem;
+  }
+  
+  .offline-message {
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-bottom: 2rem;
+    max-width: 500px;
+    line-height: 1.6;
+  }
+  
+  .offline-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .btn-retry {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .btn-retry:hover {
+    background: #0056b3;
+    transform: translateY(-1px);
+  }
+  
+  .btn-offline {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  
+  .btn-offline:hover {
+    background: #1e7e34;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+  
+  .offline-features {
+    margin-top: 3rem;
+    max-width: 600px;
+  }
+  
+  .feature-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+  
+  .feature-item {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid #007bff;
+  }
+  
+  .feature-icon {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+    color: #007bff;
+  }
+  
+  .network-status {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  
+  .network-status.online {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  
+  .network-status.offline {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+  
+  .sync-indicator {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    color: #856404;
+    display: none;
+  }
+  
+  .sync-indicator.show {
+    display: block;
+  }
+  
+  @keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+  }
+  
+  .syncing {
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="network-status" id="network-status">
+  <span id="network-text">연결 상태 확인 중...</span>
+</div>
+
+<div class="offline-container">
+  <div class="offline-icon">
+    📡
+  </div>
+  
+  <h1 class="offline-title">
+    인터넷 연결이 없습니다
+  </h1>
+  
+  <p class="offline-message">
+    현재 오프라인 상태입니다. 네트워크 연결을 확인하거나, 
+    캐시된 데이터로 계속 사용하실 수 있습니다.
+  </p>
+  
+  <div class="offline-actions">
+    <button class="btn-retry" onclick="retryConnection()">
+      🔄 다시 시도
+    </button>
+    <a href="/" class="btn-offline">
+      📱 오프라인 모드로 계속
+    </a>
+  </div>
+  
+  <div class="sync-indicator" id="sync-indicator">
+    <span id="sync-text">연결 복구 시 자동으로 동기화됩니다...</span>
+  </div>
+  
+  <div class="offline-features">
+    <h3>오프라인에서도 사용 가능한 기능</h3>
+    <ul class="feature-list">
+      <li class="feature-item">
+        <span class="feature-icon">📊</span>
+        <strong>캐시된 대시보드 보기</strong><br>
+        마지막으로 로드된 데이터 확인
+      </li>
+      <li class="feature-item">
+        <span class="feature-icon">📝</span>
+        <strong>오프라인 메모 작성</strong><br>
+        온라인 복구 시 자동 동기화
+      </li>
+      <li class="feature-item">
+        <span class="feature-icon">📅</span>
+        <strong>로컬 캘린더 보기</strong><br>
+        저장된 일정 정보 확인
+      </li>
+      <li class="feature-item">
+        <span class="feature-icon">👤</span>
+        <strong>사용자 프로필 관리</strong><br>
+        로컬 저장된 정보 수정
+      </li>
+    </ul>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const networkStatus = document.getElementById('network-status');
+  const networkText = document.getElementById('network-text');
+  const syncIndicator = document.getElementById('sync-indicator');
+  const syncText = document.getElementById('sync-text');
+  
+  // 네트워크 상태 업데이트
+  function updateNetworkStatus() {
+    const isOnline = navigator.onLine;
+    
+    networkStatus.className = `network-status ${isOnline ? 'online' : 'offline'}`;
+    networkText.textContent = isOnline ? '🟢 온라인' : '🔴 오프라인';
+    
+    if (isOnline) {
+      syncIndicator.classList.add('show');
+      syncText.innerHTML = '🔄 <span class="syncing">데이터 동기화 중...</span>';
+      
+      // 3초 후 동기화 완료 표시
+      setTimeout(() => {
+        syncText.textContent = '✅ 동기화 완료!';
+        setTimeout(() => {
+          syncIndicator.classList.remove('show');
+        }, 2000);
+      }, 3000);
+    } else {
+      syncIndicator.classList.remove('show');
+    }
+  }
+  
+  // 초기 상태 설정
+  updateNetworkStatus();
+  
+  // 네트워크 상태 변경 감지
+  window.addEventListener('online', updateNetworkStatus);
+  window.addEventListener('offline', updateNetworkStatus);
+  
+  // Service Worker 메시지 처리
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('message', event => {
+      const { type, payload } = event.data || {};
+      
+      if (type === 'SYNC_COMPLETE') {
+        syncText.textContent = '✅ 동기화 완료!';
+        setTimeout(() => {
+          syncIndicator.classList.remove('show');
+        }, 2000);
+      } else if (type === 'SYNC_FAILED') {
+        syncText.textContent = '❌ 동기화 실패';
+        setTimeout(() => {
+          syncIndicator.classList.remove('show');
+        }, 3000);
+      }
+    });
+  }
+});
+
+// 연결 재시도
+function retryConnection() {
+  const btn = event.target;
+  const originalText = btn.textContent;
+  
+  btn.textContent = '🔄 확인 중...';
+  btn.disabled = true;
+  
+  // 실제 연결 테스트
+  fetch('/api/auth/status/', { 
+    method: 'HEAD',
+    cache: 'no-cache'
+  })
+  .then(response => {
+    if (response.ok) {
+      // 연결 성공 - 메인 페이지로 이동
+      window.location.href = '/';
+    } else {
+      throw new Error('Connection failed');
+    }
+  })
+  .catch(() => {
+    // 연결 실패
+    btn.textContent = originalText;
+    btn.disabled = false;
+    
+    // 토스트 메시지 표시
+    showToast('아직 연결할 수 없습니다. 잠시 후 다시 시도해주세요.', 'warning');
+  });
+}
+
+// 토스트 메시지 표시
+function showToast(message, type = 'info') {
+  // 기존 토스트 제거
+  const existingToast = document.getElementById('offline-toast');
+  if (existingToast) {
+    existingToast.remove();
+  }
+  
+  // 새 토스트 생성
+  const toast = document.createElement('div');
+  toast.id = 'offline-toast';
+  toast.className = `toast toast-${type}`;
+  toast.textContent = message;
+  toast.style.cssText = `
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 1001;
+    padding: 12px 20px;
+    border-radius: 5px;
+    color: white;
+    font-weight: 500;
+    max-width: 300px;
+    animation: slideInFromRight 0.3s ease;
+  `;
+  
+  // 타입별 배경색
+  const colors = {
+    success: '#28a745',
+    error: '#dc3545',
+    warning: '#ffc107',
+    info: '#17a2b8'
+  };
+  toast.style.backgroundColor = colors[type] || colors.info;
+  
+  document.body.appendChild(toast);
+  
+  // 4초 후 자동 제거
+  setTimeout(() => {
+    if (toast.parentNode) {
+      toast.remove();
+    }
+  }, 4000);
+  
+  // 클릭 시 제거
+  toast.addEventListener('click', () => {
+    toast.remove();
+  });
+}
+
+// CSS 애니메이션 추가
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideInFromRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

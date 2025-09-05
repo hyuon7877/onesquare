@@ -1,0 +1,898 @@
+{% extends 'field_report/base_mobile.html' %}
+{% load static %}
+
+{% block title %}업무 시간 기록 - OneSquare{% endblock %}
+
+{% block extra_head %}
+<style>
+    .time-tracker-container {
+        padding: 20px;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    .current-session-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+    
+    .session-timer {
+        font-size: 3rem;
+        font-weight: bold;
+        margin: 20px 0;
+        font-family: 'Courier New', monospace;
+    }
+    
+    .session-info {
+        margin: 15px 0;
+        opacity: 0.9;
+    }
+    
+    .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin: 30px 0;
+    }
+    
+    .action-btn {
+        height: 80px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-radius: 15px;
+        border: none;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .action-btn:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+    
+    .action-btn:active:before {
+        left: 100%;
+    }
+    
+    .start-btn {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+    }
+    
+    .start-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(79, 172, 254, 0.6);
+    }
+    
+    .end-btn {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        color: white;
+        box-shadow: 0 8px 25px rgba(250, 112, 154, 0.4);
+    }
+    
+    .end-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(250, 112, 154, 0.6);
+    }
+    
+    .pause-btn {
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        color: #333;
+        box-shadow: 0 8px 25px rgba(168, 237, 234, 0.4);
+    }
+    
+    .location-status {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 20px 0;
+        font-size: 0.9rem;
+    }
+    
+    .location-verified {
+        background: rgba(40, 167, 69, 0.1);
+        color: #28a745;
+        border: 2px solid rgba(40, 167, 69, 0.3);
+    }
+    
+    .location-pending {
+        background: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+        border: 2px solid rgba(255, 193, 7, 0.3);
+    }
+    
+    .location-error {
+        background: rgba(220, 53, 69, 0.1);
+        color: #dc3545;
+        border: 2px solid rgba(220, 53, 69, 0.3);
+    }
+    
+    .site-selector {
+        margin: 20px 0;
+    }
+    
+    .site-selector select {
+        width: 100%;
+        padding: 15px;
+        border-radius: 10px;
+        border: 2px solid #e9ecef;
+        font-size: 1rem;
+        background: white;
+    }
+    
+    .recent-sessions {
+        margin-top: 40px;
+    }
+    
+    .session-item {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin: 15px 0;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        border-left: 4px solid #667eea;
+    }
+    
+    .session-duration {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #667eea;
+    }
+    
+    .session-details {
+        margin-top: 10px;
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .loading-spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #667eea;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .accuracy-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.8rem;
+    }
+    
+    .accuracy-excellent { color: #28a745; }
+    .accuracy-good { color: #17a2b8; }
+    .accuracy-fair { color: #ffc107; }
+    .accuracy-poor { color: #fd7e14; }
+    .accuracy-very-poor { color: #dc3545; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="time-tracker-container">
+    <!-- 현재 세션 카드 -->
+    <div id="current-session-card" class="current-session-card" style="display: none;">
+        <div class="session-info">
+            <i class="bi bi-geo-alt"></i>
+            <span id="current-site-name">현장명</span>
+        </div>
+        <div class="session-timer" id="session-timer">00:00:00</div>
+        <div class="session-info">
+            <small id="session-start-time">시작 시간</small>
+        </div>
+    </div>
+
+    <!-- 위치 상태 표시 -->
+    <div id="location-status" class="location-status location-pending">
+        <div class="loading-spinner"></div>
+        <span>위치 확인 중...</span>
+        <div class="accuracy-indicator" id="location-accuracy"></div>
+    </div>
+
+    <!-- 오프라인/동기화 상태 표시 -->
+    <div id="sync-status" class="sync-status d-flex align-items-center justify-content-between p-3 rounded mb-3" style="background: rgba(108, 117, 125, 0.1); border: 1px solid rgba(108, 117, 125, 0.2);">
+        <div class="d-flex align-items-center gap-2">
+            <i id="sync-icon" class="bi bi-wifi text-success"></i>
+            <span id="sync-text">온라인</span>
+        </div>
+        <div id="pending-count" class="badge bg-warning" style="display: none;">0</div>
+    </div>
+
+    <!-- 현장 선택 -->
+    <div class="site-selector">
+        <select id="site-select" class="form-select">
+            <option value="">현장을 선택하세요</option>
+            <!-- 동적으로 로드됨 -->
+        </select>
+    </div>
+
+    <!-- 액션 버튼들 -->
+    <div class="action-buttons">
+        <button id="start-work-btn" class="action-btn start-btn" disabled>
+            <i class="bi bi-play-circle"></i>
+            업무 시작
+        </button>
+        
+        <button id="end-work-btn" class="action-btn end-btn" style="display: none;" disabled>
+            <i class="bi bi-stop-circle"></i>
+            업무 종료
+        </button>
+        
+        <button id="pause-work-btn" class="action-btn pause-btn" style="display: none;">
+            <i class="bi bi-pause-circle"></i>
+            일시 중지
+        </button>
+    </div>
+
+    <!-- 최근 세션 목록 -->
+    <div class="recent-sessions">
+        <h5><i class="bi bi-clock-history"></i> 최근 업무 기록</h5>
+        <div id="recent-sessions-list">
+            <!-- 동적으로 로드됨 -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block bottom_actions %}
+<div class="d-flex gap-2 p-3">
+    <button class="btn btn-outline-primary flex-fill" onclick="showWorkHistory()">
+        <i class="bi bi-calendar3"></i> 업무 이력
+    </button>
+    <button class="btn btn-outline-secondary flex-fill" onclick="exportTimeData()">
+        <i class="bi bi-download"></i> 데이터 내보내기
+    </button>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- 위치 추적 모듈 -->
+<script src="{% static 'js/modules/location-tracker.js' %}"></script>
+<!-- 오프라인 저장 모듈 -->
+<script src="{% static 'js/modules/offline-storage.js' %}"></script>
+
+<script>
+class WorkTimeManager {
+    constructor() {
+        this.currentSession = null;
+        this.timerInterval = null;
+        this.sites = [];
+        this.locationVerified = false;
+        
+        this.init();
+    }
+
+    async init() {
+        console.log('[WorkTimeManager] Initializing work time manager...');
+        
+        // 위치 추적기 이벤트 등록
+        locationTracker.on('locationUpdate', this.handleLocationUpdate.bind(this));
+        locationTracker.on('locationError', this.handleLocationError.bind(this));
+        locationTracker.on('accuracyImproved', this.handleAccuracyImproved.bind(this));
+        
+        // 오프라인 저장소 이벤트 등록
+        this.setupOfflineEvents();
+        
+        // UI 이벤트 등록
+        this.setupEventListeners();
+        
+        // 동기화 상태 초기화
+        this.updateSyncStatus();
+        
+        // 데이터 로드
+        await this.loadSites();
+        await this.checkCurrentSession();
+        
+        // 위치 추적 시작
+        await locationTracker.init();
+        locationTracker.startTracking();
+        
+        // 오프라인 통계 업데이트
+        this.updateOfflineStats();
+        
+        // 주기적으로 오프라인 통계 업데이트 (30초마다)
+        setInterval(() => {
+            this.updateOfflineStats();
+        }, 30000);
+        
+        console.log('[WorkTimeManager] Work time manager initialized');
+    }
+
+    setupOfflineEvents() {
+        // 온라인/오프라인 상태 변경 감지
+        window.addEventListener('online', () => {
+            this.updateSyncStatus();
+            this.showToast('네트워크 연결이 복구되었습니다. 데이터 동기화 중...', 'info');
+        });
+
+        window.addEventListener('offline', () => {
+            this.updateSyncStatus();
+            this.showToast('네트워크 연결이 끊어졌습니다. 오프라인 모드로 전환됩니다.', 'warning');
+        });
+    }
+
+    setupEventListeners() {
+        // 시작 버튼
+        document.getElementById('start-work-btn').addEventListener('click', () => {
+            this.startWork();
+        });
+        
+        // 종료 버튼
+        document.getElementById('end-work-btn').addEventListener('click', () => {
+            this.endWork();
+        });
+        
+        // 일시중지 버튼
+        document.getElementById('pause-work-btn').addEventListener('click', () => {
+            this.pauseWork();
+        });
+        
+        // 현장 선택
+        document.getElementById('site-select').addEventListener('change', (e) => {
+            this.onSiteSelected(e.target.value);
+        });
+
+        // 동기화 상태 클릭 시 통계 표시
+        document.getElementById('sync-status').addEventListener('click', () => {
+            this.showOfflineStats();
+        });
+    }
+
+    async loadSites() {
+        try {
+            const response = await fetch('/api/field-report/sites/');
+            const data = await response.json();
+            
+            this.sites = data.sites || [];
+            this.populateSiteSelector();
+            
+        } catch (error) {
+            console.error('[WorkTimeManager] Failed to load sites:', error);
+        }
+    }
+
+    populateSiteSelector() {
+        const siteSelect = document.getElementById('site-select');
+        siteSelect.innerHTML = '<option value="">현장을 선택하세요</option>';
+        
+        this.sites.forEach(site => {
+            const option = document.createElement('option');
+            option.value = site.id;
+            option.textContent = site.name;
+            option.dataset.latitude = site.latitude;
+            option.dataset.longitude = site.longitude;
+            siteSelect.appendChild(option);
+        });
+    }
+
+    async checkCurrentSession() {
+        try {
+            const response = await fetch('/api/field-report/current-session/');
+            const data = await response.json();
+            
+            if (data.has_active_session) {
+                this.currentSession = data.session;
+                this.showActiveSession();
+                this.startTimer();
+            } else {
+                this.showIdleState();
+            }
+            
+        } catch (error) {
+            console.error('[WorkTimeManager] Failed to check current session:', error);
+        }
+    }
+
+    handleLocationUpdate(data) {
+        const { position, isHighAccuracy } = data;
+        const coords = position.coords;
+        
+        // 위치 상태 업데이트
+        this.updateLocationStatus('verified', `위치 확인됨 (±${Math.round(coords.accuracy)}m)`);
+        
+        // 정확도 표시 업데이트
+        this.updateAccuracyIndicator(locationTracker.getLocationQuality(), coords.accuracy);
+        
+        // 선택된 현장과의 거리 체크
+        this.checkSiteProximity();
+    }
+
+    handleLocationError(data) {
+        this.updateLocationStatus('error', data.message);
+        this.locationVerified = false;
+        this.updateButtonStates();
+    }
+
+    handleAccuracyImproved(data) {
+        console.log(`[WorkTimeManager] Location accuracy improved: ${data.accuracy}m`);
+        this.updateAccuracyIndicator(locationTracker.getLocationQuality(), data.accuracy);
+    }
+
+    updateLocationStatus(status, message) {
+        const statusElement = document.getElementById('location-status');
+        const statusClass = `location-${status}`;
+        
+        // 기존 클래스 제거
+        statusElement.classList.remove('location-pending', 'location-verified', 'location-error');
+        statusElement.classList.add(statusClass);
+        
+        // 아이콘 및 텍스트 업데이트
+        let icon = '';
+        switch (status) {
+            case 'verified':
+                icon = '<i class="bi bi-check-circle"></i>';
+                this.locationVerified = true;
+                break;
+            case 'error':
+                icon = '<i class="bi bi-exclamation-triangle"></i>';
+                this.locationVerified = false;
+                break;
+            default:
+                icon = '<div class="loading-spinner"></div>';
+                this.locationVerified = false;
+        }
+        
+        statusElement.innerHTML = `${icon}<span>${message}</span><div class="accuracy-indicator" id="location-accuracy"></div>`;
+        this.updateButtonStates();
+    }
+
+    updateAccuracyIndicator(quality, accuracy) {
+        const indicator = document.getElementById('location-accuracy');
+        if (!indicator) return;
+        
+        const qualityLabels = {
+            'excellent': '매우정확',
+            'good': '정확',
+            'fair': '보통',
+            'poor': '낮음',
+            'very_poor': '매우낮음'
+        };
+        
+        indicator.className = `accuracy-indicator accuracy-${quality.replace('_', '-')}`;
+        indicator.innerHTML = `<i class="bi bi-geo-alt"></i> ${qualityLabels[quality]}`;
+    }
+
+    checkSiteProximity() {
+        const selectedSiteId = document.getElementById('site-select').value;
+        if (!selectedSiteId) return;
+        
+        const selectedOption = document.querySelector(`#site-select option[value="${selectedSiteId}"]`);
+        if (!selectedOption) return;
+        
+        const siteLatitude = parseFloat(selectedOption.dataset.latitude);
+        const siteLongitude = parseFloat(selectedOption.dataset.longitude);
+        
+        if (siteLatitude && siteLongitude) {
+            const verification = locationTracker.verifyLocationAtSite(siteLatitude, siteLongitude);
+            
+            if (verification.verified) {
+                this.updateLocationStatus('verified', `${verification.reason} (${verification.distance}m)`);
+            } else {
+                this.updateLocationStatus('error', verification.reason);
+            }
+        }
+    }
+
+    onSiteSelected(siteId) {
+        if (siteId) {
+            this.checkSiteProximity();
+        } else {
+            this.locationVerified = false;
+            this.updateLocationStatus('pending', '현장을 선택하세요');
+        }
+        this.updateButtonStates();
+    }
+
+    updateButtonStates() {
+        const startBtn = document.getElementById('start-work-btn');
+        const endBtn = document.getElementById('end-work-btn');
+        const siteSelected = document.getElementById('site-select').value;
+        
+        // 시작 버튼 활성화 조건: 현장 선택 + 위치 확인 + 활성 세션 없음
+        startBtn.disabled = !(siteSelected && this.locationVerified && !this.currentSession);
+        
+        // 종료 버튼 활성화 조건: 활성 세션 존재
+        endBtn.disabled = !this.currentSession;
+    }
+
+    async startWork() {
+        const siteId = document.getElementById('site-select').value;
+        if (!siteId || !this.locationVerified) {
+            this.showToast('현장을 선택하고 위치를 확인해주세요.', 'warning');
+            return;
+        }
+
+        try {
+            const position = locationTracker.currentPosition;
+            const coords = position.coords;
+            
+            // 세션 데이터 준비
+            const sessionData = {
+                sessionId: offlineStorage.generateSessionId(),
+                userId: '{{ request.user.id }}',
+                siteId: siteId,
+                action: 'start',
+                latitude: coords.latitude,
+                longitude: coords.longitude,
+                accuracy: coords.accuracy,
+                locationVerified: this.locationVerified
+            };
+            
+            // 오프라인 저장 우선
+            const offlineResult = await offlineStorage.saveTimeRecord(sessionData);
+            
+            let serverResponse = null;
+            
+            // 온라인 상태면 서버에도 전송
+            if (navigator.onLine) {
+                try {
+                    const response = await fetch('/api/field-report/start-work/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': window.csrfToken
+                        },
+                        body: JSON.stringify({
+                            site_id: siteId,
+                            start_latitude: coords.latitude,
+                            start_longitude: coords.longitude,
+                            location_accuracy: coords.accuracy,
+                            session_id: sessionData.sessionId
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        serverResponse = await response.json();
+                    }
+                } catch (networkError) {
+                    console.warn('[WorkTimeManager] Network error, continuing with offline mode:', networkError);
+                }
+            }
+            
+            // 세션 시작 처리
+            this.currentSession = serverResponse ? serverResponse.session : {
+                id: sessionData.sessionId,
+                site_id: siteId,
+                start_time: new Date().toISOString(),
+                status: 'started'
+            };
+            
+            this.showActiveSession();
+            this.startTimer();
+            
+            const message = navigator.onLine && serverResponse ? 
+                '업무를 시작했습니다.' : 
+                '업무를 시작했습니다. (오프라인 모드)';
+            this.showToast(message, 'success');
+            
+            // 햅틱 피드백
+            if (window.touchGestureManager) {
+                window.touchGestureManager.hapticFeedback('success');
+            }
+            
+        } catch (error) {
+            console.error('[WorkTimeManager] Start work error:', error);
+            this.showToast('업무 시작에 실패했습니다.', 'error');
+        }
+    }
+
+    async endWork() {
+        if (!this.currentSession) return;
+
+        try {
+            const position = locationTracker.currentPosition;
+            const coords = position ? position.coords : null;
+            
+            // 종료 세션 데이터 준비
+            const sessionData = {
+                sessionId: this.currentSession.id,
+                userId: '{{ request.user.id }}',
+                siteId: this.currentSession.site_id,
+                action: 'end',
+                latitude: coords ? coords.latitude : null,
+                longitude: coords ? coords.longitude : null,
+                accuracy: coords ? coords.accuracy : null,
+                locationVerified: coords ? this.locationVerified : false
+            };
+            
+            // 오프라인 저장 우선
+            await offlineStorage.saveTimeRecord(sessionData);
+            
+            let serverResponse = null;
+            let duration = null;
+            
+            // 온라인 상태면 서버에도 전송
+            if (navigator.onLine) {
+                try {
+                    const response = await fetch('/api/field-report/end-work/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': window.csrfToken
+                        },
+                        body: JSON.stringify({
+                            session_id: this.currentSession.id,
+                            end_latitude: coords ? coords.latitude : null,
+                            end_longitude: coords ? coords.longitude : null,
+                            location_accuracy: coords ? coords.accuracy : null
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        serverResponse = await response.json();
+                        duration = serverResponse.duration;
+                    }
+                } catch (networkError) {
+                    console.warn('[WorkTimeManager] Network error during end work:', networkError);
+                }
+            }
+            
+            // 로컬에서 근무시간 계산 (서버 응답이 없는 경우)
+            if (!duration && this.currentSession.start_time) {
+                const startTime = new Date(this.currentSession.start_time);
+                const endTime = new Date();
+                const elapsed = endTime - startTime;
+                const hours = Math.floor(elapsed / 3600000);
+                const minutes = Math.floor((elapsed % 3600000) / 60000);
+                duration = `${hours}시간 ${minutes}분`;
+            }
+            
+            this.currentSession = null;
+            this.stopTimer();
+            this.showIdleState();
+            
+            const message = navigator.onLine && serverResponse ? 
+                `업무를 종료했습니다. (근무시간: ${duration})` :
+                `업무를 종료했습니다. (근무시간: ${duration}) - 오프라인`;
+            this.showToast(message, 'success');
+            
+            // 햅틱 피드백
+            if (window.touchGestureManager) {
+                window.touchGestureManager.hapticFeedback('success');
+            }
+            
+            // 최근 세션 목록 새로고침
+            this.loadRecentSessions();
+            
+        } catch (error) {
+            console.error('[WorkTimeManager] End work error:', error);
+            this.showToast('업무 종료 중 오류가 발생했습니다.', 'error');
+        }
+    }
+
+    showActiveSession() {
+        const card = document.getElementById('current-session-card');
+        const siteName = document.getElementById('current-site-name');
+        const startTime = document.getElementById('session-start-time');
+        
+        // 현장명 표시
+        const selectedOption = document.querySelector(`#site-select option[value="${this.currentSession.site_id}"]`);
+        siteName.textContent = selectedOption ? selectedOption.textContent : '현장';
+        
+        // 시작 시간 표시
+        const sessionStart = new Date(this.currentSession.start_time);
+        startTime.textContent = `시작: ${sessionStart.toLocaleTimeString('ko-KR')}`;
+        
+        // 카드 표시
+        card.style.display = 'block';
+        
+        // 버튼 상태 업데이트
+        document.getElementById('start-work-btn').style.display = 'none';
+        document.getElementById('end-work-btn').style.display = 'block';
+        document.getElementById('pause-work-btn').style.display = 'block';
+        
+        this.updateButtonStates();
+    }
+
+    showIdleState() {
+        document.getElementById('current-session-card').style.display = 'none';
+        document.getElementById('start-work-btn').style.display = 'block';
+        document.getElementById('end-work-btn').style.display = 'none';
+        document.getElementById('pause-work-btn').style.display = 'none';
+        
+        this.updateButtonStates();
+    }
+
+    startTimer() {
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+        }
+        
+        this.timerInterval = setInterval(() => {
+            this.updateTimer();
+        }, 1000);
+        
+        this.updateTimer();
+    }
+
+    stopTimer() {
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+            this.timerInterval = null;
+        }
+    }
+
+    updateTimer() {
+        if (!this.currentSession) return;
+        
+        const startTime = new Date(this.currentSession.start_time);
+        const now = new Date();
+        const elapsed = now - startTime;
+        
+        const hours = Math.floor(elapsed / 3600000);
+        const minutes = Math.floor((elapsed % 3600000) / 60000);
+        const seconds = Math.floor((elapsed % 60000) / 1000);
+        
+        const timerDisplay = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        document.getElementById('session-timer').textContent = timerDisplay;
+    }
+
+    async loadRecentSessions() {
+        try {
+            const response = await fetch('/api/field-report/recent-sessions/');
+            const data = await response.json();
+            
+            this.displayRecentSessions(data.sessions || []);
+            
+        } catch (error) {
+            console.error('[WorkTimeManager] Failed to load recent sessions:', error);
+        }
+    }
+
+    displayRecentSessions(sessions) {
+        const container = document.getElementById('recent-sessions-list');
+        container.innerHTML = '';
+        
+        if (sessions.length === 0) {
+            container.innerHTML = '<p class="text-muted text-center">최근 업무 기록이 없습니다.</p>';
+            return;
+        }
+        
+        sessions.forEach(session => {
+            const sessionElement = document.createElement('div');
+            sessionElement.className = 'session-item';
+            
+            const duration = this.formatDuration(session.duration_hours);
+            const startTime = new Date(session.start_time);
+            const endTime = session.end_time ? new Date(session.end_time) : null;
+            
+            sessionElement.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="session-duration">${duration}</div>
+                        <div class="session-details">
+                            <i class="bi bi-geo-alt"></i> ${session.site_name}<br>
+                            <i class="bi bi-clock"></i> ${startTime.toLocaleString('ko-KR')}
+                            ${endTime ? ` ~ ${endTime.toLocaleTimeString('ko-KR')}` : ' (진행중)'}
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge bg-${session.status === 'completed' ? 'success' : 'primary'}">${session.status_display}</span>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(sessionElement);
+        });
+    }
+
+    formatDuration(hours) {
+        const h = Math.floor(hours);
+        const m = Math.floor((hours - h) * 60);
+        return `${h}시간 ${m}분`;
+    }
+
+    updateSyncStatus() {
+        const syncIcon = document.getElementById('sync-icon');
+        const syncText = document.getElementById('sync-text');
+        const isOnline = navigator.onLine;
+        
+        if (isOnline) {
+            syncIcon.className = 'bi bi-wifi text-success';
+            syncText.textContent = '온라인';
+        } else {
+            syncIcon.className = 'bi bi-wifi-off text-warning';
+            syncText.textContent = '오프라인';
+        }
+    }
+
+    async updateOfflineStats() {
+        try {
+            if (window.offlineStorage) {
+                const stats = await offlineStorage.getOfflineStats();
+                const pendingCount = document.getElementById('pending-count');
+                
+                if (stats.pendingRecords > 0 || stats.queuedItems > 0) {
+                    const total = stats.pendingRecords + stats.queuedItems;
+                    pendingCount.textContent = total;
+                    pendingCount.style.display = 'block';
+                } else {
+                    pendingCount.style.display = 'none';
+                }
+            }
+        } catch (error) {
+            console.error('[WorkTimeManager] Failed to update offline stats:', error);
+        }
+    }
+
+    async showOfflineStats() {
+        try {
+            if (window.offlineStorage) {
+                const stats = await offlineStorage.getOfflineStats();
+                
+                let message = `오프라인 데이터 현황:\n`;
+                message += `- 총 시간 기록: ${stats.totalTimeRecords}개\n`;
+                message += `- 동기화 완료: ${stats.syncedRecords}개\n`;
+                message += `- 대기 중: ${stats.pendingRecords}개\n`;
+                message += `- 실패: ${stats.failedRecords}개\n`;
+                message += `- 위치 데이터: ${stats.locationPoints}개\n`;
+                
+                if (stats.lastSync) {
+                    message += `- 마지막 동기화: ${stats.lastSync.toLocaleString('ko-KR')}`;
+                } else {
+                    message += `- 아직 동기화되지 않음`;
+                }
+                
+                alert(message);
+            }
+        } catch (error) {
+            console.error('[WorkTimeManager] Failed to show offline stats:', error);
+            this.showToast('오프라인 통계를 가져올 수 없습니다.', 'error');
+        }
+    }
+
+    showToast(message, type = 'info') {
+        // 토스트 메시지 표시 (base_mobile.html의 토스트 사용)
+        const toast = document.getElementById('toast');
+        const toastBody = toast.querySelector('.toast-body');
+        
+        if (toastBody) {
+            toastBody.textContent = message;
+        }
+        
+        const bootstrapToast = new bootstrap.Toast(toast);
+        bootstrapToast.show();
+    }
+}
+
+// 전역 함수들
+function showWorkHistory() {
+    window.location.href = '/field-report/work-history/';
+}
+
+function exportTimeData() {
+    // 시간 데이터 내보내기 기능
+    workTimeManager.exportTimeData();
+}
+
+// 페이지 로드 시 초기화
+let workTimeManager;
+document.addEventListener('DOMContentLoaded', () => {
+    workTimeManager = new WorkTimeManager();
+});
+</script>
+{% endblock %}

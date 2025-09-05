@@ -1,52 +1,55 @@
-# Django Core
-django==5.0
-gunicorn==21.2.0
+# Django 기본 (API 서버)
+Django>=5.0.0
+djangorestframework
+django-cors-headers
+gunicorn
 
-# Database
-pymysql==1.1.0
-mysqlclient==2.2.0
+# Notion API 연동
+notion-client
+requests
+requests-oauthlib
 
-# Django Extensions
-djangorestframework==3.14.0
-django-extensions==3.2.3
-django-debug-toolbar==4.2.0
-django-cors-headers==4.3.1
+# PWA 및 캐싱
+django-pwa
+redis  # 서버사이드 캐싱
 
-# Authentication & Security
-argon2-cffi==23.1.0
-django-environ==0.11.2
+# 엑셀 내보내기 (선택사항)
+openpyxl
+xlsxwriter
+pandas
 
-# File Processing
-pillow==10.1.0
-openpyxl==3.1.2
-pandas==2.1.4
-arrow==1.3.0
+# 이미지 처리
+Pillow
+python-magic
 
-# Document Processing
-reportlab==4.0.8
-pdfkit==1.0.0
-weasyprint==60.1
+# 기타 유용한 라이브러리
+django-extensions
+django-debug-toolbar
+python-decouple
+python-dotenv
+dateutil
 
-# Utilities
-ipython==8.18.1
-python-dotenv==1.0.0
-chardet==5.2.0
+# HTTPS/SSL 지원
+pyOpenSSL
+certifi
 
-# Monitoring & Logging
-django-silk==5.0.4
+# 개발/테스트용
+django-silk  # API 성능 모니터링
+coverage     # 테스트 커버리지
 
-# Cache
-django-redis==5.4.0
-redis==5.0.1
+# 인증 & 보안
+argon2-cffi
+django-environ
 
-# Others
-django-user-agents==0.4.0
-plotly==5.18.0
-chart-studio==1.1.0
+# 유틸리티
+ipython
+chardet
+arrow
 
-# Test Coverage
-coverage==7.3.2
+# 시스템 성능 모니터링
+psutil
 
-# Async Support (Django 5.0+)
-channels==4.0.0
-channels-redis==4.1.0
+# AI/ML 분석 (간단한 라이브러리)
+numpy
+scipy
+django-widget-tweaks

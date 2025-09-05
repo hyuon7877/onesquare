@@ -1,0 +1,277 @@
+/* 매출 관리 대시보드 스타일 */
+
+.stat-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 140px;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card .card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.stat-card .card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card h3 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1;
+}
+
+.growth-indicator {
+    font-weight: 600;
+}
+
+.growth-indicator.positive {
+    color: #28a745 !important;
+}
+
+.growth-indicator.negative {
+    color: #dc3545 !important;
+}
+
+.growth-indicator.neutral {
+    color: #6c757d !important;
+}
+
+/* 차트 영역 */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 12px 12px 0 0 !important;
+    padding: 1rem 1.5rem;
+}
+
+.card-header h5 {
+    margin: 0;
+    font-weight: 600;
+}
+
+/* 테이블 스타일 */
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #495057;
+}
+
+.table td {
+    vertical-align: middle;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+}
+
+/* 상태 배지 */
+.badge {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 20px;
+}
+
+.status-badge {
+    display: inline-block;
+    min-width: 70px;
+    text-align: center;
+}
+
+.status-confirmed {
+    background-color: #28a745;
+}
+
+.status-pending {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.status-overdue {
+    background-color: #dc3545;
+}
+
+/* 상위 고객 목록 */
+.top-client-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.top-client-item:last-child {
+    border-bottom: none;
+}
+
+.client-name {
+    font-weight: 600;
+    color: #495057;
+}
+
+.client-revenue {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #007bff;
+}
+
+.client-count {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+/* 로딩 스피너 */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
+
+.spinner-border {
+    color: #007bff;
+}
+
+/* 차트 컨테이너 */
+.chart-container {
+    position: relative;
+    height: 300px;
+    margin: 1rem 0;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .stat-card {
+        height: auto;
+        margin-bottom: 1rem;
+    }
+    
+    .stat-card h3 {
+        font-size: 1.5rem;
+    }
+    
+    .card-header h5 {
+        font-size: 1rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.8rem;
+    }
+    
+    .top-client-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+/* 데이터 마스킹 표시 */
+.masked-data {
+    position: relative;
+}
+
+.masked-data::after {
+    content: "🔒";
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+/* 권한 표시 */
+.permission-indicator {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.permission-admin {
+    background-color: #dc3545;
+    color: white;
+}
+
+.permission-manager {
+    background-color: #28a745;
+    color: white;
+}
+
+.permission-member {
+    background-color: #007bff;
+    color: white;
+}
+
+.permission-partner {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.permission-client {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* 애니메이션 효과 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* 숫자 카운터 애니메이션 */
+@keyframes countUp {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.counter-animation {
+    animation: countUp 0.8s ease-out;
+}
