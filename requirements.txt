@@ -29,6 +29,11 @@ python-decouple
 python-dotenv
 dateutil
 
+# WebSocket 및 실시간 통신
+channels>=4.0.0
+channels-redis>=4.1.0
+daphne>=4.0.0
+
 # HTTPS/SSL 지원
 pyOpenSSL
 certifi

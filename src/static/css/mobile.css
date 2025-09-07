@@ -1,0 +1,713 @@
+/**
+ * OneSquare 모바일 반응형 CSS
+ * 모바일 디바이스 최적화 스타일
+ */
+
+/* ===== 반응형 브레이크포인트 ===== */
+:root {
+  --mobile-xs: 320px;
+  --mobile-sm: 375px;
+  --mobile-md: 414px;
+  --mobile-lg: 768px;
+  --tablet: 1024px;
+  --desktop: 1280px;
+  
+  /* 모바일 안전 영역 */
+  --safe-area-top: env(safe-area-inset-top);
+  --safe-area-right: env(safe-area-inset-right);
+  --safe-area-bottom: env(safe-area-inset-bottom);
+  --safe-area-left: env(safe-area-inset-left);
+  
+  /* 터치 타겟 최소 크기 */
+  --touch-target: 44px;
+  
+  /* 모바일 폰트 크기 */
+  --font-mobile-xs: 0.75rem;
+  --font-mobile-sm: 0.875rem;
+  --font-mobile-base: 1rem;
+  --font-mobile-lg: 1.125rem;
+  --font-mobile-xl: 1.25rem;
+}
+
+/* ===== 모바일 기본 스타일 ===== */
+@media (max-width: 768px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+  
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  body {
+    padding-top: var(--safe-area-top);
+    padding-bottom: var(--safe-area-bottom);
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+  }
+  
+  /* 스크롤 성능 최적화 */
+  .scrollable {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+}
+
+/* ===== 모바일 네비게이션 바 ===== */
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: var(--bg-primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  padding: 0 16px;
+  padding-top: var(--safe-area-top);
+}
+
+@media (max-width: 768px) {
+  .mobile-nav {
+    display: flex;
+  }
+  
+  .desktop-nav {
+    display: none !important;
+  }
+}
+
+.mobile-nav__burger {
+  width: var(--touch-target);
+  height: var(--touch-target);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 10px;
+}
+
+.mobile-nav__burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text-primary);
+  margin: 3px 0;
+  transition: all 0.3s ease;
+}
+
+.mobile-nav__burger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.mobile-nav__burger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-nav__burger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+.mobile-nav__title {
+  flex: 1;
+  text-align: center;
+  font-size: var(--font-mobile-lg);
+  font-weight: 600;
+}
+
+/* ===== 모바일 사이드바 메뉴 ===== */
+.mobile-sidebar {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 80%;
+  max-width: 320px;
+  height: 100vh;
+  background: var(--bg-primary);
+  z-index: 999;
+  transition: left 0.3s ease;
+  overflow-y: auto;
+  padding-top: calc(56px + var(--safe-area-top));
+}
+
+.mobile-sidebar.active {
+  left: 0;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-sidebar__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  display: none;
+}
+
+.mobile-sidebar__overlay.active {
+  display: block;
+}
+
+.mobile-sidebar__menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mobile-sidebar__menu-item {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mobile-sidebar__menu-link {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: var(--font-mobile-base);
+  min-height: var(--touch-target);
+}
+
+.mobile-sidebar__menu-link:active {
+  background: var(--bg-hover);
+}
+
+.mobile-sidebar__menu-icon {
+  margin-right: 16px;
+  width: 24px;
+  height: 24px;
+}
+
+/* ===== 모바일 하단 탭 바 ===== */
+.mobile-tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: calc(56px + var(--safe-area-bottom));
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-color);
+  display: none;
+  z-index: 900;
+  padding-bottom: var(--safe-area-bottom);
+}
+
+@media (max-width: 768px) {
+  .mobile-tab-bar {
+    display: flex;
+  }
+  
+  main {
+    padding-bottom: calc(56px + var(--safe-area-bottom));
+  }
+}
+
+.mobile-tab-bar__items {
+  display: flex;
+  width: 100%;
+  height: 56px;
+}
+
+.mobile-tab-bar__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--text-secondary);
+  position: relative;
+  min-height: var(--touch-target);
+}
+
+.mobile-tab-bar__item.active {
+  color: var(--color-primary);
+}
+
+.mobile-tab-bar__icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+}
+
+.mobile-tab-bar__label {
+  font-size: var(--font-mobile-xs);
+}
+
+.mobile-tab-bar__badge {
+  position: absolute;
+  top: 4px;
+  right: calc(50% - 20px);
+  background: var(--color-danger);
+  color: white;
+  border-radius: 10px;
+  padding: 2px 6px;
+  font-size: 10px;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* ===== 모바일 카드 레이아웃 ===== */
+@media (max-width: 768px) {
+  .card {
+    margin: 8px;
+    border-radius: 8px;
+  }
+  
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 8px;
+  }
+  
+  .card__header {
+    padding: 12px 16px;
+  }
+  
+  .card__body {
+    padding: 16px;
+  }
+}
+
+/* ===== 모바일 폼 요소 ===== */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  input[type="time"],
+  select,
+  textarea {
+    font-size: 16px; /* iOS 줌 방지 */
+    min-height: var(--touch-target);
+    padding: 12px 16px;
+  }
+  
+  button,
+  .btn {
+    min-height: var(--touch-target);
+    padding: 12px 20px;
+    font-size: var(--font-mobile-base);
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    font-size: var(--font-mobile-sm);
+    margin-bottom: 8px;
+  }
+}
+
+/* ===== 모바일 모달 ===== */
+@media (max-width: 768px) {
+  .modal {
+    padding: 0;
+  }
+  
+  .modal__content {
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    margin: 0;
+  }
+  
+  .modal__header {
+    padding: 16px;
+    position: sticky;
+    top: 0;
+    background: var(--bg-primary);
+    z-index: 1;
+  }
+  
+  .modal__body {
+    padding: 16px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .modal__footer {
+    padding: 16px;
+    position: sticky;
+    bottom: 0;
+    background: var(--bg-primary);
+  }
+}
+
+/* ===== 모바일 테이블 ===== */
+@media (max-width: 768px) {
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  table {
+    min-width: 100%;
+  }
+  
+  th, td {
+    padding: 12px 8px;
+    font-size: var(--font-mobile-sm);
+  }
+  
+  /* 카드 스타일 테이블 */
+  .table-card {
+    display: block;
+  }
+  
+  .table-card thead {
+    display: none;
+  }
+  
+  .table-card tbody {
+    display: block;
+  }
+  
+  .table-card tr {
+    display: block;
+    margin-bottom: 16px;
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .table-card td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border: none;
+  }
+  
+  .table-card td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    margin-right: 16px;
+  }
+}
+
+/* ===== 모바일 캘린더 뷰 ===== */
+@media (max-width: 768px) {
+  .calendar {
+    font-size: var(--font-mobile-sm);
+  }
+  
+  .calendar__header {
+    padding: 12px;
+  }
+  
+  .calendar__day {
+    min-height: 60px;
+    padding: 4px;
+  }
+  
+  .calendar__event {
+    font-size: var(--font-mobile-xs);
+    padding: 2px 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* 모바일 일간 뷰 */
+  .calendar-day-view {
+    padding: 0;
+  }
+  
+  .calendar-day-view__hour {
+    min-height: 60px;
+    font-size: var(--font-mobile-xs);
+  }
+}
+
+/* ===== 터치 제스처 지원 ===== */
+.swipeable {
+  touch-action: pan-y;
+}
+
+.swipe-to-refresh {
+  position: relative;
+  overflow: hidden;
+}
+
+.swipe-to-refresh__indicator {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  background: var(--bg-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: top 0.3s ease;
+}
+
+.swipe-to-refresh.refreshing .swipe-to-refresh__indicator {
+  top: 20px;
+}
+
+/* 스와이프 삭제 */
+.swipe-delete {
+  position: relative;
+  overflow: hidden;
+}
+
+.swipe-delete__content {
+  position: relative;
+  z-index: 2;
+  background: var(--bg-primary);
+  transition: transform 0.3s ease;
+}
+
+.swipe-delete__action {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 80px;
+  background: var(--color-danger);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.swipe-delete.swiped .swipe-delete__content {
+  transform: translateX(-80px);
+}
+
+/* ===== 모바일 플로팅 액션 버튼 ===== */
+.fab {
+  position: fixed;
+  bottom: calc(72px + var(--safe-area-bottom));
+  right: 16px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 800;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.fab:active {
+  transform: scale(0.95);
+}
+
+.fab__icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* ===== 모바일 토스트 메시지 ===== */
+@media (max-width: 768px) {
+  .toast {
+    left: 16px;
+    right: 16px;
+    bottom: calc(72px + var(--safe-area-bottom));
+    width: auto;
+  }
+}
+
+/* ===== 모바일 로딩 스피너 ===== */
+.mobile-loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+.mobile-loading__spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* ===== 모바일 풀다운 리프레시 ===== */
+.pull-to-refresh {
+  position: relative;
+}
+
+.pull-to-refresh__indicator {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.pull-to-refresh__indicator.visible {
+  opacity: 1;
+}
+
+.pull-to-refresh__spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border-color);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* ===== 애니메이션 ===== */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ===== 다크 모드 지원 ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2a2a2a;
+    --bg-card: #333333;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --border-color: #404040;
+  }
+}
+
+/* ===== PWA 설치 프롬프트 ===== */
+.pwa-install-prompt {
+  position: fixed;
+  bottom: calc(72px + var(--safe-area-bottom));
+  left: 16px;
+  right: 16px;
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 850;
+  transform: translateY(200%);
+  transition: transform 0.3s ease;
+}
+
+.pwa-install-prompt.show {
+  transform: translateY(0);
+}
+
+.pwa-install-prompt__content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pwa-install-prompt__icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.pwa-install-prompt__text {
+  flex: 1;
+}
+
+.pwa-install-prompt__title {
+  font-size: var(--font-mobile-base);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.pwa-install-prompt__description {
+  font-size: var(--font-mobile-sm);
+  color: var(--text-secondary);
+}
+
+.pwa-install-prompt__actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.pwa-install-prompt__btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: var(--font-mobile-sm);
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.pwa-install-prompt__btn--primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.pwa-install-prompt__btn--secondary {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+/* ===== 접근성 개선 ===== */
+@media (max-width: 768px) {
+  /* 포커스 스타일 강화 */
+  :focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+  
+  /* 스크린 리더 전용 */
+  .sr-only-mobile {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}

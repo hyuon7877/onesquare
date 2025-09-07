@@ -9,7 +9,7 @@ RED := \033[0;31m
 CYAN := \033[0;36m
 NC := \033[0m
 
-.PHONY: help build up down restart logs shell migrate test clean
+.PHONY: help build up down restart logs shell migrate test clean update-arch
 
 help: ## 도움말 표시
 	@echo "$(GREEN)Django Docker 개발환경 명령어$(NC)"
@@ -233,3 +233,17 @@ fix-permissions: ## 권한 문제 해결
 check-compose-config: ## Docker Compose 설정 검증
 	@echo "$(GREEN)Docker Compose 설정 검증 중...$(NC)"
 	$(COMPOSE_CMD) config
+
+update-arch: ## 아키텍처 다이어그램 업데이트
+	@echo "$(GREEN)아키텍처 다이어그램 업데이트 중...$(NC)"
+	@python3 scripts/update-architecture.py
+	@echo "$(GREEN)다이어그램 업데이트 완료!$(NC)"
+	@echo "$(CYAN)보기: docs/architecture.md 또는 docs/view-architecture.html$(NC)"
+
+add-module: ## 새 모듈 추가 (대화형)
+	@echo "$(GREEN)새 모듈 추가 도구 실행...$(NC)"
+	@python3 scripts/add-module.py
+
+analyze-modules: ## 모듈 분석 및 리팩토링 제안
+	@echo "$(GREEN)모듈 분석 도구 실행...$(NC)"
+	@python3 scripts/analyze-modules.py

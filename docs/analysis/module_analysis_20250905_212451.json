@@ -1,0 +1,4477 @@
+{
+  "similar_modules": [
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "run_notion_poller.py",
+      "module2": "setup_dashboard_widgets.py",
+      "similarity": 34.8,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "run_notion_poller.py",
+      "module2": "setup_leave_system.py",
+      "similarity": 41.4,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "run_notion_poller.py",
+      "module2": "create_sample_events.py",
+      "similarity": 39.0,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "run_notion_poller.py",
+      "module2": "setup_groups.py",
+      "similarity": 39.5,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "run_notion_poller.py",
+      "module2": "setup_permissions.py",
+      "similarity": 42.2,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "run_notion_poller.py",
+      "module2": "cleanup_logs.py",
+      "similarity": 45.4,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "run_notion_poller.py",
+      "module2": "sync_notion.py",
+      "similarity": 42.5,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_dashboard_widgets.py",
+      "module2": "setup_leave_system.py",
+      "similarity": 36.3,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_dashboard_widgets.py",
+      "module2": "create_sample_events.py",
+      "similarity": 37.4,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_dashboard_widgets.py",
+      "module2": "setup_groups.py",
+      "similarity": 40.1,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_dashboard_widgets.py",
+      "module2": "setup_permissions.py",
+      "similarity": 40.2,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_dashboard_widgets.py",
+      "module2": "cleanup_logs.py",
+      "similarity": 39.1,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_dashboard_widgets.py",
+      "module2": "sync_notion.py",
+      "similarity": 40.1,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_leave_system.py",
+      "module2": "create_sample_events.py",
+      "similarity": 41.2,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_leave_system.py",
+      "module2": "setup_groups.py",
+      "similarity": 40.9,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_leave_system.py",
+      "module2": "setup_permissions.py",
+      "similarity": 34.5,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_leave_system.py",
+      "module2": "cleanup_logs.py",
+      "similarity": 38.4,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_leave_system.py",
+      "module2": "sync_notion.py",
+      "similarity": 37.6,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "create_sample_events.py",
+      "module2": "setup_groups.py",
+      "similarity": 40.5,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "create_sample_events.py",
+      "module2": "setup_permissions.py",
+      "similarity": 40.0,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "create_sample_events.py",
+      "module2": "cleanup_logs.py",
+      "similarity": 39.0,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "create_sample_events.py",
+      "module2": "sync_notion.py",
+      "similarity": 39.3,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_groups.py",
+      "module2": "setup_permissions.py",
+      "similarity": 49.7,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_groups.py",
+      "module2": "cleanup_logs.py",
+      "similarity": 43.9,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_groups.py",
+      "module2": "sync_notion.py",
+      "similarity": 46.1,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_permissions.py",
+      "module2": "cleanup_logs.py",
+      "similarity": 46.9,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_permissions.py",
+      "module2": "sync_notion.py",
+      "similarity": 42.8,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "cleanup_logs.py",
+      "module2": "sync_notion.py",
+      "similarity": 41.6,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    }
+  ],
+  "duplicate_dependencies": {
+    "decimal.Decimal": {
+      "count": 14,
+      "modules": [
+        "models",
+        "services",
+        "models",
+        "views",
+        "services",
+        "time_tracking_views_backup",
+        "models",
+        "services",
+        "models",
+        "permissions_backup",
+        "views",
+        "alerts",
+        "services",
+        "data_mappers"
+      ]
+    },
+    "json": {
+      "count": 39,
+      "modules": [
+        "models",
+        "views",
+        "notion_notification_service",
+        "services",
+        "layout_manager",
+        "models",
+        "views",
+        "middleware",
+        "models",
+        "views",
+        "tests",
+        "models",
+        "views",
+        "services",
+        "middleware",
+        "tests",
+        "models",
+        "middleware",
+        "views",
+        "models",
+        "views",
+        "services",
+        "tests",
+        "inventory_views",
+        "views",
+        "time_tracking_views_backup",
+        "views",
+        "models",
+        "views",
+        "cache",
+        "views",
+        "services",
+        "alert_views",
+        "sync_views",
+        "sync_notion",
+        "api_views",
+        "report_views",
+        "audit_logging",
+        "validation"
+      ]
+    },
+    "uuid": {
+      "count": 11,
+      "modules": [
+        "models",
+        "models",
+        "models",
+        "views",
+        "models",
+        "tests",
+        "models",
+        "views",
+        "models",
+        "models",
+        "upload_views"
+      ]
+    },
+    "datetime.datetime": {
+      "count": 49,
+      "modules": [
+        "models",
+        "views",
+        "services",
+        "views",
+        "middleware",
+        "views",
+        "admin",
+        "admin",
+        "forms",
+        "tests",
+        "models",
+        "views",
+        "services",
+        "otp_services",
+        "middleware",
+        "utils",
+        "services",
+        "models",
+        "middleware",
+        "views",
+        "tasks",
+        "monitoring",
+        "retry_utils",
+        "services",
+        "tests",
+        "inventory_views",
+        "views",
+        "time_tracking_views_backup",
+        "models",
+        "views",
+        "admin",
+        "services",
+        "models",
+        "models",
+        "views",
+        "alerts",
+        "services",
+        "create_sample_events",
+        "cleanup_logs",
+        "entry_views",
+        "report_views",
+        "timesheet_views",
+        "calendar_views",
+        "audit_logging",
+        "intrusion_detection",
+        "authentication",
+        "sync_operations",
+        "data_mappers",
+        "conflict_resolver"
+      ]
+    },
+    "datetime.timedelta": {
+      "count": 46,
+      "modules": [
+        "models",
+        "views",
+        "notion_notification_service",
+        "services",
+        "models",
+        "views",
+        "middleware",
+        "views",
+        "admin",
+        "admin",
+        "forms",
+        "tests",
+        "views",
+        "services",
+        "models",
+        "otp_services",
+        "utils",
+        "services",
+        "models",
+        "middleware",
+        "views",
+        "tasks",
+        "monitoring",
+        "retry_utils",
+        "services",
+        "tests",
+        "inventory_views",
+        "views",
+        "time_tracking_views_backup",
+        "models",
+        "views",
+        "admin",
+        "services",
+        "views",
+        "alerts",
+        "services",
+        "alert_views",
+        "alert_views",
+        "create_sample_events",
+        "cleanup_logs",
+        "report_views",
+        "timesheet_views",
+        "calendar_views",
+        "intrusion_detection",
+        "authentication",
+        "sync_operations"
+      ]
+    },
+    "rest_framework.decorators.api_view": {
+      "count": 9,
+      "modules": [
+        "views",
+        "views",
+        "views",
+        "views",
+        "views",
+        "views",
+        "views",
+        "alert_views",
+        "sync_views"
+      ]
+    },
+    "rest_framework.decorators.permission_classes": {
+      "count": 9,
+      "modules": [
+        "views",
+        "views",
+        "views",
+        "views",
+        "views",
+        "views",
+        "views",
+        "alert_views",
+        "sync_views"
+      ]
+    },
+    "rest_framework.permissions.IsAuthenticated": {
+      "count": 6,
+      "modules": [
+        "views",
+        "views",
+        "views",
+        "views",
+        "alert_views",
+        "sync_views"
+      ]
+    },
+    "rest_framework.response.Response": {
+      "count": 11,
+      "modules": [
+        "views",
+        "views",
+        "views",
+        "views",
+        "decorators",
+        "views",
+        "views",
+        "views",
+        "views",
+        "alert_views",
+        "sync_views"
+      ]
+    },
+    "rest_framework.status": {
+      "count": 12,
+      "modules": [
+        "views",
+        "views",
+        "views",
+        "views",
+        "decorators",
+        "tests",
+        "views",
+        "views",
+        "views",
+        "views",
+        "alert_views",
+        "sync_views"
+      ]
+    },
+    "apps.auth_system.decorators.permission_required": {
+      "count": 2,
+      "modules": [
+        "views",
+        "views"
+      ]
+    },
+    "apps.auth_system.models.CustomUser": {
+      "count": 9,
+      "modules": [
+        "views",
+        "notion_notification_service",
+        "services",
+        "models",
+        "views",
+        "tests",
+        "setup_leave_system",
+        "setup_groups",
+        "setup_permissions"
+      ]
+    },
+    "apps.revenue.models.RevenueRecord": {
+      "count": 6,
+      "modules": [
+        "views",
+        "services",
+        "views",
+        "services",
+        "data_mappers",
+        "data_mappers"
+      ]
+    },
+    "apps.revenue.models.Project": {
+      "count": 4,
+      "modules": [
+        "views",
+        "services",
+        "views",
+        "services"
+      ]
+    },
+    "apps.revenue.models.Client": {
+      "count": 2,
+      "modules": [
+        "views",
+        "services"
+      ]
+    },
+    "apps.revenue.models.RevenueTarget": {
+      "count": 3,
+      "modules": [
+        "views",
+        "services",
+        "services"
+      ]
+    },
+    "apps.calendar_system.models.CalendarEvent": {
+      "count": 3,
+      "modules": [
+        "views",
+        "services",
+        "create_sample_events"
+      ]
+    },
+    "models.DashboardWidget": {
+      "count": 2,
+      "modules": [
+        "views",
+        "layout_manager"
+      ]
+    },
+    "models.UserDashboard": {
+      "count": 2,
+      "modules": [
+        "views",
+        "layout_manager"
+      ]
+    },
+    "models.UserWidgetSettings": {
+      "count": 2,
+      "modules": [
+        "views",
+        "layout_manager"
+      ]
+    },
+    "models.DashboardNotification": {
+      "count": 3,
+      "modules": [
+        "views",
+        "notion_notification_service",
+        "services"
+      ]
+    },
+    "models.NotificationReadStatus": {
+      "count": 3,
+      "modules": [
+        "views",
+        "notion_notification_service",
+        "services"
+      ]
+    },
+    "models.DashboardDataCache": {
+      "count": 2,
+      "modules": [
+        "views",
+        "services"
+      ]
+    },
+    "models.SystemHealthMetric": {
+      "count": 2,
+      "modules": [
+        "views",
+        "services"
+      ]
+    },
+    "logging": {
+      "count": 39,
+      "modules": [
+        "notion_notification_service",
+        "middleware",
+        "otp_services",
+        "middleware",
+        "views",
+        "decorators",
+        "utils",
+        "signals",
+        "services",
+        "middleware",
+        "tasks",
+        "monitoring",
+        "views",
+        "retry_utils",
+        "services",
+        "inventory_views",
+        "views",
+        "services",
+        "cache",
+        "permissions_backup",
+        "views",
+        "alerts",
+        "services",
+        "alert_views",
+        "sync_views",
+        "cleanup_logs",
+        "audit_logging",
+        "rate_limiting",
+        "intrusion_detection",
+        "headers",
+        "validation",
+        "authentication",
+        "csrf_protection",
+        "utils",
+        "sync_operations",
+        "base",
+        "data_mappers",
+        "notion_api",
+        "conflict_resolver"
+      ]
+    },
+    "typing.List": {
+      "count": 11,
+      "modules": [
+        "notion_notification_service",
+        "services",
+        "monitoring",
+        "retry_utils",
+        "services",
+        "services",
+        "alerts",
+        "utils",
+        "sync_operations",
+        "data_mappers",
+        "notion_api"
+      ]
+    },
+    "typing.Dict": {
+      "count": 15,
+      "modules": [
+        "notion_notification_service",
+        "services",
+        "otp_services",
+        "services",
+        "tasks",
+        "monitoring",
+        "services",
+        "exceptions",
+        "services",
+        "alerts",
+        "utils",
+        "sync_operations",
+        "data_mappers",
+        "notion_api",
+        "conflict_resolver"
+      ]
+    },
+    "typing.Optional": {
+      "count": 16,
+      "modules": [
+        "notion_notification_service",
+        "services",
+        "otp_services",
+        "services",
+        "tasks",
+        "monitoring",
+        "retry_utils",
+        "services",
+        "exceptions",
+        "services",
+        "alerts",
+        "utils",
+        "sync_operations",
+        "data_mappers",
+        "notion_api",
+        "conflict_resolver"
+      ]
+    },
+    "typing.Any": {
+      "count": 10,
+      "modules": [
+        "notion_notification_service",
+        "services",
+        "otp_services",
+        "services",
+        "tasks",
+        "monitoring",
+        "retry_utils",
+        "services",
+        "exceptions",
+        "utils"
+      ]
+    },
+    "apps.notion_api.models.NotionDatabase": {
+      "count": 2,
+      "modules": [
+        "notion_notification_service",
+        "sync_notion"
+      ]
+    },
+    "apps.notion_api.services.NotionSyncService": {
+      "count": 2,
+      "modules": [
+        "notion_notification_service",
+        "services"
+      ]
+    },
+    "hashlib": {
+      "count": 9,
+      "modules": [
+        "services",
+        "middleware",
+        "middleware",
+        "decorators",
+        "utils",
+        "models",
+        "services",
+        "cache",
+        "rate_limiting"
+      ]
+    },
+    "views": {
+      "count": 11,
+      "modules": [
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls"
+      ]
+    },
+    "datetime.date": {
+      "count": 9,
+      "modules": [
+        "models",
+        "models",
+        "views",
+        "services",
+        "views",
+        "services",
+        "models",
+        "views",
+        "services"
+      ]
+    },
+    "models.LeaveRequest": {
+      "count": 2,
+      "modules": [
+        "views",
+        "admin"
+      ]
+    },
+    "models.LeaveBalance": {
+      "count": 2,
+      "modules": [
+        "views",
+        "admin"
+      ]
+    },
+    "models.LeaveType": {
+      "count": 2,
+      "modules": [
+        "views",
+        "admin"
+      ]
+    },
+    "models.Holiday": {
+      "count": 2,
+      "modules": [
+        "views",
+        "admin"
+      ]
+    },
+    "apps.auth_system.decorators.admin_required": {
+      "count": 3,
+      "modules": [
+        "views",
+        "views",
+        "views"
+      ]
+    },
+    "time": {
+      "count": 5,
+      "modules": [
+        "middleware",
+        "middleware",
+        "retry_utils",
+        "run_notion_poller",
+        "rate_limiting"
+      ]
+    },
+    "gzip": {
+      "count": 2,
+      "modules": [
+        "middleware",
+        "cleanup_logs"
+      ]
+    },
+    "io.BytesIO": {
+      "count": 2,
+      "modules": [
+        "middleware",
+        "services"
+      ]
+    },
+    "psutil": {
+      "count": 3,
+      "modules": [
+        "middleware",
+        "middleware",
+        "views"
+      ]
+    },
+    "threading": {
+      "count": 2,
+      "modules": [
+        "middleware",
+        "middleware"
+      ]
+    },
+    "re": {
+      "count": 6,
+      "modules": [
+        "middleware",
+        "middleware",
+        "validation",
+        "input",
+        "utils",
+        "password"
+      ]
+    },
+    "models.CalendarEvent": {
+      "count": 4,
+      "modules": [
+        "views",
+        "admin",
+        "forms",
+        "tests"
+      ]
+    },
+    "models.CalendarCategory": {
+      "count": 4,
+      "modules": [
+        "views",
+        "admin",
+        "forms",
+        "tests"
+      ]
+    },
+    "models.EventAttendee": {
+      "count": 4,
+      "modules": [
+        "views",
+        "admin",
+        "forms",
+        "tests"
+      ]
+    },
+    "models.CalendarSettings": {
+      "count": 4,
+      "modules": [
+        "views",
+        "admin",
+        "forms",
+        "tests"
+      ]
+    },
+    "models.EventReminder": {
+      "count": 2,
+      "modules": [
+        "views",
+        "admin"
+      ]
+    },
+    "models.NotionCalendarSync": {
+      "count": 2,
+      "modules": [
+        "views",
+        "admin"
+      ]
+    },
+    "forms.CalendarEventForm": {
+      "count": 2,
+      "modules": [
+        "views",
+        "tests"
+      ]
+    },
+    "forms.QuickEventForm": {
+      "count": 2,
+      "modules": [
+        "views",
+        "tests"
+      ]
+    },
+    "models.CustomUser": {
+      "count": 10,
+      "modules": [
+        "forms",
+        "otp_services",
+        "middleware",
+        "test_permissions",
+        "views",
+        "admin",
+        "utils",
+        "serializers",
+        "signals",
+        "tests"
+      ]
+    },
+    "models.AIModelConfig": {
+      "count": 3,
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ]
+    },
+    "models.RevenuePrediction": {
+      "count": 3,
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ]
+    },
+    "models.WorkEfficiencyAnalysis": {
+      "count": 3,
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ]
+    },
+    "models.PerformanceAnalysis": {
+      "count": 3,
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ]
+    },
+    "models.AnomalyDetection": {
+      "count": 3,
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ]
+    },
+    "models.AIInsight": {
+      "count": 3,
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ]
+    },
+    "pandas": {
+      "count": 2,
+      "modules": [
+        "services",
+        "services"
+      ]
+    },
+    "typing.Tuple": {
+      "count": 6,
+      "modules": [
+        "services",
+        "otp_services",
+        "retry_utils",
+        "services",
+        "services",
+        "alerts"
+      ]
+    },
+    "permissions.PermissionManager": {
+      "count": 4,
+      "modules": [
+        "models",
+        "test_permissions",
+        "views",
+        "admin"
+      ]
+    },
+    "permissions.SystemModule": {
+      "count": 4,
+      "modules": [
+        "models",
+        "test_permissions",
+        "views",
+        "admin"
+      ]
+    },
+    "permissions.PermissionLevel": {
+      "count": 4,
+      "modules": [
+        "models",
+        "test_permissions",
+        "views",
+        "admin"
+      ]
+    },
+    "random": {
+      "count": 4,
+      "modules": [
+        "otp_services",
+        "utils",
+        "retry_utils",
+        "create_sample_events"
+      ]
+    },
+    "string": {
+      "count": 2,
+      "modules": [
+        "otp_services",
+        "utils"
+      ]
+    },
+    "models.OTPToken": {
+      "count": 3,
+      "modules": [
+        "otp_services",
+        "views",
+        "admin"
+      ]
+    },
+    "models.UserSession": {
+      "count": 6,
+      "modules": [
+        "middleware",
+        "views",
+        "admin",
+        "utils",
+        "signals",
+        "tests"
+      ]
+    },
+    "utils.SessionManager": {
+      "count": 3,
+      "modules": [
+        "middleware",
+        "views",
+        "tests"
+      ]
+    },
+    "models.UserType": {
+      "count": 7,
+      "modules": [
+        "test_permissions",
+        "views",
+        "decorators",
+        "utils",
+        "serializers",
+        "signals",
+        "tests"
+      ]
+    },
+    "models.UserGroup": {
+      "count": 4,
+      "modules": [
+        "test_permissions",
+        "admin",
+        "signals",
+        "tests"
+      ]
+    },
+    "permissions.PERMISSION_MATRIX": {
+      "count": 2,
+      "modules": [
+        "test_permissions",
+        "admin"
+      ]
+    },
+    "unittest.mock.Mock": {
+      "count": 4,
+      "modules": [
+        "test_permissions",
+        "test_permissions",
+        "test_permissions",
+        "tests"
+      ]
+    },
+    "io.StringIO": {
+      "count": 2,
+      "modules": [
+        "test_permissions",
+        "test_permissions"
+      ]
+    },
+    "rest_framework.permissions": {
+      "count": 10,
+      "modules": [
+        "views",
+        "views",
+        "views",
+        "permissions_backup",
+        "views",
+        "revenue_permissions",
+        "analytics_permissions",
+        "base",
+        "budget_permissions",
+        "report_permissions"
+      ]
+    },
+    "rest_framework.views.APIView": {
+      "count": 2,
+      "modules": [
+        "views",
+        "views"
+      ]
+    },
+    "rest_framework.authtoken.models.Token": {
+      "count": 2,
+      "modules": [
+        "views",
+        "tests"
+      ]
+    },
+    "rest_framework.authentication.TokenAuthentication": {
+      "count": 2,
+      "modules": [
+        "views",
+        "views"
+      ]
+    },
+    "models.OTPCode": {
+      "count": 5,
+      "modules": [
+        "views",
+        "admin",
+        "utils",
+        "serializers",
+        "tests"
+      ]
+    },
+    "models.AuthMethod": {
+      "count": 3,
+      "modules": [
+        "views",
+        "serializers",
+        "tests"
+      ]
+    },
+    "serializers.UserRegistrationSerializer": {
+      "count": 2,
+      "modules": [
+        "views",
+        "tests"
+      ]
+    },
+    "serializers.OTPRequestSerializer": {
+      "count": 2,
+      "modules": [
+        "views",
+        "tests"
+      ]
+    },
+    "serializers.EmailPasswordLoginSerializer": {
+      "count": 2,
+      "modules": [
+        "views",
+        "tests"
+      ]
+    },
+    "utils.OTPGenerator": {
+      "count": 3,
+      "modules": [
+        "views",
+        "serializers",
+        "tests"
+      ]
+    },
+    "utils.UserPermissionChecker": {
+      "count": 3,
+      "modules": [
+        "views",
+        "decorators",
+        "tests"
+      ]
+    },
+    "functools.wraps": {
+      "count": 3,
+      "modules": [
+        "decorators",
+        "cache",
+        "decorators"
+      ]
+    },
+    "datetime": {
+      "count": 4,
+      "modules": [
+        "decorators",
+        "tests",
+        "tests",
+        "setup_leave_system"
+      ]
+    },
+    "sys": {
+      "count": 2,
+      "modules": [
+        "apps",
+        "run_notion_poller"
+      ]
+    },
+    "rest_framework.serializers": {
+      "count": 3,
+      "modules": [
+        "serializers",
+        "serializers",
+        "serializers"
+      ]
+    },
+    "rest_framework.routers.DefaultRouter": {
+      "count": 2,
+      "modules": [
+        "urls",
+        "urls"
+      ]
+    },
+    "unittest.mock.patch": {
+      "count": 2,
+      "modules": [
+        "tests",
+        "tests"
+      ]
+    },
+    "signals.create_default_groups": {
+      "count": 2,
+      "modules": [
+        "tests",
+        "tests"
+      ]
+    },
+    "os": {
+      "count": 8,
+      "modules": [
+        "models",
+        "services",
+        "middleware",
+        "views",
+        "views",
+        "views",
+        "cleanup_logs",
+        "upload_views"
+      ]
+    },
+    "PIL.Image": {
+      "count": 3,
+      "modules": [
+        "models",
+        "views",
+        "upload_views"
+      ]
+    },
+    "io": {
+      "count": 2,
+      "modules": [
+        "models",
+        "views"
+      ]
+    },
+    "rest_framework.viewsets": {
+      "count": 2,
+      "modules": [
+        "views",
+        "views"
+      ]
+    },
+    "rest_framework.decorators.action": {
+      "count": 2,
+      "modules": [
+        "views",
+        "views"
+      ]
+    },
+    "models.FeedbackThread": {
+      "count": 6,
+      "modules": [
+        "views",
+        "admin",
+        "services",
+        "services",
+        "services",
+        "serializers"
+      ]
+    },
+    "models.ThreadParticipant": {
+      "count": 3,
+      "modules": [
+        "views",
+        "admin",
+        "serializers"
+      ]
+    },
+    "models.FeedbackMessage": {
+      "count": 6,
+      "modules": [
+        "views",
+        "admin",
+        "services",
+        "services",
+        "services",
+        "serializers"
+      ]
+    },
+    "models.MediaAttachment": {
+      "count": 5,
+      "modules": [
+        "views",
+        "admin",
+        "services",
+        "services",
+        "serializers"
+      ]
+    },
+    "models.FeedbackNotification": {
+      "count": 4,
+      "modules": [
+        "views",
+        "admin",
+        "services",
+        "serializers"
+      ]
+    },
+    "notion_client.Client": {
+      "count": 3,
+      "modules": [
+        "services",
+        "services",
+        "base"
+      ]
+    },
+    "notion_client.errors.APIResponseError": {
+      "count": 4,
+      "modules": [
+        "services",
+        "services",
+        "tests",
+        "notion_api"
+      ]
+    },
+    "math": {
+      "count": 2,
+      "modules": [
+        "services",
+        "time_tracking_views_backup"
+      ]
+    },
+    "collections.defaultdict": {
+      "count": 2,
+      "modules": [
+        "middleware",
+        "services"
+      ]
+    },
+    "models.SystemMetrics": {
+      "count": 2,
+      "modules": [
+        "views",
+        "admin"
+      ]
+    },
+    "models.RequestMetrics": {
+      "count": 2,
+      "modules": [
+        "views",
+        "admin"
+      ]
+    },
+    "models.UserActivity": {
+      "count": 2,
+      "modules": [
+        "views",
+        "admin"
+      ]
+    },
+    "models.NotionAPIMetrics": {
+      "count": 2,
+      "modules": [
+        "views",
+        "admin"
+      ]
+    },
+    "models.ErrorLog": {
+      "count": 2,
+      "modules": [
+        "views",
+        "admin"
+      ]
+    },
+    "models.PerformanceAlert": {
+      "count": 2,
+      "modules": [
+        "views",
+        "admin"
+      ]
+    },
+    "models.NotionDatabase": {
+      "count": 7,
+      "modules": [
+        "tasks",
+        "monitoring",
+        "views",
+        "admin",
+        "services",
+        "serializers",
+        "tests"
+      ]
+    },
+    "models.SyncHistory": {
+      "count": 7,
+      "modules": [
+        "tasks",
+        "monitoring",
+        "views",
+        "admin",
+        "services",
+        "serializers",
+        "tests"
+      ]
+    },
+    "services.NotionSyncService": {
+      "count": 4,
+      "modules": [
+        "tasks",
+        "views",
+        "admin",
+        "tests"
+      ]
+    },
+    "models.NotionPage": {
+      "count": 6,
+      "modules": [
+        "monitoring",
+        "views",
+        "admin",
+        "services",
+        "serializers",
+        "tests"
+      ]
+    },
+    "services.NotionClient": {
+      "count": 3,
+      "modules": [
+        "views",
+        "admin",
+        "tests"
+      ]
+    },
+    "services.NotionCacheService": {
+      "count": 2,
+      "modules": [
+        "views",
+        "tests"
+      ]
+    },
+    "apps.auth_system.decorators.secure_api_view": {
+      "count": 2,
+      "modules": [
+        "views",
+        "views"
+      ]
+    },
+    "models.NotionWebhook": {
+      "count": 3,
+      "modules": [
+        "admin",
+        "serializers",
+        "tests"
+      ]
+    },
+    "csv": {
+      "count": 2,
+      "modules": [
+        "admin",
+        "timesheet_views"
+      ]
+    },
+    "exceptions.NotionAPIError": {
+      "count": 3,
+      "modules": [
+        "retry_utils",
+        "services",
+        "tests"
+      ]
+    },
+    "exceptions.NotionRateLimitError": {
+      "count": 3,
+      "modules": [
+        "retry_utils",
+        "services",
+        "tests"
+      ]
+    },
+    "exceptions.NotionServerError": {
+      "count": 3,
+      "modules": [
+        "retry_utils",
+        "services",
+        "tests"
+      ]
+    },
+    "exceptions.NotionNetworkError": {
+      "count": 3,
+      "modules": [
+        "retry_utils",
+        "services",
+        "tests"
+      ]
+    },
+    "exceptions.NotionTimeoutError": {
+      "count": 3,
+      "modules": [
+        "retry_utils",
+        "services",
+        "tests"
+      ]
+    },
+    "notion_client.errors.RequestTimeoutError": {
+      "count": 2,
+      "modules": [
+        "services",
+        "tests"
+      ]
+    },
+    "exceptions.NotionSyncError": {
+      "count": 2,
+      "modules": [
+        "services",
+        "tests"
+      ]
+    },
+    "exceptions.get_exception_from_response": {
+      "count": 2,
+      "modules": [
+        "services",
+        "tests"
+      ]
+    },
+    "models.InventoryItem": {
+      "count": 2,
+      "modules": [
+        "inventory_views",
+        "views"
+      ]
+    },
+    "models.InventoryCheck": {
+      "count": 2,
+      "modules": [
+        "inventory_views",
+        "views"
+      ]
+    },
+    "models.WorkReport": {
+      "count": 2,
+      "modules": [
+        "inventory_views",
+        "views"
+      ]
+    },
+    "models.WorkSession": {
+      "count": 3,
+      "modules": [
+        "inventory_views",
+        "views",
+        "time_tracking_views_backup"
+      ]
+    },
+    "models.FieldSite": {
+      "count": 3,
+      "modules": [
+        "inventory_views",
+        "views",
+        "time_tracking_views_backup"
+      ]
+    },
+    "base64": {
+      "count": 2,
+      "modules": [
+        "views",
+        "views"
+      ]
+    },
+    "datetime.time": {
+      "count": 3,
+      "modules": [
+        "models",
+        "services",
+        "entry_views"
+      ]
+    },
+    "models.WorkTimeRecord": {
+      "count": 3,
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ]
+    },
+    "models.WorkTimeSettings": {
+      "count": 3,
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ]
+    },
+    "models.WorkTimeSummary": {
+      "count": 3,
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ]
+    },
+    "models.OverTimeRule": {
+      "count": 2,
+      "modules": [
+        "admin",
+        "services"
+      ]
+    },
+    "openpyxl.styles.Font": {
+      "count": 2,
+      "modules": [
+        "services",
+        "services"
+      ]
+    },
+    "openpyxl.styles.PatternFill": {
+      "count": 2,
+      "modules": [
+        "services",
+        "services"
+      ]
+    },
+    "models.RevenueRecord": {
+      "count": 5,
+      "modules": [
+        "views",
+        "alerts",
+        "services",
+        "sync_views",
+        "sync_views"
+      ]
+    },
+    "models.RevenueCategory": {
+      "count": 2,
+      "modules": [
+        "views",
+        "services"
+      ]
+    },
+    "models.Client": {
+      "count": 3,
+      "modules": [
+        "views",
+        "alerts",
+        "services"
+      ]
+    },
+    "models.Project": {
+      "count": 3,
+      "modules": [
+        "views",
+        "alerts",
+        "services"
+      ]
+    },
+    "models.RevenueTarget": {
+      "count": 3,
+      "modules": [
+        "views",
+        "alerts",
+        "services"
+      ]
+    },
+    "models.RevenueAlert": {
+      "count": 3,
+      "modules": [
+        "views",
+        "alerts",
+        "alert_views"
+      ]
+    },
+    "models.RevenueReport": {
+      "count": 2,
+      "modules": [
+        "views",
+        "services"
+      ]
+    },
+    "permissions.RevenuePermissionManager": {
+      "count": 5,
+      "modules": [
+        "views",
+        "alerts",
+        "services",
+        "alert_views",
+        "sync_views"
+      ]
+    },
+    "permissions.UserRole": {
+      "count": 5,
+      "modules": [
+        "views",
+        "alerts",
+        "services",
+        "alert_views",
+        "sync_views"
+      ]
+    },
+    "permissions.require_revenue_permission": {
+      "count": 3,
+      "modules": [
+        "views",
+        "alert_views",
+        "sync_views"
+      ]
+    },
+    "base.SYSTEM_PERMISSIONS": {
+      "count": 2,
+      "modules": [
+        "user",
+        "group"
+      ]
+    },
+    "base.logger": {
+      "count": 3,
+      "modules": [
+        "user",
+        "decorators",
+        "group"
+      ]
+    },
+    "apps.auth_system.models.UserGroup": {
+      "count": 2,
+      "modules": [
+        "setup_groups",
+        "setup_permissions"
+      ]
+    },
+    "apps.auth_system.models.UserType": {
+      "count": 2,
+      "modules": [
+        "setup_groups",
+        "setup_permissions"
+      ]
+    },
+    "patterns.XSS_PATTERNS": {
+      "count": 2,
+      "modules": [
+        "input",
+        "utils"
+      ]
+    },
+    "patterns.SQL_INJECTION_PATTERNS": {
+      "count": 2,
+      "modules": [
+        "input",
+        "utils"
+      ]
+    },
+    "base.IsManagerOrAbove": {
+      "count": 2,
+      "modules": [
+        "revenue_permissions",
+        "budget_permissions"
+      ]
+    },
+    "base.IsSupervisorOrAbove": {
+      "count": 2,
+      "modules": [
+        "analytics_permissions",
+        "report_permissions"
+      ]
+    }
+  },
+  "complexity_scores": {
+    "models": {
+      "score": 57.5,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 20",
+        "긴 파일: 426줄",
+        "많은 클래스: 14개"
+      ],
+      "metrics": {
+        "cyclomatic": 20,
+        "lines": 426,
+        "classes": 14,
+        "functions": 0,
+        "imports": 10
+      }
+    },
+    "views": {
+      "score": 48.7,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 32",
+        "긴 파일: 435줄"
+      ],
+      "metrics": {
+        "cyclomatic": 32,
+        "lines": 435,
+        "classes": 0,
+        "functions": 9,
+        "imports": 39
+      }
+    },
+    "apps": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 2,
+        "lines": 15,
+        "classes": 1,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "notion_notification_service": {
+      "score": 53.6,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 34",
+        "긴 파일: 479줄"
+      ],
+      "metrics": {
+        "cyclomatic": 34,
+        "lines": 479,
+        "classes": 2,
+        "functions": 0,
+        "imports": 17
+      }
+    },
+    "services": {
+      "score": 93.0,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 51",
+        "긴 파일: 600줄",
+        "많은 클래스: 4개"
+      ],
+      "metrics": {
+        "cyclomatic": 51,
+        "lines": 600,
+        "classes": 4,
+        "functions": 0,
+        "imports": 32
+      }
+    },
+    "urls": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 48,
+        "classes": 0,
+        "functions": 0,
+        "imports": 4
+      }
+    },
+    "layout_manager": {
+      "score": 46.6,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 31",
+        "긴 파일: 432줄"
+      ],
+      "metrics": {
+        "cyclomatic": 31,
+        "lines": 432,
+        "classes": 1,
+        "functions": 1,
+        "imports": 6
+      }
+    },
+    "admin": {
+      "score": 5,
+      "level": "보통 🟡",
+      "details": [
+        "문서화 부족"
+      ],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 3,
+        "classes": 0,
+        "functions": 0,
+        "imports": 1
+      }
+    },
+    "tests": {
+      "score": 5,
+      "level": "보통 🟡",
+      "details": [
+        "문서화 부족"
+      ],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 3,
+        "classes": 0,
+        "functions": 0,
+        "imports": 1
+      }
+    },
+    "middleware": {
+      "score": 61.2,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 34",
+        "긴 파일: 558줄",
+        "많은 클래스: 5개"
+      ],
+      "metrics": {
+        "cyclomatic": 34,
+        "lines": 558,
+        "classes": 5,
+        "functions": 0,
+        "imports": 15
+      }
+    },
+    "forms": {
+      "score": 90.2,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 39",
+        "긴 파일: 459줄",
+        "많은 클래스: 12개"
+      ],
+      "metrics": {
+        "cyclomatic": 39,
+        "lines": 459,
+        "classes": 12,
+        "functions": 0,
+        "imports": 11
+      }
+    },
+    "otp_services": {
+      "score": 47.2,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 31",
+        "긴 파일: 460줄"
+      ],
+      "metrics": {
+        "cyclomatic": 31,
+        "lines": 460,
+        "classes": 3,
+        "functions": 0,
+        "imports": 17
+      }
+    },
+    "test_permissions": {
+      "score": 19.4,
+      "level": "높음 🟠",
+      "details": [
+        "긴 파일: 422줄",
+        "많은 클래스: 8개"
+      ],
+      "metrics": {
+        "cyclomatic": 8,
+        "lines": 422,
+        "classes": 8,
+        "functions": 0,
+        "imports": 27
+      }
+    },
+    "decorators": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 9,
+        "lines": 63,
+        "classes": 0,
+        "functions": 9,
+        "imports": 6
+      }
+    },
+    "utils": {
+      "score": 36,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 28"
+      ],
+      "metrics": {
+        "cyclomatic": 28,
+        "lines": 155,
+        "classes": 0,
+        "functions": 6,
+        "imports": 8
+      }
+    },
+    "serializers": {
+      "score": 78.4,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 31",
+        "긴 파일: 369줄",
+        "많은 클래스: 14개"
+      ],
+      "metrics": {
+        "cyclomatic": 31,
+        "lines": 369,
+        "classes": 14,
+        "functions": 0,
+        "imports": 7
+      }
+    },
+    "signals": {
+      "score": 22.7,
+      "level": "높음 🟠",
+      "details": [
+        "높은 순환 복잡도: 21",
+        "긴 파일: 235줄"
+      ],
+      "metrics": {
+        "cyclomatic": 21,
+        "lines": 235,
+        "classes": 0,
+        "functions": 5,
+        "imports": 11
+      }
+    },
+    "tasks": {
+      "score": 51.5,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 34",
+        "긴 파일: 374줄"
+      ],
+      "metrics": {
+        "cyclomatic": 34,
+        "lines": 374,
+        "classes": 2,
+        "functions": 2,
+        "imports": 13
+      }
+    },
+    "monitoring": {
+      "score": 74.1,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 45",
+        "긴 파일: 405줄"
+      ],
+      "metrics": {
+        "cyclomatic": 45,
+        "lines": 405,
+        "classes": 1,
+        "functions": 2,
+        "imports": 21
+      }
+    },
+    "retry_utils": {
+      "score": 56.5,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 29",
+        "긴 파일: 376줄",
+        "많은 클래스: 8개"
+      ],
+      "metrics": {
+        "cyclomatic": 29,
+        "lines": 376,
+        "classes": 8,
+        "functions": 5,
+        "imports": 23
+      }
+    },
+    "exceptions": {
+      "score": 32,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 11",
+        "많은 클래스: 13개"
+      ],
+      "metrics": {
+        "cyclomatic": 11,
+        "lines": 165,
+        "classes": 13,
+        "functions": 1,
+        "imports": 3
+      }
+    },
+    "inventory_views": {
+      "score": 63.1,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 38",
+        "긴 파일: 554줄"
+      ],
+      "metrics": {
+        "cyclomatic": 38,
+        "lines": 554,
+        "classes": 1,
+        "functions": 6,
+        "imports": 20
+      }
+    },
+    "time_tracking_views_backup": {
+      "score": 95.4,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 53",
+        "긴 파일: 619줄",
+        "많은 함수: 11개"
+      ],
+      "metrics": {
+        "cyclomatic": 53,
+        "lines": 619,
+        "classes": 1,
+        "functions": 11,
+        "imports": 15
+      }
+    },
+    "simple_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 10,
+        "classes": 0,
+        "functions": 2,
+        "imports": 2
+      }
+    },
+    "cache": {
+      "score": 22.4,
+      "level": "높음 🟠",
+      "details": [
+        "높은 순환 복잡도: 19",
+        "긴 파일: 272줄",
+        "많은 클래스: 4개"
+      ],
+      "metrics": {
+        "cyclomatic": 19,
+        "lines": 272,
+        "classes": 4,
+        "functions": 9,
+        "imports": 7
+      }
+    },
+    "permissions_backup": {
+      "score": 121.2,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 67",
+        "긴 파일: 408줄",
+        "많은 클래스: 4개"
+      ],
+      "metrics": {
+        "cyclomatic": 67,
+        "lines": 408,
+        "classes": 4,
+        "functions": 7,
+        "imports": 6
+      }
+    },
+    "alerts": {
+      "score": 69.5,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 42",
+        "긴 파일: 475줄"
+      ],
+      "metrics": {
+        "cyclomatic": 42,
+        "lines": 475,
+        "classes": 1,
+        "functions": 3,
+        "imports": 22
+      }
+    },
+    "alert_views": {
+      "score": 46.6,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 31",
+        "긴 파일: 430줄"
+      ],
+      "metrics": {
+        "cyclomatic": 31,
+        "lines": 430,
+        "classes": 0,
+        "functions": 10,
+        "imports": 23
+      }
+    },
+    "sync_views": {
+      "score": 45.4,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 31",
+        "긴 파일: 368줄"
+      ],
+      "metrics": {
+        "cyclomatic": 31,
+        "lines": 368,
+        "classes": 1,
+        "functions": 8,
+        "imports": 21
+      }
+    },
+    "run_notion_poller": {
+      "score": 6,
+      "level": "보통 🟡",
+      "details": [
+        "높은 순환 복잡도: 13"
+      ],
+      "metrics": {
+        "cyclomatic": 13,
+        "lines": 151,
+        "classes": 1,
+        "functions": 0,
+        "imports": 7
+      }
+    },
+    "setup_dashboard_widgets": {
+      "score": 2.7,
+      "level": "낮음 🟢",
+      "details": [
+        "긴 파일: 333줄"
+      ],
+      "metrics": {
+        "cyclomatic": 6,
+        "lines": 333,
+        "classes": 1,
+        "functions": 0,
+        "imports": 3
+      }
+    },
+    "setup_leave_system": {
+      "score": 2,
+      "level": "낮음 🟢",
+      "details": [
+        "높은 순환 복잡도: 11"
+      ],
+      "metrics": {
+        "cyclomatic": 11,
+        "lines": 147,
+        "classes": 1,
+        "functions": 0,
+        "imports": 8
+      }
+    },
+    "create_sample_events": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 7,
+        "lines": 189,
+        "classes": 1,
+        "functions": 0,
+        "imports": 9
+      }
+    },
+    "user": {
+      "score": 4,
+      "level": "낮음 🟢",
+      "details": [
+        "높은 순환 복잡도: 12"
+      ],
+      "metrics": {
+        "cyclomatic": 12,
+        "lines": 61,
+        "classes": 0,
+        "functions": 4,
+        "imports": 5
+      }
+    },
+    "base": {
+      "score": 3,
+      "level": "낮음 🟢",
+      "details": [
+        "많은 클래스: 4개"
+      ],
+      "metrics": {
+        "cyclomatic": 7,
+        "lines": 47,
+        "classes": 4,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "group": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 7,
+        "lines": 82,
+        "classes": 0,
+        "functions": 3,
+        "imports": 5
+      }
+    },
+    "setup_groups": {
+      "score": 18,
+      "level": "높음 🟠",
+      "details": [
+        "높은 순환 복잡도: 19"
+      ],
+      "metrics": {
+        "cyclomatic": 19,
+        "lines": 195,
+        "classes": 1,
+        "functions": 0,
+        "imports": 14
+      }
+    },
+    "setup_permissions": {
+      "score": 57.4,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 38",
+        "긴 파일: 271줄"
+      ],
+      "metrics": {
+        "cyclomatic": 38,
+        "lines": 271,
+        "classes": 1,
+        "functions": 1,
+        "imports": 15
+      }
+    },
+    "cleanup_logs": {
+      "score": 36.6,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 28",
+        "긴 파일: 228줄"
+      ],
+      "metrics": {
+        "cyclomatic": 28,
+        "lines": 228,
+        "classes": 1,
+        "functions": 0,
+        "imports": 15
+      }
+    },
+    "sync_notion": {
+      "score": 48.5,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 33",
+        "긴 파일: 323줄"
+      ],
+      "metrics": {
+        "cyclomatic": 33,
+        "lines": 323,
+        "classes": 1,
+        "functions": 0,
+        "imports": 7
+      }
+    },
+    "progress_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 2,
+        "lines": 32,
+        "classes": 0,
+        "functions": 2,
+        "imports": 3
+      }
+    },
+    "upload_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 9,
+        "lines": 76,
+        "classes": 0,
+        "functions": 4,
+        "imports": 7
+      }
+    },
+    "api_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 3,
+        "lines": 45,
+        "classes": 1,
+        "functions": 0,
+        "imports": 5
+      }
+    },
+    "list_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 2,
+        "lines": 49,
+        "classes": 0,
+        "functions": 2,
+        "imports": 5
+      }
+    },
+    "management_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 6,
+        "lines": 55,
+        "classes": 0,
+        "functions": 5,
+        "imports": 3
+      }
+    },
+    "entry_views": {
+      "score": 2,
+      "level": "낮음 🟢",
+      "details": [
+        "많은 함수: 12개"
+      ],
+      "metrics": {
+        "cyclomatic": 9,
+        "lines": 129,
+        "classes": 1,
+        "functions": 12,
+        "imports": 7
+      }
+    },
+    "report_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 4,
+        "lines": 113,
+        "classes": 0,
+        "functions": 10,
+        "imports": 10
+      }
+    },
+    "timesheet_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 8,
+        "lines": 101,
+        "classes": 1,
+        "functions": 10,
+        "imports": 10
+      }
+    },
+    "calendar_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 2,
+        "lines": 73,
+        "classes": 1,
+        "functions": 6,
+        "imports": 7
+      }
+    },
+    "audit_logging": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 8,
+        "lines": 92,
+        "classes": 1,
+        "functions": 0,
+        "imports": 5
+      }
+    },
+    "rate_limiting": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 8,
+        "lines": 89,
+        "classes": 1,
+        "functions": 0,
+        "imports": 7
+      }
+    },
+    "intrusion_detection": {
+      "score": 12,
+      "level": "보통 🟡",
+      "details": [
+        "높은 순환 복잡도: 16"
+      ],
+      "metrics": {
+        "cyclomatic": 16,
+        "lines": 143,
+        "classes": 1,
+        "functions": 0,
+        "imports": 8
+      }
+    },
+    "headers": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 3,
+        "lines": 71,
+        "classes": 1,
+        "functions": 0,
+        "imports": 3
+      }
+    },
+    "validation": {
+      "score": 22,
+      "level": "높음 🟠",
+      "details": [
+        "높은 순환 복잡도: 21"
+      ],
+      "metrics": {
+        "cyclomatic": 21,
+        "lines": 127,
+        "classes": 1,
+        "functions": 0,
+        "imports": 7
+      }
+    },
+    "authentication": {
+      "score": 6,
+      "level": "보통 🟡",
+      "details": [
+        "높은 순환 복잡도: 13"
+      ],
+      "metrics": {
+        "cyclomatic": 13,
+        "lines": 95,
+        "classes": 2,
+        "functions": 0,
+        "imports": 7
+      }
+    },
+    "csrf_protection": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 6,
+        "lines": 47,
+        "classes": 1,
+        "functions": 0,
+        "imports": 5
+      }
+    },
+    "patterns": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 70,
+        "classes": 0,
+        "functions": 0,
+        "imports": 0
+      }
+    },
+    "input": {
+      "score": 20,
+      "level": "높음 🟠",
+      "details": [
+        "높은 순환 복잡도: 20"
+      ],
+      "metrics": {
+        "cyclomatic": 20,
+        "lines": 111,
+        "classes": 1,
+        "functions": 0,
+        "imports": 4
+      }
+    },
+    "password": {
+      "score": 78,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 49"
+      ],
+      "metrics": {
+        "cyclomatic": 49,
+        "lines": 133,
+        "classes": 1,
+        "functions": 0,
+        "imports": 5
+      }
+    },
+    "sync_operations": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 10,
+        "lines": 75,
+        "classes": 1,
+        "functions": 0,
+        "imports": 12
+      }
+    },
+    "data_mappers": {
+      "score": 4,
+      "level": "낮음 🟢",
+      "details": [
+        "높은 순환 복잡도: 12"
+      ],
+      "metrics": {
+        "cyclomatic": 12,
+        "lines": 71,
+        "classes": 1,
+        "functions": 0,
+        "imports": 8
+      }
+    },
+    "notion_api": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 4,
+        "lines": 59,
+        "classes": 1,
+        "functions": 0,
+        "imports": 5
+      }
+    },
+    "conflict_resolver": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 8,
+        "lines": 59,
+        "classes": 1,
+        "functions": 0,
+        "imports": 4
+      }
+    },
+    "revenue_permissions": {
+      "score": 3,
+      "level": "낮음 🟢",
+      "details": [
+        "많은 클래스: 4개"
+      ],
+      "metrics": {
+        "cyclomatic": 6,
+        "lines": 52,
+        "classes": 4,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "analytics_permissions": {
+      "score": 3,
+      "level": "낮음 🟢",
+      "details": [
+        "많은 클래스: 4개"
+      ],
+      "metrics": {
+        "cyclomatic": 6,
+        "lines": 48,
+        "classes": 4,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "budget_permissions": {
+      "score": 3,
+      "level": "낮음 🟢",
+      "details": [
+        "많은 클래스: 4개"
+      ],
+      "metrics": {
+        "cyclomatic": 7,
+        "lines": 50,
+        "classes": 4,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "report_permissions": {
+      "score": 3,
+      "level": "낮음 🟢",
+      "details": [
+        "많은 클래스: 4개"
+      ],
+      "metrics": {
+        "cyclomatic": 7,
+        "lines": 51,
+        "classes": 4,
+        "functions": 0,
+        "imports": 2
+      }
+    }
+  },
+  "refactoring_suggestions": [
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "models"
+      ],
+      "reason": "복잡도 점수 57.5",
+      "action": "models 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "views"
+      ],
+      "reason": "복잡도 점수 48.7",
+      "action": "views 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "notion_notification_service"
+      ],
+      "reason": "복잡도 점수 53.6",
+      "action": "notion_notification_service 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "services"
+      ],
+      "reason": "복잡도 점수 93.0",
+      "action": "services 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "layout_manager"
+      ],
+      "reason": "복잡도 점수 46.6",
+      "action": "layout_manager 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "middleware"
+      ],
+      "reason": "복잡도 점수 61.2",
+      "action": "middleware 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "forms"
+      ],
+      "reason": "복잡도 점수 90.2",
+      "action": "forms 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "otp_services"
+      ],
+      "reason": "복잡도 점수 47.2",
+      "action": "otp_services 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "utils"
+      ],
+      "reason": "복잡도 점수 36",
+      "action": "utils 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "serializers"
+      ],
+      "reason": "복잡도 점수 78.4",
+      "action": "serializers 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "중간",
+      "modules": [
+        "signals"
+      ],
+      "reason": "복잡도 점수 22.7",
+      "action": "signals 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "tasks"
+      ],
+      "reason": "복잡도 점수 51.5",
+      "action": "tasks 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "monitoring"
+      ],
+      "reason": "복잡도 점수 74.1",
+      "action": "monitoring 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "retry_utils"
+      ],
+      "reason": "복잡도 점수 56.5",
+      "action": "retry_utils 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "exceptions"
+      ],
+      "reason": "복잡도 점수 32",
+      "action": "exceptions 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "inventory_views"
+      ],
+      "reason": "복잡도 점수 63.1",
+      "action": "inventory_views 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "time_tracking_views_backup"
+      ],
+      "reason": "복잡도 점수 95.4",
+      "action": "time_tracking_views_backup 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "중간",
+      "modules": [
+        "cache"
+      ],
+      "reason": "복잡도 점수 22.4",
+      "action": "cache 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "permissions_backup"
+      ],
+      "reason": "복잡도 점수 121.2",
+      "action": "permissions_backup 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "alerts"
+      ],
+      "reason": "복잡도 점수 69.5",
+      "action": "alerts 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "alert_views"
+      ],
+      "reason": "복잡도 점수 46.6",
+      "action": "alert_views 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "sync_views"
+      ],
+      "reason": "복잡도 점수 45.4",
+      "action": "sync_views 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "setup_permissions"
+      ],
+      "reason": "복잡도 점수 57.4",
+      "action": "setup_permissions 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "cleanup_logs"
+      ],
+      "reason": "복잡도 점수 36.6",
+      "action": "cleanup_logs 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "sync_notion"
+      ],
+      "reason": "복잡도 점수 48.5",
+      "action": "sync_notion 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "중간",
+      "modules": [
+        "validation"
+      ],
+      "reason": "복잡도 점수 22",
+      "action": "validation 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "password"
+      ],
+      "reason": "복잡도 점수 78",
+      "action": "password 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "models",
+        "services",
+        "models",
+        "views",
+        "services",
+        "time_tracking_views_backup",
+        "models",
+        "services",
+        "models",
+        "permissions_backup",
+        "views",
+        "alerts",
+        "services",
+        "data_mappers"
+      ],
+      "reason": "decimal.Decimal를 14개 모듈에서 사용",
+      "action": "decimal.Decimal 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "models",
+        "views",
+        "notion_notification_service",
+        "services",
+        "layout_manager",
+        "models",
+        "views",
+        "middleware",
+        "models",
+        "views",
+        "tests",
+        "models",
+        "views",
+        "services",
+        "middleware",
+        "tests",
+        "models",
+        "middleware",
+        "views",
+        "models",
+        "views",
+        "services",
+        "tests",
+        "inventory_views",
+        "views",
+        "time_tracking_views_backup",
+        "views",
+        "models",
+        "views",
+        "cache",
+        "views",
+        "services",
+        "alert_views",
+        "sync_views",
+        "sync_notion",
+        "api_views",
+        "report_views",
+        "audit_logging",
+        "validation"
+      ],
+      "reason": "json를 39개 모듈에서 사용",
+      "action": "json 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "models",
+        "models",
+        "models",
+        "views",
+        "models",
+        "tests",
+        "models",
+        "views",
+        "models",
+        "models",
+        "upload_views"
+      ],
+      "reason": "uuid를 11개 모듈에서 사용",
+      "action": "uuid 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "models",
+        "views",
+        "services",
+        "views",
+        "middleware",
+        "views",
+        "admin",
+        "admin",
+        "forms",
+        "tests",
+        "models",
+        "views",
+        "services",
+        "otp_services",
+        "middleware",
+        "utils",
+        "services",
+        "models",
+        "middleware",
+        "views",
+        "tasks",
+        "monitoring",
+        "retry_utils",
+        "services",
+        "tests",
+        "inventory_views",
+        "views",
+        "time_tracking_views_backup",
+        "models",
+        "views",
+        "admin",
+        "services",
+        "models",
+        "models",
+        "views",
+        "alerts",
+        "services",
+        "create_sample_events",
+        "cleanup_logs",
+        "entry_views",
+        "report_views",
+        "timesheet_views",
+        "calendar_views",
+        "audit_logging",
+        "intrusion_detection",
+        "authentication",
+        "sync_operations",
+        "data_mappers",
+        "conflict_resolver"
+      ],
+      "reason": "datetime.datetime를 49개 모듈에서 사용",
+      "action": "datetime.datetime 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "models",
+        "views",
+        "notion_notification_service",
+        "services",
+        "models",
+        "views",
+        "middleware",
+        "views",
+        "admin",
+        "admin",
+        "forms",
+        "tests",
+        "views",
+        "services",
+        "models",
+        "otp_services",
+        "utils",
+        "services",
+        "models",
+        "middleware",
+        "views",
+        "tasks",
+        "monitoring",
+        "retry_utils",
+        "services",
+        "tests",
+        "inventory_views",
+        "views",
+        "time_tracking_views_backup",
+        "models",
+        "views",
+        "admin",
+        "services",
+        "views",
+        "alerts",
+        "services",
+        "alert_views",
+        "alert_views",
+        "create_sample_events",
+        "cleanup_logs",
+        "report_views",
+        "timesheet_views",
+        "calendar_views",
+        "intrusion_detection",
+        "authentication",
+        "sync_operations"
+      ],
+      "reason": "datetime.timedelta를 46개 모듈에서 사용",
+      "action": "datetime.timedelta 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "views",
+        "views",
+        "views",
+        "views",
+        "views",
+        "views",
+        "alert_views",
+        "sync_views"
+      ],
+      "reason": "rest_framework.decorators.api_view를 9개 모듈에서 사용",
+      "action": "rest_framework.decorators.api_view 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "views",
+        "views",
+        "views",
+        "views",
+        "views",
+        "views",
+        "alert_views",
+        "sync_views"
+      ],
+      "reason": "rest_framework.decorators.permission_classes를 9개 모듈에서 사용",
+      "action": "rest_framework.decorators.permission_classes 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "views",
+        "views",
+        "views",
+        "alert_views",
+        "sync_views"
+      ],
+      "reason": "rest_framework.permissions.IsAuthenticated를 6개 모듈에서 사용",
+      "action": "rest_framework.permissions.IsAuthenticated 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "views",
+        "views",
+        "views",
+        "decorators",
+        "views",
+        "views",
+        "views",
+        "views",
+        "alert_views",
+        "sync_views"
+      ],
+      "reason": "rest_framework.response.Response를 11개 모듈에서 사용",
+      "action": "rest_framework.response.Response 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "views",
+        "views",
+        "views",
+        "decorators",
+        "tests",
+        "views",
+        "views",
+        "views",
+        "views",
+        "alert_views",
+        "sync_views"
+      ],
+      "reason": "rest_framework.status를 12개 모듈에서 사용",
+      "action": "rest_framework.status 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "notion_notification_service",
+        "services",
+        "models",
+        "views",
+        "tests",
+        "setup_leave_system",
+        "setup_groups",
+        "setup_permissions"
+      ],
+      "reason": "apps.auth_system.models.CustomUser를 9개 모듈에서 사용",
+      "action": "apps.auth_system.models.CustomUser 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "services",
+        "views",
+        "services",
+        "data_mappers",
+        "data_mappers"
+      ],
+      "reason": "apps.revenue.models.RevenueRecord를 6개 모듈에서 사용",
+      "action": "apps.revenue.models.RevenueRecord 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "services",
+        "views",
+        "services"
+      ],
+      "reason": "apps.revenue.models.Project를 4개 모듈에서 사용",
+      "action": "apps.revenue.models.Project 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "services",
+        "services"
+      ],
+      "reason": "apps.revenue.models.RevenueTarget를 3개 모듈에서 사용",
+      "action": "apps.revenue.models.RevenueTarget 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "services",
+        "create_sample_events"
+      ],
+      "reason": "apps.calendar_system.models.CalendarEvent를 3개 모듈에서 사용",
+      "action": "apps.calendar_system.models.CalendarEvent 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "notion_notification_service",
+        "services"
+      ],
+      "reason": "models.DashboardNotification를 3개 모듈에서 사용",
+      "action": "models.DashboardNotification 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "notion_notification_service",
+        "services"
+      ],
+      "reason": "models.NotificationReadStatus를 3개 모듈에서 사용",
+      "action": "models.NotificationReadStatus 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "notion_notification_service",
+        "middleware",
+        "otp_services",
+        "middleware",
+        "views",
+        "decorators",
+        "utils",
+        "signals",
+        "services",
+        "middleware",
+        "tasks",
+        "monitoring",
+        "views",
+        "retry_utils",
+        "services",
+        "inventory_views",
+        "views",
+        "services",
+        "cache",
+        "permissions_backup",
+        "views",
+        "alerts",
+        "services",
+        "alert_views",
+        "sync_views",
+        "cleanup_logs",
+        "audit_logging",
+        "rate_limiting",
+        "intrusion_detection",
+        "headers",
+        "validation",
+        "authentication",
+        "csrf_protection",
+        "utils",
+        "sync_operations",
+        "base",
+        "data_mappers",
+        "notion_api",
+        "conflict_resolver"
+      ],
+      "reason": "logging를 39개 모듈에서 사용",
+      "action": "logging 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "notion_notification_service",
+        "services",
+        "monitoring",
+        "retry_utils",
+        "services",
+        "services",
+        "alerts",
+        "utils",
+        "sync_operations",
+        "data_mappers",
+        "notion_api"
+      ],
+      "reason": "typing.List를 11개 모듈에서 사용",
+      "action": "typing.List 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "notion_notification_service",
+        "services",
+        "otp_services",
+        "services",
+        "tasks",
+        "monitoring",
+        "services",
+        "exceptions",
+        "services",
+        "alerts",
+        "utils",
+        "sync_operations",
+        "data_mappers",
+        "notion_api",
+        "conflict_resolver"
+      ],
+      "reason": "typing.Dict를 15개 모듈에서 사용",
+      "action": "typing.Dict 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "notion_notification_service",
+        "services",
+        "otp_services",
+        "services",
+        "tasks",
+        "monitoring",
+        "retry_utils",
+        "services",
+        "exceptions",
+        "services",
+        "alerts",
+        "utils",
+        "sync_operations",
+        "data_mappers",
+        "notion_api",
+        "conflict_resolver"
+      ],
+      "reason": "typing.Optional를 16개 모듈에서 사용",
+      "action": "typing.Optional 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "notion_notification_service",
+        "services",
+        "otp_services",
+        "services",
+        "tasks",
+        "monitoring",
+        "retry_utils",
+        "services",
+        "exceptions",
+        "utils"
+      ],
+      "reason": "typing.Any를 10개 모듈에서 사용",
+      "action": "typing.Any 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "services",
+        "middleware",
+        "middleware",
+        "decorators",
+        "utils",
+        "models",
+        "services",
+        "cache",
+        "rate_limiting"
+      ],
+      "reason": "hashlib를 9개 모듈에서 사용",
+      "action": "hashlib 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls"
+      ],
+      "reason": "views를 11개 모듈에서 사용",
+      "action": "views 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "models",
+        "models",
+        "views",
+        "services",
+        "views",
+        "services",
+        "models",
+        "views",
+        "services"
+      ],
+      "reason": "datetime.date를 9개 모듈에서 사용",
+      "action": "datetime.date 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "views",
+        "views"
+      ],
+      "reason": "apps.auth_system.decorators.admin_required를 3개 모듈에서 사용",
+      "action": "apps.auth_system.decorators.admin_required 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "middleware",
+        "middleware",
+        "retry_utils",
+        "run_notion_poller",
+        "rate_limiting"
+      ],
+      "reason": "time를 5개 모듈에서 사용",
+      "action": "time 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "middleware",
+        "middleware",
+        "views"
+      ],
+      "reason": "psutil를 3개 모듈에서 사용",
+      "action": "psutil 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "middleware",
+        "middleware",
+        "validation",
+        "input",
+        "utils",
+        "password"
+      ],
+      "reason": "re를 6개 모듈에서 사용",
+      "action": "re 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "forms",
+        "tests"
+      ],
+      "reason": "models.CalendarEvent를 4개 모듈에서 사용",
+      "action": "models.CalendarEvent 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "forms",
+        "tests"
+      ],
+      "reason": "models.CalendarCategory를 4개 모듈에서 사용",
+      "action": "models.CalendarCategory 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "forms",
+        "tests"
+      ],
+      "reason": "models.EventAttendee를 4개 모듈에서 사용",
+      "action": "models.EventAttendee 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "forms",
+        "tests"
+      ],
+      "reason": "models.CalendarSettings를 4개 모듈에서 사용",
+      "action": "models.CalendarSettings 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "forms",
+        "otp_services",
+        "middleware",
+        "test_permissions",
+        "views",
+        "admin",
+        "utils",
+        "serializers",
+        "signals",
+        "tests"
+      ],
+      "reason": "models.CustomUser를 10개 모듈에서 사용",
+      "action": "models.CustomUser 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ],
+      "reason": "models.AIModelConfig를 3개 모듈에서 사용",
+      "action": "models.AIModelConfig 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ],
+      "reason": "models.RevenuePrediction를 3개 모듈에서 사용",
+      "action": "models.RevenuePrediction 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ],
+      "reason": "models.WorkEfficiencyAnalysis를 3개 모듈에서 사용",
+      "action": "models.WorkEfficiencyAnalysis 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ],
+      "reason": "models.PerformanceAnalysis를 3개 모듈에서 사용",
+      "action": "models.PerformanceAnalysis 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ],
+      "reason": "models.AnomalyDetection를 3개 모듈에서 사용",
+      "action": "models.AnomalyDetection 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ],
+      "reason": "models.AIInsight를 3개 모듈에서 사용",
+      "action": "models.AIInsight 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "services",
+        "otp_services",
+        "retry_utils",
+        "services",
+        "services",
+        "alerts"
+      ],
+      "reason": "typing.Tuple를 6개 모듈에서 사용",
+      "action": "typing.Tuple 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "models",
+        "test_permissions",
+        "views",
+        "admin"
+      ],
+      "reason": "permissions.PermissionManager를 4개 모듈에서 사용",
+      "action": "permissions.PermissionManager 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "models",
+        "test_permissions",
+        "views",
+        "admin"
+      ],
+      "reason": "permissions.SystemModule를 4개 모듈에서 사용",
+      "action": "permissions.SystemModule 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "models",
+        "test_permissions",
+        "views",
+        "admin"
+      ],
+      "reason": "permissions.PermissionLevel를 4개 모듈에서 사용",
+      "action": "permissions.PermissionLevel 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "otp_services",
+        "utils",
+        "retry_utils",
+        "create_sample_events"
+      ],
+      "reason": "random를 4개 모듈에서 사용",
+      "action": "random 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "otp_services",
+        "views",
+        "admin"
+      ],
+      "reason": "models.OTPToken를 3개 모듈에서 사용",
+      "action": "models.OTPToken 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "middleware",
+        "views",
+        "admin",
+        "utils",
+        "signals",
+        "tests"
+      ],
+      "reason": "models.UserSession를 6개 모듈에서 사용",
+      "action": "models.UserSession 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "middleware",
+        "views",
+        "tests"
+      ],
+      "reason": "utils.SessionManager를 3개 모듈에서 사용",
+      "action": "utils.SessionManager 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "test_permissions",
+        "views",
+        "decorators",
+        "utils",
+        "serializers",
+        "signals",
+        "tests"
+      ],
+      "reason": "models.UserType를 7개 모듈에서 사용",
+      "action": "models.UserType 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "test_permissions",
+        "admin",
+        "signals",
+        "tests"
+      ],
+      "reason": "models.UserGroup를 4개 모듈에서 사용",
+      "action": "models.UserGroup 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "test_permissions",
+        "test_permissions",
+        "test_permissions",
+        "tests"
+      ],
+      "reason": "unittest.mock.Mock를 4개 모듈에서 사용",
+      "action": "unittest.mock.Mock 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "views",
+        "views",
+        "permissions_backup",
+        "views",
+        "revenue_permissions",
+        "analytics_permissions",
+        "base",
+        "budget_permissions",
+        "report_permissions"
+      ],
+      "reason": "rest_framework.permissions를 10개 모듈에서 사용",
+      "action": "rest_framework.permissions 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "utils",
+        "serializers",
+        "tests"
+      ],
+      "reason": "models.OTPCode를 5개 모듈에서 사용",
+      "action": "models.OTPCode 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "serializers",
+        "tests"
+      ],
+      "reason": "models.AuthMethod를 3개 모듈에서 사용",
+      "action": "models.AuthMethod 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "serializers",
+        "tests"
+      ],
+      "reason": "utils.OTPGenerator를 3개 모듈에서 사용",
+      "action": "utils.OTPGenerator 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "decorators",
+        "tests"
+      ],
+      "reason": "utils.UserPermissionChecker를 3개 모듈에서 사용",
+      "action": "utils.UserPermissionChecker 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "decorators",
+        "cache",
+        "decorators"
+      ],
+      "reason": "functools.wraps를 3개 모듈에서 사용",
+      "action": "functools.wraps 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "decorators",
+        "tests",
+        "tests",
+        "setup_leave_system"
+      ],
+      "reason": "datetime를 4개 모듈에서 사용",
+      "action": "datetime 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "serializers",
+        "serializers",
+        "serializers"
+      ],
+      "reason": "rest_framework.serializers를 3개 모듈에서 사용",
+      "action": "rest_framework.serializers 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "models",
+        "services",
+        "middleware",
+        "views",
+        "views",
+        "views",
+        "cleanup_logs",
+        "upload_views"
+      ],
+      "reason": "os를 8개 모듈에서 사용",
+      "action": "os 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "models",
+        "views",
+        "upload_views"
+      ],
+      "reason": "PIL.Image를 3개 모듈에서 사용",
+      "action": "PIL.Image 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "services",
+        "services",
+        "services",
+        "serializers"
+      ],
+      "reason": "models.FeedbackThread를 6개 모듈에서 사용",
+      "action": "models.FeedbackThread 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "serializers"
+      ],
+      "reason": "models.ThreadParticipant를 3개 모듈에서 사용",
+      "action": "models.ThreadParticipant 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "services",
+        "services",
+        "services",
+        "serializers"
+      ],
+      "reason": "models.FeedbackMessage를 6개 모듈에서 사용",
+      "action": "models.FeedbackMessage 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "services",
+        "services",
+        "serializers"
+      ],
+      "reason": "models.MediaAttachment를 5개 모듈에서 사용",
+      "action": "models.MediaAttachment 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "services",
+        "serializers"
+      ],
+      "reason": "models.FeedbackNotification를 4개 모듈에서 사용",
+      "action": "models.FeedbackNotification 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "services",
+        "services",
+        "base"
+      ],
+      "reason": "notion_client.Client를 3개 모듈에서 사용",
+      "action": "notion_client.Client 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "services",
+        "services",
+        "tests",
+        "notion_api"
+      ],
+      "reason": "notion_client.errors.APIResponseError를 4개 모듈에서 사용",
+      "action": "notion_client.errors.APIResponseError 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "tasks",
+        "monitoring",
+        "views",
+        "admin",
+        "services",
+        "serializers",
+        "tests"
+      ],
+      "reason": "models.NotionDatabase를 7개 모듈에서 사용",
+      "action": "models.NotionDatabase 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "tasks",
+        "monitoring",
+        "views",
+        "admin",
+        "services",
+        "serializers",
+        "tests"
+      ],
+      "reason": "models.SyncHistory를 7개 모듈에서 사용",
+      "action": "models.SyncHistory 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "tasks",
+        "views",
+        "admin",
+        "tests"
+      ],
+      "reason": "services.NotionSyncService를 4개 모듈에서 사용",
+      "action": "services.NotionSyncService 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "monitoring",
+        "views",
+        "admin",
+        "services",
+        "serializers",
+        "tests"
+      ],
+      "reason": "models.NotionPage를 6개 모듈에서 사용",
+      "action": "models.NotionPage 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "tests"
+      ],
+      "reason": "services.NotionClient를 3개 모듈에서 사용",
+      "action": "services.NotionClient 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "admin",
+        "serializers",
+        "tests"
+      ],
+      "reason": "models.NotionWebhook를 3개 모듈에서 사용",
+      "action": "models.NotionWebhook 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "retry_utils",
+        "services",
+        "tests"
+      ],
+      "reason": "exceptions.NotionAPIError를 3개 모듈에서 사용",
+      "action": "exceptions.NotionAPIError 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "retry_utils",
+        "services",
+        "tests"
+      ],
+      "reason": "exceptions.NotionRateLimitError를 3개 모듈에서 사용",
+      "action": "exceptions.NotionRateLimitError 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "retry_utils",
+        "services",
+        "tests"
+      ],
+      "reason": "exceptions.NotionServerError를 3개 모듈에서 사용",
+      "action": "exceptions.NotionServerError 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "retry_utils",
+        "services",
+        "tests"
+      ],
+      "reason": "exceptions.NotionNetworkError를 3개 모듈에서 사용",
+      "action": "exceptions.NotionNetworkError 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "retry_utils",
+        "services",
+        "tests"
+      ],
+      "reason": "exceptions.NotionTimeoutError를 3개 모듈에서 사용",
+      "action": "exceptions.NotionTimeoutError 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "inventory_views",
+        "views",
+        "time_tracking_views_backup"
+      ],
+      "reason": "models.WorkSession를 3개 모듈에서 사용",
+      "action": "models.WorkSession 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "inventory_views",
+        "views",
+        "time_tracking_views_backup"
+      ],
+      "reason": "models.FieldSite를 3개 모듈에서 사용",
+      "action": "models.FieldSite 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "models",
+        "services",
+        "entry_views"
+      ],
+      "reason": "datetime.time를 3개 모듈에서 사용",
+      "action": "datetime.time 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ],
+      "reason": "models.WorkTimeRecord를 3개 모듈에서 사용",
+      "action": "models.WorkTimeRecord 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ],
+      "reason": "models.WorkTimeSettings를 3개 모듈에서 사용",
+      "action": "models.WorkTimeSettings 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "admin",
+        "services"
+      ],
+      "reason": "models.WorkTimeSummary를 3개 모듈에서 사용",
+      "action": "models.WorkTimeSummary 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "alerts",
+        "services",
+        "sync_views",
+        "sync_views"
+      ],
+      "reason": "models.RevenueRecord를 5개 모듈에서 사용",
+      "action": "models.RevenueRecord 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "alerts",
+        "services"
+      ],
+      "reason": "models.Client를 3개 모듈에서 사용",
+      "action": "models.Client 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "alerts",
+        "services"
+      ],
+      "reason": "models.Project를 3개 모듈에서 사용",
+      "action": "models.Project 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "alerts",
+        "services"
+      ],
+      "reason": "models.RevenueTarget를 3개 모듈에서 사용",
+      "action": "models.RevenueTarget 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "alerts",
+        "alert_views"
+      ],
+      "reason": "models.RevenueAlert를 3개 모듈에서 사용",
+      "action": "models.RevenueAlert 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "alerts",
+        "services",
+        "alert_views",
+        "sync_views"
+      ],
+      "reason": "permissions.RevenuePermissionManager를 5개 모듈에서 사용",
+      "action": "permissions.RevenuePermissionManager 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "alerts",
+        "services",
+        "alert_views",
+        "sync_views"
+      ],
+      "reason": "permissions.UserRole를 5개 모듈에서 사용",
+      "action": "permissions.UserRole 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "views",
+        "alert_views",
+        "sync_views"
+      ],
+      "reason": "permissions.require_revenue_permission를 3개 모듈에서 사용",
+      "action": "permissions.require_revenue_permission 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "user",
+        "decorators",
+        "group"
+      ],
+      "reason": "base.logger를 3개 모듈에서 사용",
+      "action": "base.logger 관련 기능을 공통 유틸리티로 추출"
+    }
+  ],
+  "statistics": {
+    "total_modules": 138,
+    "total_lines": 34931,
+    "avg_complexity": 17.02173913043478
+  }
+}

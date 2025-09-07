@@ -24,6 +24,7 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
+    min-height: -webkit-fill-available; /* iOS Safari 대응 */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -646,23 +647,116 @@ body {
     }
 }
 
+/* 향상된 모바일 반응형 스타일 */
+@media (max-width: 768px) {
+    .auth-card {
+        padding: 30px;
+        border-radius: 20px 20px 0 0;
+        margin-top: auto;
+        min-height: 70vh;
+    }
+    
+    .auth-container {
+        padding: 0;
+        align-items: flex-end;
+    }
+}
+
 @media (max-width: 480px) {
+    body {
+        background: linear-gradient(180deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    }
+    
+    .auth-card {
+        padding: 25px 20px;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .auth-header {
+        margin-bottom: 30px;
+    }
+    
     .auth-header h1 {
         font-size: 24px;
     }
 
-    .form-group input,
-    .form-group select,
-    .btn {
-        padding: 14px;
+    .auth-header .logo {
+        width: 50px;
+        height: 50px;
     }
-
+    
+    /* 터치 친화적 입력 필드 */
+    .form-group input,
+    .form-group select {
+        padding: 16px;
+        font-size: 16px; /* iOS 자동 확대 방지 */
+        border-radius: 12px;
+        -webkit-appearance: none; /* iOS 기본 스타일 제거 */
+    }
+    
+    /* 터치 친화적 버튼 */
+    .btn {
+        padding: 16px;
+        font-size: 16px;
+        border-radius: 12px;
+        min-height: 52px;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation; /* 더블탭 줌 방지 */
+    }
+    
+    /* 탭 버튼 최적화 */
     .auth-tabs {
         margin-bottom: 20px;
+        padding: 3px;
     }
 
     .tab-btn {
-        padding: 10px;
+        padding: 12px 8px;
         font-size: 14px;
+        min-height: 44px;
+    }
+    
+    /* 체크박스 터치 영역 확대 */
+    .checkbox-label,
+    .radio-label {
+        padding: 12px 0;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    
+    /* OTP 입력 필드 최적화 */
+    #otp-code {
+        font-size: 20px;
+        letter-spacing: 8px;
+        text-align: center;
+        font-weight: 600;
+    }
+    
+    /* 하단 여백 (홈 인디케이터 대응) */
+    .auth-card {
+        padding-bottom: env(safe-area-inset-bottom, 20px);
+    }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #1C1C1E;
+        --card-background: #2C2C2E;
+        --text-primary: #FFFFFF;
+        --text-secondary: #8E8E93;
+        --border-color: #48484A;
+    }
+    
+    .auth-card {
+        background: var(--card-background);
+    }
+    
+    .form-group input,
+    .form-group select {
+        background: #1C1C1E;
+        color: var(--text-primary);
+        border-color: var(--border-color);
     }
 }

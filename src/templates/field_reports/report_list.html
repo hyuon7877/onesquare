@@ -1,0 +1,438 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}현장 리포트 목록{% endblock %}
+
+{% block extra_css %}
+<style>
+    .reports-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #e5e5ea;
+    }
+    
+    .page-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #1d1d1f;
+    }
+    
+    .btn-new-report {
+        background: #007AFF;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s;
+    }
+    
+    .btn-new-report:hover {
+        background: #0051D5;
+        transform: translateY(-2px);
+    }
+    
+    .filters-section {
+        background: #f5f5f7;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+    }
+    
+    .filters-row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+    
+    .filter-group {
+        flex: 1;
+        min-width: 200px;
+    }
+    
+    .filter-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: #6e6e73;
+        font-weight: 500;
+    }
+    
+    .filter-group select,
+    .filter-group input {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #d2d2d7;
+        border-radius: 8px;
+        background: white;
+        font-size: 14px;
+    }
+    
+    .reports-grid {
+        display: grid;
+        gap: 20px;
+    }
+    
+    .report-card {
+        background: white;
+        border: 1px solid #d2d2d7;
+        border-radius: 12px;
+        padding: 20px;
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+    
+    .report-card:hover {
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        transform: translateY(-2px);
+    }
+    
+    .report-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+    }
+    
+    .report-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1d1d1f;
+        margin-bottom: 4px;
+    }
+    
+    .report-meta {
+        display: flex;
+        gap: 12px;
+        font-size: 13px;
+        color: #6e6e73;
+        margin-bottom: 12px;
+    }
+    
+    .report-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+    
+    .report-status {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    
+    .status-draft {
+        background: #f0f0f5;
+        color: #6e6e73;
+    }
+    
+    .status-submitted {
+        background: #e3f2fd;
+        color: #1976d2;
+    }
+    
+    .status-approved {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+    
+    .status-rejected {
+        background: #ffebee;
+        color: #c62828;
+    }
+    
+    .report-type {
+        display: inline-block;
+        padding: 4px 8px;
+        background: #ffd60a;
+        color: #000;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    
+    .report-content {
+        color: #424245;
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 12px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .report-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 12px;
+        border-top: 1px solid #f5f5f7;
+    }
+    
+    .report-location {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 13px;
+        color: #6e6e73;
+    }
+    
+    .report-attachments {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .attachment-count {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 13px;
+        color: #6e6e73;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+    }
+    
+    .empty-icon {
+        font-size: 64px;
+        color: #d2d2d7;
+        margin-bottom: 20px;
+    }
+    
+    .empty-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #1d1d1f;
+        margin-bottom: 8px;
+    }
+    
+    .empty-text {
+        color: #6e6e73;
+        margin-bottom: 24px;
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 40px;
+    }
+    
+    .page-link {
+        padding: 8px 12px;
+        border: 1px solid #d2d2d7;
+        border-radius: 6px;
+        color: #007AFF;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 0.2s;
+    }
+    
+    .page-link:hover {
+        background: #f5f5f7;
+    }
+    
+    .page-link.active {
+        background: #007AFF;
+        color: white;
+        border-color: #007AFF;
+    }
+    
+    .page-link.disabled {
+        color: #c7c7cc;
+        cursor: not-allowed;
+    }
+    
+    @media (max-width: 768px) {
+        .page-header {
+            flex-direction: column;
+            gap: 16px;
+            align-items: stretch;
+        }
+        
+        .btn-new-report {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .filters-row {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="reports-container">
+    <div class="page-header">
+        <h1 class="page-title">현장 리포트</h1>
+        <a href="{% url 'field_reports:report_create' %}" class="btn-new-report">
+            <span>➕</span>
+            <span>새 리포트 작성</span>
+        </a>
+    </div>
+    
+    <div class="filters-section">
+        <form method="get" class="filters-form">
+            <div class="filters-row">
+                <div class="filter-group">
+                    <label for="search">검색</label>
+                    <input type="text" id="search" name="q" value="{{ query }}" placeholder="제목, 내용, 프로젝트명 검색">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="status">상태</label>
+                    <select id="status" name="status">
+                        <option value="">전체</option>
+                        <option value="draft" {% if status_filter == 'draft' %}selected{% endif %}>임시저장</option>
+                        <option value="submitted" {% if status_filter == 'submitted' %}selected{% endif %}>제출완료</option>
+                        <option value="approved" {% if status_filter == 'approved' %}selected{% endif %}>승인됨</option>
+                        <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>반려됨</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="type">유형</label>
+                    <select id="type" name="type">
+                        <option value="">전체</option>
+                        <option value="daily" {% if report_type == 'daily' %}selected{% endif %}>일일보고</option>
+                        <option value="incident" {% if report_type == 'incident' %}selected{% endif %}>사고/이슈</option>
+                        <option value="inspection" {% if report_type == 'inspection' %}selected{% endif %}>점검보고</option>
+                        <option value="progress" {% if report_type == 'progress' %}selected{% endif %}>진행상황</option>
+                        <option value="completion" {% if report_type == 'completion' %}selected{% endif %}>완료보고</option>
+                        <option value="other" {% if report_type == 'other' %}selected{% endif %}>기타</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group" style="display: flex; align-items: flex-end;">
+                    <button type="submit" class="btn-new-report" style="margin-top: auto;">
+                        🔍 검색
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    {% if page_obj.object_list %}
+    <div class="reports-grid">
+        {% for report in page_obj %}
+        <div class="report-card" onclick="location.href='{% url 'field_reports:report_detail' report.pk %}'">
+            <div class="report-header">
+                <div>
+                    <div class="report-title">{{ report.title }}</div>
+                    <div class="report-meta">
+                        <span class="report-type">{{ report.get_report_type_display }}</span>
+                        <span class="report-meta-item">
+                            📅 {{ report.created_at|date:"Y.m.d H:i" }}
+                        </span>
+                    </div>
+                </div>
+                <span class="report-status status-{{ report.status }}">
+                    {{ report.get_status_display }}
+                </span>
+            </div>
+            
+            <div class="report-content">
+                {{ report.content|truncatewords:30 }}
+            </div>
+            
+            <div class="report-footer">
+                <div class="report-location">
+                    <span>📍</span>
+                    <span>{{ report.project_name }} - {{ report.site_name }}</span>
+                </div>
+                
+                <div class="report-attachments">
+                    {% if report.attachments.count > 0 %}
+                    <span class="attachment-count">
+                        📎 {{ report.attachments.count }}개
+                    </span>
+                    {% endif %}
+                    {% if report.is_offline %}
+                    <span style="color: #ff9500;">📱</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    {% if page_obj.has_other_pages %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if query %}&q={{ query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if report_type %}&type={{ report_type }}{% endif %}" class="page-link">처음</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if report_type %}&type={{ report_type }}{% endif %}" class="page-link">이전</a>
+        {% endif %}
+        
+        <span class="page-link active">{{ page_obj.number }}</span>
+        
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if report_type %}&type={{ report_type }}{% endif %}" class="page-link">다음</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if query %}&q={{ query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if report_type %}&type={{ report_type }}{% endif %}" class="page-link">마지막</a>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">📋</div>
+        <div class="empty-title">아직 작성된 리포트가 없습니다</div>
+        <div class="empty-text">첫 번째 현장 리포트를 작성해보세요!</div>
+        <a href="{% url 'field_reports:report_create' %}" class="btn-new-report">
+            새 리포트 작성하기
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+// 오프라인 동기화 체크
+if ('serviceWorker' in navigator && window.pwaManager) {
+    // 페이지 로드 시 동기화 확인
+    window.addEventListener('load', () => {
+        if (navigator.onLine) {
+            // 동기화 필요한 리포트 확인
+            fetch('/field-reports/sync/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCsrfToken()
+                }
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.synced_count > 0) {
+                      showToast(`${data.synced_count}개의 리포트가 동기화되었습니다.`, 'success');
+                      setTimeout(() => location.reload(), 2000);
+                  }
+              });
+        }
+    });
+}
+
+function getCsrfToken() {
+    const token = document.querySelector('[name=csrfmiddlewaretoken]');
+    return token ? token.value : '';
+}
+</script>
+{% endblock %}

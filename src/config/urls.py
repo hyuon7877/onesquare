@@ -23,36 +23,29 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    # PWA URLs
-    path('', include('apps.pwa.urls')),
-    path('', TemplateView.as_view(template_name='index.html'), name='home'),
+    # Home page - redirect to dashboard
+    path('', TemplateView.as_view(template_name='home.html'), name='home'),
     
-    # Revenue Management System
-    path('revenue/', include('apps.revenue.urls')),
+    # Authentication System
+    path('accounts/', include('accounts.urls')),
     
-    # API URLs
-    path('api/notion/', include('apps.notion_api.urls')),
-    path('api/auth/', include('apps.auth_system.urls')),
-    path('calendar/', include('apps.calendar_system.urls')),
-    path('api/reports/', include('apps.field_reports.urls')),
+    # Calendar System (최상위 레벨로 이동)
+    path('calendar/', include('dashboard.urls_calendar')),
     
     # Dashboard System
-    path('dashboard/', include('apps.dashboard.urls')),
+    path('dashboard/', include('dashboard.urls')),
     
-    # Leave Management System
-    path('leave/', include('apps.leave_management.urls')),
+    # Field Reports System
+    path('field-reports/', include('field_reports.urls')),
     
-    # Time Management System
-    path('time/', include('apps.time_management.urls')),
+    # Collaboration System
+    path('collaboration/', include('collaboration.urls')),
     
-    # Multimedia Feedback System
-    path('feedback/', include('apps.feedback.urls')),
+    # Search System
+    path('search/', include('search.urls')),
     
-    # AI Analytics System
-    path('ai-analytics/', include('apps.ai_analytics.urls')),
-    
-    # System Monitoring Dashboard
-    path('monitoring/', include('apps.monitoring.urls')),
+    # PWA Offline page
+    path('offline/', TemplateView.as_view(template_name='offline.html'), name='offline'),
 ]
 
 # Static and media files serving in development

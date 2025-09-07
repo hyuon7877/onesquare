@@ -1,0 +1,486 @@
+/* 댓글 시스템 스타일 */
+
+.comment-system {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 댓글 작성 폼 */
+.comment-form-container {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.comment-form {
+    display: flex;
+    gap: 1rem;
+}
+
+.comment-avatar {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    border-radius: 50%;
+    color: #6c757d;
+    font-size: 1.5rem;
+}
+
+.comment-input-wrapper {
+    flex: 1;
+    position: relative;
+}
+
+.reply-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    background: #e7f3ff;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: #0066cc;
+}
+
+.btn-cancel-reply {
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 0;
+}
+
+.comment-input {
+    width: 100%;
+    min-height: 80px;
+    resize: vertical;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 0.95rem;
+}
+
+.comment-input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* 멘션 드롭다운 */
+.mention-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 300px;
+}
+
+.mention-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.mention-item:hover {
+    background: #f8f9fa;
+}
+
+.mention-item i {
+    font-size: 1.5rem;
+    color: #6c757d;
+}
+
+.mention-user {
+    flex: 1;
+}
+
+.mention-name {
+    font-weight: 500;
+    color: #212529;
+}
+
+.mention-username {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+/* 댓글 액션 */
+.comment-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+}
+
+.comment-tools {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.btn-tool {
+    background: none;
+    border: 1px solid transparent;
+    color: #6c757d;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-tool:hover {
+    background: #f8f9fa;
+    border-color: #dee2e6;
+    color: #212529;
+}
+
+.comment-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* 댓글 목록 */
+.comments-container {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.comments-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #dee2e6;
+    margin-bottom: 1.5rem;
+}
+
+.comments-title {
+    margin: 0;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.comment-count {
+    background: #007bff;
+    color: white;
+    padding: 0.125rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
+}
+
+.comments-filter select {
+    border-radius: 20px;
+    padding: 0.25rem 1rem;
+}
+
+/* 개별 댓글 */
+.comment {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.comment:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.comment-content {
+    flex: 1;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.comment-author {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.comment-author strong {
+    color: #212529;
+}
+
+.username {
+    color: #6c757d;
+    font-size: 0.875rem;
+}
+
+.comment-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.comment-time {
+    color: #6c757d;
+}
+
+.edited {
+    font-style: italic;
+}
+
+.comment-body {
+    color: #495057;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+}
+
+.comment-body strong {
+    font-weight: 600;
+}
+
+.comment-body em {
+    font-style: italic;
+}
+
+.comment-body code {
+    background: #f8f9fa;
+    padding: 0.125rem 0.25rem;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.875em;
+}
+
+.comment-body a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.comment-body a:hover {
+    text-decoration: underline;
+}
+
+.mention {
+    color: #007bff;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.mention:hover {
+    text-decoration: underline;
+}
+
+.mentioned-users {
+    margin-top: 0.5rem;
+}
+
+.mention-tag {
+    display: inline-block;
+    background: #e7f3ff;
+    color: #0066cc;
+    padding: 0.125rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    margin-right: 0.25rem;
+}
+
+/* 댓글 액션 버튼 */
+.comment-footer {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-comment-action {
+    background: none;
+    border: none;
+    color: #6c757d;
+    font-size: 0.875rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.btn-comment-action:hover {
+    background: #f8f9fa;
+    color: #007bff;
+}
+
+.btn-comment-action i {
+    margin-right: 0.25rem;
+}
+
+/* 답글 */
+.comment-reply {
+    margin-left: 3rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.replies {
+    margin-top: 1rem;
+}
+
+/* 댓글 없음 */
+.no-comments {
+    text-align: center;
+    padding: 3rem;
+    color: #6c757d;
+}
+
+.no-comments i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+    opacity: 0.5;
+}
+
+/* 로딩 */
+.loading-comments {
+    text-align: center;
+    padding: 2rem;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .comment-form {
+        flex-direction: column;
+    }
+    
+    .comment-avatar {
+        display: none;
+    }
+    
+    .comment-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .comment-tools {
+        width: 100%;
+        justify-content: space-around;
+    }
+    
+    .comment-buttons {
+        width: 100%;
+    }
+    
+    .comment-buttons button {
+        flex: 1;
+    }
+    
+    .comment-reply {
+        margin-left: 1rem;
+    }
+    
+    .comments-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .comment-header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* 다크 모드 */
+@media (prefers-color-scheme: dark) {
+    .comment-form-container,
+    .comments-container {
+        background: #212529;
+        color: #f8f9fa;
+    }
+    
+    .comment-avatar {
+        background: #343a40;
+        color: #adb5bd;
+    }
+    
+    .comment-input {
+        background: #343a40;
+        border-color: #495057;
+        color: #f8f9fa;
+    }
+    
+    .comment-input:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25);
+    }
+    
+    .reply-indicator {
+        background: #1a3a52;
+        color: #6ea8fe;
+    }
+    
+    .mention-dropdown {
+        background: #343a40;
+        border-color: #495057;
+    }
+    
+    .mention-item:hover {
+        background: #495057;
+    }
+    
+    .mention-name {
+        color: #f8f9fa;
+    }
+    
+    .btn-tool:hover {
+        background: #343a40;
+        border-color: #495057;
+        color: #f8f9fa;
+    }
+    
+    .comment {
+        border-color: #495057;
+    }
+    
+    .comments-header {
+        border-color: #495057;
+    }
+    
+    .comment-author strong {
+        color: #f8f9fa;
+    }
+    
+    .comment-body {
+        color: #dee2e6;
+    }
+    
+    .comment-body code {
+        background: #343a40;
+        color: #f8f9fa;
+    }
+    
+    .btn-comment-action:hover {
+        background: #343a40;
+        color: #0d6efd;
+    }
+    
+    .mention-tag {
+        background: #1a3a52;
+        color: #6ea8fe;
+    }
+}

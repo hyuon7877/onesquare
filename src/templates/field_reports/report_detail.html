@@ -1,0 +1,690 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ report.title }} - 현장 리포트{% endblock %}
+
+{% block extra_css %}
+<style>
+    .detail-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .report-header {
+        background: white;
+        border: 1px solid #d2d2d7;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 20px;
+    }
+    
+    .report-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #1d1d1f;
+        margin-bottom: 12px;
+    }
+    
+    .report-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding-top: 12px;
+        border-top: 1px solid #e5e5ea;
+    }
+    
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        color: #6e6e73;
+    }
+    
+    .meta-item strong {
+        color: #1d1d1f;
+    }
+    
+    .status-badge {
+        display: inline-block;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+    
+    .status-draft {
+        background: #f0f0f5;
+        color: #6e6e73;
+    }
+    
+    .status-submitted {
+        background: #e3f2fd;
+        color: #1976d2;
+    }
+    
+    .status-synced {
+        background: #f3e5f5;
+        color: #7b1fa2;
+    }
+    
+    .status-approved {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+    
+    .status-rejected {
+        background: #ffebee;
+        color: #c62828;
+    }
+    
+    .report-type-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        background: #ffd60a;
+        color: #000;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 20px;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s;
+    }
+    
+    .btn-primary {
+        background: #007AFF;
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background: #0051D5;
+        transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+        background: #f5f5f7;
+        color: #1d1d1f;
+        border: 1px solid #d2d2d7;
+    }
+    
+    .btn-secondary:hover {
+        background: #e8e8ed;
+    }
+    
+    .btn-danger {
+        background: #ff3b30;
+        color: white;
+    }
+    
+    .btn-danger:hover {
+        background: #d32f2f;
+    }
+    
+    .btn-success {
+        background: #34c759;
+        color: white;
+    }
+    
+    .btn-success:hover {
+        background: #2ca147;
+    }
+    
+    .content-section {
+        background: white;
+        border: 1px solid #d2d2d7;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 20px;
+    }
+    
+    .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1d1d1f;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 16px;
+    }
+    
+    .info-item {
+        padding: 12px;
+        background: #f5f5f7;
+        border-radius: 8px;
+    }
+    
+    .info-label {
+        font-size: 12px;
+        color: #6e6e73;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+    
+    .info-value {
+        font-size: 14px;
+        color: #1d1d1f;
+    }
+    
+    .content-text {
+        color: #424245;
+        line-height: 1.6;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+    
+    .location-map {
+        height: 300px;
+        background: #f5f5f7;
+        border-radius: 8px;
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6e6e73;
+    }
+    
+    .attachments-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+        margin-top: 16px;
+    }
+    
+    .attachment-item {
+        background: #f5f5f7;
+        border: 1px solid #d2d2d7;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+    
+    .attachment-item:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transform: translateY(-2px);
+    }
+    
+    .attachment-image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
+    
+    .attachment-info {
+        padding: 12px;
+    }
+    
+    .attachment-name {
+        font-size: 13px;
+        color: #1d1d1f;
+        margin-bottom: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    .attachment-size {
+        font-size: 11px;
+        color: #6e6e73;
+    }
+    
+    .review-section {
+        background: #f5f5f7;
+        border-left: 4px solid #007AFF;
+        padding: 16px;
+        border-radius: 8px;
+        margin-top: 16px;
+    }
+    
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+    
+    .review-title {
+        font-weight: 600;
+        color: #1d1d1f;
+    }
+    
+    .review-meta {
+        font-size: 12px;
+        color: #6e6e73;
+    }
+    
+    .review-comment {
+        color: #424245;
+        line-height: 1.5;
+    }
+    
+    .offline-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        background: #ffd60a;
+        color: #000;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    
+    .sync-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        background: #e3f2fd;
+        color: #1976d2;
+        border-radius: 6px;
+        font-size: 12px;
+    }
+    
+    .notion-sync {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        background: #000;
+        color: #fff;
+        border-radius: 6px;
+        font-size: 12px;
+    }
+    
+    @media (max-width: 768px) {
+        .report-meta {
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .action-buttons {
+            flex-direction: column;
+        }
+        
+        .btn {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    @media print {
+        .action-buttons {
+            display: none;
+        }
+        
+        .detail-container {
+            max-width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+    <!-- 리포트 헤더 -->
+    <div class="report-header">
+        <h1 class="report-title">{{ report.title }}</h1>
+        
+        <div class="report-meta">
+            <div class="meta-item">
+                <span class="report-type-badge">{{ report.get_report_type_display }}</span>
+            </div>
+            
+            <div class="meta-item">
+                <span class="status-badge status-{{ report.status }}">
+                    {{ report.get_status_display }}
+                </span>
+            </div>
+            
+            <div class="meta-item">
+                <span>👤</span>
+                <strong>작성자:</strong> {{ report.author.get_full_name|default:report.author.username }}
+            </div>
+            
+            <div class="meta-item">
+                <span>📅</span>
+                <strong>작성일:</strong> {{ report.created_at|date:"Y년 m월 d일 H:i" }}
+            </div>
+            
+            {% if report.submitted_at %}
+            <div class="meta-item">
+                <span>✅</span>
+                <strong>제출일:</strong> {{ report.submitted_at|date:"Y년 m월 d일 H:i" }}
+            </div>
+            {% endif %}
+            
+            {% if report.is_offline %}
+            <div class="meta-item">
+                <span class="offline-badge">
+                    <span>📱</span>
+                    <span>오프라인 작성</span>
+                </span>
+            </div>
+            {% endif %}
+            
+            {% if report.sync_status %}
+            <div class="meta-item">
+                <span class="sync-status">
+                    <span>🔄</span>
+                    <span>{{ report.sync_status }}</span>
+                </span>
+            </div>
+            {% endif %}
+            
+            {% if report.notion_page_id %}
+            <div class="meta-item">
+                <span class="notion-sync">
+                    <span>📝</span>
+                    <span>Notion 동기화됨</span>
+                </span>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- 액션 버튼들 -->
+        <div class="action-buttons">
+            <a href="{% url 'field_reports:report_list' %}" class="btn btn-secondary">
+                <span>📋</span>
+                <span>목록</span>
+            </a>
+            
+            {% if user == report.author or user.is_staff %}
+            <a href="{% url 'field_reports:report_edit' report.pk %}" class="btn btn-primary">
+                <span>✏️</span>
+                <span>수정</span>
+            </a>
+            
+            {% if report.status == 'draft' %}
+            <button onclick="submitReport()" class="btn btn-success">
+                <span>📤</span>
+                <span>제출하기</span>
+            </button>
+            {% endif %}
+            
+            <button onclick="printReport()" class="btn btn-secondary">
+                <span>🖨️</span>
+                <span>인쇄</span>
+            </button>
+            
+            <button onclick="exportPDF()" class="btn btn-secondary">
+                <span>📄</span>
+                <span>PDF 저장</span>
+            </button>
+            
+            {% if user.is_staff %}
+            <button onclick="confirmDelete()" class="btn btn-danger">
+                <span>🗑️</span>
+                <span>삭제</span>
+            </button>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- 현장 정보 섹션 -->
+    <div class="content-section">
+        <h2 class="section-title">
+            <span>🏗️</span>
+            <span>현장 정보</span>
+        </h2>
+        
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">프로젝트명</div>
+                <div class="info-value">{{ report.project_name }}</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">현장명</div>
+                <div class="info-value">{{ report.site_name }}</div>
+            </div>
+            
+            {% if report.contractor %}
+            <div class="info-item">
+                <div class="info-label">도급사</div>
+                <div class="info-value">{{ report.contractor }}</div>
+            </div>
+            {% endif %}
+            
+            {% if report.workers_count %}
+            <div class="info-item">
+                <div class="info-label">작업인원</div>
+                <div class="info-value">{{ report.workers_count }}명</div>
+            </div>
+            {% endif %}
+        </div>
+        
+        {% if report.attendees %}
+        <div class="info-item" style="margin-top: 16px;">
+            <div class="info-label">참석자 명단</div>
+            <div class="info-value">{{ report.attendees }}</div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- 날씨 정보 섹션 -->
+    {% if report.weather or report.temperature %}
+    <div class="content-section">
+        <h2 class="section-title">
+            <span>☁️</span>
+            <span>날씨 정보</span>
+        </h2>
+        
+        <div class="info-grid">
+            {% if report.weather %}
+            <div class="info-item">
+                <div class="info-label">날씨</div>
+                <div class="info-value">
+                    {% if report.weather == '맑음' %}☀️{% elif report.weather == '구름조금' %}⛅{% elif report.weather == '흐림' %}☁️{% elif report.weather == '비' %}🌧️{% elif report.weather == '눈' %}❄️{% elif report.weather == '안개' %}🌫️{% endif %}
+                    {{ report.weather }}
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if report.temperature %}
+            <div class="info-item">
+                <div class="info-label">온도</div>
+                <div class="info-value">{{ report.temperature }}</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- 위치 정보 섹션 -->
+    {% if report.latitude and report.longitude %}
+    <div class="content-section">
+        <h2 class="section-title">
+            <span>📍</span>
+            <span>위치 정보</span>
+        </h2>
+        
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">GPS 좌표</div>
+                <div class="info-value">{{ report.latitude }}, {{ report.longitude }}</div>
+            </div>
+            
+            {% if report.location_address %}
+            <div class="info-item">
+                <div class="info-label">주소</div>
+                <div class="info-value">{{ report.location_address }}</div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="location-map" id="map">
+            <span>🗺️ 지도 영역 (구현 예정)</span>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- 내용 섹션 -->
+    <div class="content-section">
+        <h2 class="section-title">
+            <span>📝</span>
+            <span>상세 내용</span>
+        </h2>
+        
+        <div class="content-text">{{ report.content }}</div>
+    </div>
+    
+    <!-- 첨부파일 섹션 -->
+    {% if report.attachments.exists %}
+    <div class="content-section">
+        <h2 class="section-title">
+            <span>📎</span>
+            <span>첨부파일 ({{ report.attachments.count }}개)</span>
+        </h2>
+        
+        <div class="attachments-grid">
+            {% for attachment in report.attachments.all %}
+            <div class="attachment-item" onclick="viewAttachment('{{ attachment.file.url }}')">
+                {% if attachment.file_type == 'image' %}
+                    {% if attachment.thumbnail %}
+                        <img src="{{ attachment.thumbnail.url }}" alt="{{ attachment.file_name }}" class="attachment-image">
+                    {% else %}
+                        <img src="{{ attachment.file.url }}" alt="{{ attachment.file_name }}" class="attachment-image">
+                    {% endif %}
+                {% else %}
+                    <div style="height: 150px; display: flex; align-items: center; justify-content: center; background: #f5f5f7;">
+                        {% if attachment.file_type == 'document' %}
+                            <span style="font-size: 48px;">📄</span>
+                        {% elif attachment.file_type == 'video' %}
+                            <span style="font-size: 48px;">🎥</span>
+                        {% elif attachment.file_type == 'audio' %}
+                            <span style="font-size: 48px;">🎵</span>
+                        {% else %}
+                            <span style="font-size: 48px;">📁</span>
+                        {% endif %}
+                    </div>
+                {% endif %}
+                
+                <div class="attachment-info">
+                    <div class="attachment-name">{{ attachment.file_name }}</div>
+                    <div class="attachment-size">{{ attachment.file_size|filesizeformat }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- 검토 의견 섹션 -->
+    {% if report.review_comment %}
+    <div class="content-section">
+        <h2 class="section-title">
+            <span>✍️</span>
+            <span>검토 의견</span>
+        </h2>
+        
+        <div class="review-section">
+            <div class="review-header">
+                <div class="review-title">
+                    검토자: {{ report.reviewed_by.get_full_name|default:report.reviewed_by.username }}
+                </div>
+                <div class="review-meta">
+                    {{ report.reviewed_at|date:"Y년 m월 d일 H:i" }}
+                </div>
+            </div>
+            <div class="review-comment">{{ report.review_comment }}</div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+// 리포트 제출
+function submitReport() {
+    if (confirm('리포트를 제출하시겠습니까?\n제출 후에는 수정이 제한됩니다.')) {
+        fetch("{% url 'field_reports:report_edit' report.pk %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': getCsrfToken()
+            },
+            body: 'status=submitted&action=submit'
+        }).then(response => {
+            if (response.ok) {
+                location.reload();
+            }
+        });
+    }
+}
+
+// 리포트 삭제
+function confirmDelete() {
+    if (confirm('정말로 이 리포트를 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) {
+        window.location.href = "{% url 'field_reports:report_delete' report.pk %}";
+    }
+}
+
+// 인쇄
+function printReport() {
+    window.print();
+}
+
+// PDF 내보내기 (브라우저 인쇄 기능 활용)
+function exportPDF() {
+    window.print();
+}
+
+// 첨부파일 보기
+function viewAttachment(url) {
+    window.open(url, '_blank');
+}
+
+// CSRF 토큰 가져오기
+function getCsrfToken() {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        const [name, value] = cookie.trim().split('=');
+        if (name === 'csrftoken') {
+            return value;
+        }
+    }
+    return '';
+}
+
+// 지도 초기화 (추후 구현)
+document.addEventListener('DOMContentLoaded', function() {
+    {% if report.latitude and report.longitude %}
+    // OpenStreetMap 또는 Google Maps API 연동
+    // const lat = {{ report.latitude }};
+    // const lng = {{ report.longitude }};
+    // initMap(lat, lng);
+    {% endif %}
+});
+</script>
+{% endblock %}

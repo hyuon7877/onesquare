@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}OneSquare - 홈{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1>OneSquare에 오신 것을 환영합니다!</h1>
+            <p>통합 관리 시스템</p>
+            
+            <div class="mt-4">
+                <a href="{% url 'dashboard:dashboard' %}" class="btn btn-primary">대시보드로 이동</a>
+                <a href="/admin/" class="btn btn-secondary">관리자 페이지</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// 자동으로 대시보드로 리다이렉트 (3초 후)
+setTimeout(() => {
+    window.location.href = "{% url 'dashboard:dashboard' %}";
+}, 3000);
+</script>
+{% endblock %}

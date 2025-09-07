@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}로그인 - OneSquare{% endblock %}
+
+{% block extra_css %}
+<style>
+    .login-container {
+        min-height: calc(100vh - 150px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    
+    .login-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 400px;
+    }
+    
+    .login-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .login-header h2 {
+        color: #333;
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+    
+    .login-header p {
+        color: #666;
+        font-size: 14px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 500;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: border-color 0.3s;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: #0A84FF;
+        box-shadow: 0 0 0 3px rgba(10,132,255,0.1);
+    }
+    
+    .btn-login {
+        width: 100%;
+        padding: 12px;
+        background: #0A84FF;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    
+    .btn-login:hover {
+        background: #0066cc;
+    }
+    
+    .form-footer {
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+    
+    .form-footer a {
+        color: #0A84FF;
+        text-decoration: none;
+        font-size: 14px;
+    }
+    
+    .form-footer a:hover {
+        text-decoration: underline;
+    }
+    
+    .error-message {
+        background: #fee;
+        color: #c33;
+        padding: 10px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h2>로그인</h2>
+            <p>OneSquare 시스템에 로그인하세요</p>
+        </div>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} error-message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        {% if form.non_field_errors %}
+            <div class="error-message">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">사용자명</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <small class="text-danger">{{ form.username.errors }}</small>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">비밀번호</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <small class="text-danger">{{ form.password.errors }}</small>
+                {% endif %}
+            </div>
+            
+            <button type="submit" class="btn-login">로그인</button>
+        </form>
+        
+        <div class="form-footer">
+            <p>계정이 없으신가요? <a href="{% url 'accounts:signup' %}">회원가입</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

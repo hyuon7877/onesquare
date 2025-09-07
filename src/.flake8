@@ -1,0 +1,51 @@
+[flake8]
+# Maximum line length
+max-line-length = 120
+
+# Directories and files to exclude
+exclude = 
+    .git,
+    __pycache__,
+    migrations,
+    .venv,
+    venv,
+    env,
+    build,
+    dist,
+    *.egg-info,
+    staticfiles,
+    media,
+    node_modules,
+    .tox,
+    .coverage,
+    .pytest_cache,
+    htmlcov
+
+# Ignore specific errors
+ignore = 
+    # E203: whitespace before ':' (conflicts with black)
+    E203,
+    # W503: line break before binary operator (conflicts with black)
+    W503,
+    # E501: line too long (handled by max-line-length)
+    E501,
+    # F401: imported but unused (for __init__.py files)
+    F401
+
+# Per-file ignores
+per-file-ignores =
+    # Allow imports in __init__.py
+    __init__.py:F401,F403
+    # Allow complex settings files
+    settings/*.py:E501
+    # Allow long lines in migrations
+    */migrations/*.py:E501
+
+# Count errors
+count = True
+
+# Show statistics
+statistics = True
+
+# Show source code for errors
+show-source = True

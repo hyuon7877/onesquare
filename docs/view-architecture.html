@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneSquare 시스템 아키텍처</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1, h2 {
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .diagram-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .mermaid {
+            text-align: center;
+        }
+        .nav {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav a {
+            display: block;
+            margin: 5px 0;
+            color: #667eea;
+            text-decoration: none;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#667eea',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#7c3aed',
+                lineColor: '#5b21b6',
+                secondaryColor: '#a78bfa',
+                tertiaryColor: '#e9d5ff'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="nav">
+        <strong>빠른 이동</strong>
+        <a href="#system">시스템 아키텍처</a>
+        <a href="#modules">모듈 의존성</a>
+        <a href="#flow">사용자 플로우</a>
+        <a href="#data">데이터 플로우</a>
+        <a href="#stats">통계</a>
+        <a href="#layers">레이어 구조</a>
+    </div>
+
+    <h1>🏗️ OneSquare 시스템 아키텍처</h1>
+    
+    <div id="system" class="diagram-container">
+        <h2>📊 전체 시스템 아키텍처</h2>
+        <div class="mermaid">
+graph TB
+    subgraph "Client Layer"
+        PWA[PWA Frontend]
+        Mobile[Mobile Web]
+        Desktop[Desktop Web]
+    end
+    
+    subgraph "Application Layer"
+        Django[Django Server<br/>Port: 8500]
+        ServiceWorker[Service Worker]
+        Static[Static Files]
+    end
+    
+    subgraph "Data Layer"
+        SQLite[(SQLite DB)]
+        NotionAPI[Notion API]
+        Cache[IndexedDB Cache]
+    end
+    
+    PWA --> ServiceWorker
+    Mobile --> Django
+    Desktop --> Django
+    ServiceWorker --> Cache
+    Django --> SQLite
+    Django --> NotionAPI
+    ServiceWorker --> Django
+    Django --> Static
+        </div>
+    </div>
+
+    <div id="modules" class="diagram-container">
+        <h2>🔧 모듈 의존성 다이어그램</h2>
+        <div class="mermaid">
+graph LR
+    subgraph Core["🔵 Core Modules"]
+        Config[config/settings.py]
+        URLs[config/urls.py]
+        WSGI[config/wsgi.py]
+        Secrets[secrets.json]
+    end
+    
+    subgraph Auth["🟢 Authentication"]
+        AuthSystem[auth_system]
+        Decorators[decorators.py]
+        CustomUser[CustomUser Model]
+    end
+    
+    subgraph Features["🟡 Feature Modules"]
+        Dashboard[dashboard]
+        Calendar[calendar_system]
+        FieldReports[field_reports]
+        Revenue[revenue]
+        Leave[leave_management]
+        TimeTrack[time_tracking]
+        Feedback[feedback]
+        AI[ai_analytics]
+        Monitor[monitoring]
+    end
+    
+    subgraph Integration["🟣 Integration"]
+        Notion[notion_api]
+        PWAModule[pwa]
+        SW[Service Worker]
+        Manifest[manifest.json]
+    end
+    
+    Config --> URLs
+    Config --> WSGI
+    Secrets --> Config
+    
+    AuthSystem --> Config
+    Decorators --> AuthSystem
+    CustomUser --> AuthSystem
+    
+    Dashboard --> AuthSystem
+    Dashboard --> Revenue
+    Calendar --> AuthSystem
+    Calendar --> Notion
+    FieldReports --> AuthSystem
+    Revenue --> AuthSystem
+    Revenue --> Notion
+    Leave --> AuthSystem
+    Leave --> Calendar
+    TimeTrack --> AuthSystem
+    TimeTrack --> FieldReports
+    Feedback --> AuthSystem
+    AI --> Dashboard
+    AI --> Revenue
+    Monitor --> Config
+    
+    Notion --> Config
+    PWAModule --> SW
+    PWAModule --> Manifest
+        </div>
+    </div>
+
+    <div id="flow" class="diagram-container">
+        <h2>🎯 기능별 모듈 관계도</h2>
+        <div class="mermaid">
+flowchart TD
+    subgraph UserFlow["👤 사용자 플로우"]
+        Login[로그인]
+        Auth{인증}
+        Permission{권한확인}
+        Access[접근허가]
+    end
+    
+    subgraph AdminFlow["👨‍💼 관리자 기능"]
+        AdminDash[관리자 대시보드]
+        Reports[리포트 관리]
+        UserMgmt[사용자 관리]
+        Analytics[데이터 분석]
+    end
+    
+    subgraph PartnerFlow["🤝 파트너 기능"]
+        FieldApp[현장 리포트 앱]
+        CheckList[체크리스트]
+        PhotoUpload[사진 업로드]
+        TimeRecord[시간 기록]
+    end
+    
+    Login --> Auth
+    Auth -->|성공| Permission
+    Auth -->|실패| Login
+    Permission -->|관리자| AdminFlow
+    Permission -->|파트너| PartnerFlow
+    Permission -->|일반| Access
+    
+    AdminDash --> Reports
+    AdminDash --> UserMgmt
+    AdminDash --> Analytics
+    
+    FieldApp --> CheckList
+    FieldApp --> PhotoUpload
+    FieldApp --> TimeRecord
+        </div>
+    </div>
+
+    <div id="data" class="diagram-container">
+        <h2>🔄 데이터 플로우</h2>
+        <div class="mermaid">
+sequenceDiagram
+    participant User
+    participant PWA
+    participant Django
+    participant SQLite
+    participant Notion
+    participant Cache
+    
+    User->>PWA: 요청
+    PWA->>Cache: 캐시 확인
+    alt 캐시 있음
+        Cache-->>PWA: 캐시 데이터
+        PWA-->>User: 빠른 응답
+        PWA->>Django: 백그라운드 업데이트
+    else 캐시 없음
+        PWA->>Django: API 요청
+        Django->>SQLite: 로컬 데이터 조회
+        Django->>Notion: Notion 동기화
+        Notion-->>Django: 데이터 응답
+        Django-->>PWA: 처리된 데이터
+        PWA->>Cache: 캐시 저장
+        PWA-->>User: 응답
+    end
+        </div>
+    </div>
+
+    <div id="stats" class="diagram-container">
+        <h2>📦 모듈 카테고리 분포</h2>
+        <div class="mermaid">
+pie title 모듈 카테고리별 분포
+    "Core Modules" : 4
+    "Feature Modules" : 10
+    "Utils Modules" : 4
+    "Integration Modules" : 4
+        </div>
+    </div>
+
+    <div id="layers" class="diagram-container">
+        <h2>🏗️ 시스템 레이어 구조</h2>
+        <div class="mermaid">
+graph TD
+    subgraph Presentation["🎨 Presentation Layer"]
+        Templates[HTML Templates]
+        StaticFiles[CSS/JS/Images]
+        PWAAssets[PWA Assets]
+    end
+    
+    subgraph Business["💼 Business Layer"]
+        Views[Django Views]
+        Serializers[Serializers]
+        Services[Service Classes]
+        Utils[Utility Functions]
+    end
+    
+    subgraph Data["💾 Data Layer"]
+        Models[Django Models]
+        Migrations[Migrations]
+        DBRouter[DB Router]
+    end
+    
+    subgraph External["🌐 External Services"]
+        NotionDB[Notion Database]
+        EmailService[Email Service]
+        SMSService[SMS Service]
+    end
+    
+    Templates --> Views
+    StaticFiles --> Templates
+    PWAAssets --> StaticFiles
+    
+    Views --> Services
+    Views --> Serializers
+    Services --> Utils
+    
+    Services --> Models
+    Models --> Migrations
+    Models --> DBRouter
+    
+    Services --> NotionDB
+    Services --> EmailService
+    Services --> SMSService
+        </div>
+    </div>
+
+</body>
+</html>

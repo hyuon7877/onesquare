@@ -115,8 +115,8 @@
             </div>
             {% else %}
             <div class="nav-auth">
-                <a href="/auth/login/" class="btn-login">로그인</a>
-                <a href="/auth/register/" class="btn-register">회원가입</a>
+                <a href="/accounts/login/" class="btn-login">로그인</a>
+                <a href="/accounts/signup/" class="btn-register">회원가입</a>
             </div>
             {% endif %}
         </div>
@@ -158,6 +158,50 @@
     
     <!-- PWA Installation Script -->
     <script>
+    // Service Worker 등록
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/static/sw.js')
+                .then(registration => {
+                    console.log('[ServiceWorker] 등록 성공:', registration.scope);
+                    
+                    // Service Worker 업데이트 감지
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                if (window.showToast) {
+                                    showToast('새로운 버전이 있습니다. 새로고침하세요.', 'info');
+                                }
+                            }
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('[ServiceWorker] 등록 실패:', error);
+                });
+        });
+        
+        // 네트워크 상태 모니터링
+        function updateNetworkStatus() {
+            const indicator = document.getElementById('network-indicator');
+            const statusText = document.getElementById('network-status-text');
+            
+            if (navigator.onLine) {
+                indicator.classList.remove('offline');
+                indicator.classList.add('online');
+                statusText.textContent = '온라인';
+            } else {
+                indicator.classList.remove('online');
+                indicator.classList.add('offline');
+                statusText.textContent = '오프라인';
+            }
+        }
+        
+        window.addEventListener('online', updateNetworkStatus);
+        window.addEventListener('offline', updateNetworkStatus);
+    }
+    
     // PWA 설치 배너 처리
     document.addEventListener('DOMContentLoaded', () => {
         const installBanner = document.getElementById('pwa-install-banner');

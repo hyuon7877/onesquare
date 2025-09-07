@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}협업 - OneSquare{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4">협업 센터</h1>
+    
+    <div class="row">
+        <!-- 최근 활동 -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">최근 활동</h5>
+                </div>
+                <div class="card-body">
+                    {% if activities %}
+                        <ul class="list-unstyled">
+                            {% for activity in activities %}
+                            <li class="mb-2">
+                                <small class="text-muted">{{ activity.timestamp|timesince }} 전</small><br>
+                                {{ activity.activity_type }} - {{ activity.description|default:"활동 내역" }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">최근 활동이 없습니다.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- 알림 -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">알림</h5>
+                </div>
+                <div class="card-body">
+                    {% if notifications %}
+                        <ul class="list-unstyled">
+                            {% for notification in notifications %}
+                            <li class="mb-2">
+                                <strong>{{ notification.title }}</strong><br>
+                                <small>{{ notification.message }}</small><br>
+                                <small class="text-muted">{{ notification.created_at|timesince }} 전</small>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">새로운 알림이 없습니다.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- 최근 댓글 -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">내 최근 댓글</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_comments %}
+                        <ul class="list-unstyled">
+                            {% for comment in recent_comments %}
+                            <li class="mb-2">
+                                <div class="text-truncate">{{ comment.content }}</div>
+                                <small class="text-muted">{{ comment.created_at|timesince }} 전</small>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">작성한 댓글이 없습니다.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 빠른 작업 -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">협업 도구</h5>
+                </div>
+                <div class="card-body">
+                    <div class="btn-group" role="group">
+                        <a href="{% url 'field_reports:report_list' %}" class="btn btn-primary">현장 보고서 보기</a>
+                        <a href="{% url 'field_reports:report_create' %}" class="btn btn-success">새 보고서 작성</a>
+                        <a href="{% url 'collaboration:activity_feed' %}" class="btn btn-info">활동 피드</a>
+                        <a href="{% url 'collaboration:notification_list' %}" class="btn btn-warning">모든 알림</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

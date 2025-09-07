@@ -1,0 +1,407 @@
+/* WebSocket 실시간 UI 스타일 */
+
+/* 연결 상태 표시기 */
+.ws-connection-status {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    border-radius: 20px;
+    padding: 8px 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.ws-status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.ws-status-indicator.connected {
+    background: #28a745;
+}
+
+.ws-status-indicator.connecting {
+    background: #ffc107;
+    animation: pulse 1s infinite;
+}
+
+.ws-status-indicator.disconnected {
+    background: #dc3545;
+    animation: none;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 currentColor;
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(0,0,0,0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0,0,0,0);
+    }
+}
+
+/* 온라인 사용자 목록 */
+.online-users-container {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.online-users-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.online-users-title {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.online-count {
+    background: #28a745;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.875rem;
+}
+
+.online-users-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.online-user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.online-user:hover {
+    background: #f8f9fa;
+}
+
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.status-indicator.online {
+    background: #28a745;
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.2);
+}
+
+.status-indicator.offline {
+    background: #6c757d;
+}
+
+.status-indicator.away {
+    background: #ffc107;
+}
+
+.status-indicator.busy {
+    background: #dc3545;
+}
+
+.username {
+    font-weight: 500;
+    color: #212529;
+}
+
+.status-message {
+    color: #6c757d;
+    font-size: 0.875rem;
+    font-style: italic;
+    margin-left: auto;
+}
+
+/* 활동 피드 */
+.activity-feed-container {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.activity-feed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.activity-feed-title {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.activity-feed {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.activity-item {
+    padding: 0.75rem;
+    border-bottom: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-item.new {
+    background: #e7f3ff;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.activity-user {
+    font-weight: 600;
+    color: #007bff;
+    margin-bottom: 0.25rem;
+}
+
+.activity-description {
+    color: #495057;
+    margin-bottom: 0.25rem;
+}
+
+.activity-time {
+    font-size: 0.75rem;
+    color: #6c757d;
+}
+
+/* 실시간 알림 뱃지 */
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #dc3545;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+    animation: badgePulse 2s infinite;
+}
+
+@keyframes badgePulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.notification-badge.hidden {
+    display: none;
+}
+
+/* 실시간 댓글 인디케이터 */
+.comment-realtime-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: #e7f3ff;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    color: #0066cc;
+}
+
+.comment-realtime-indicator .dot {
+    width: 6px;
+    height: 6px;
+    background: #0066cc;
+    border-radius: 50%;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* 타이핑 인디케이터 */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    color: #6c757d;
+    font-size: 0.875rem;
+    font-style: italic;
+}
+
+.typing-dots {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.typing-dots span {
+    width: 6px;
+    height: 6px;
+    background: #6c757d;
+    border-radius: 50%;
+    animation: typing 1.4s infinite;
+}
+
+.typing-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 60%, 100% {
+        transform: translateY(0);
+    }
+    30% {
+        transform: translateY(-10px);
+    }
+}
+
+/* 실시간 업데이트 애니메이션 */
+.realtime-update {
+    animation: highlight 1s ease;
+}
+
+@keyframes highlight {
+    0% {
+        background: #fff3cd;
+    }
+    100% {
+        background: transparent;
+    }
+}
+
+/* 로딩 스피너 */
+.ws-loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .ws-connection-status {
+        bottom: 10px;
+        right: 10px;
+        padding: 6px 12px;
+        font-size: 0.875rem;
+    }
+    
+    .online-users-list {
+        max-height: 300px;
+    }
+    
+    .activity-feed {
+        max-height: 400px;
+    }
+    
+    .status-message {
+        display: none;
+    }
+}
+
+/* 다크 모드 */
+@media (prefers-color-scheme: dark) {
+    .ws-connection-status,
+    .online-users-container,
+    .activity-feed-container {
+        background: #212529;
+        color: #f8f9fa;
+    }
+    
+    .online-users-header,
+    .activity-feed-header {
+        border-color: #495057;
+    }
+    
+    .online-user:hover {
+        background: #343a40;
+    }
+    
+    .username {
+        color: #f8f9fa;
+    }
+    
+    .activity-item {
+        border-color: #495057;
+    }
+    
+    .activity-item.new {
+        background: #1a3a52;
+    }
+    
+    .activity-description {
+        color: #dee2e6;
+    }
+    
+    .comment-realtime-indicator {
+        background: #1a3a52;
+        color: #6ea8fe;
+    }
+    
+    .comment-realtime-indicator .dot {
+        background: #6ea8fe;
+    }
+}

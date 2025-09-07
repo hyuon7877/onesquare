@@ -1,46 +1,48 @@
 {
-  "name": "OneSquare - 통합 팀 관리 시스템",
+  "name": "OneSquare 통합 팀 관리 시스템",
   "short_name": "OneSquare",
-  "description": "팀원, 파트너, 도급사를 위한 통합 관리 시스템. 오프라인 지원과 Notion 동기화를 제공합니다.",
+  "description": "Notion 기반 통합 팀 관리 시스템 PWA",
   "start_url": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#ffffff",
-  "theme_color": "#2c3e50",
-  "orientation": "portrait-primary",
-  "scope": "/",
-  "lang": "ko",
+  "theme_color": "#0A84FF",
   "dir": "ltr",
-  
+  "lang": "ko-KR",
+  "scope": "/",
+  "id": "onesquare-pwa",
+  "categories": ["business", "productivity"],
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/static/images/icons/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     },
     {
       "src": "/static/images/icons/icon-96x96.png",
       "sizes": "96x96",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     },
     {
       "src": "/static/images/icons/icon-128x128.png",
       "sizes": "128x128",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     },
     {
       "src": "/static/images/icons/icon-144x144.png",
       "sizes": "144x144",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     },
     {
       "src": "/static/images/icons/icon-152x152.png",
       "sizes": "152x152",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     },
     {
       "src": "/static/images/icons/icon-192x192.png",
@@ -52,36 +54,44 @@
       "src": "/static/images/icons/icon-384x384.png",
       "sizes": "384x384",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     },
     {
       "src": "/static/images/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ],
-  
+  "screenshots": [
+    {
+      "src": "/static/images/screenshots/login-mobile.png",
+      "sizes": "412x915",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/static/images/screenshots/dashboard-mobile.png",
+      "sizes": "412x915",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/static/images/screenshots/dashboard-desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
   "shortcuts": [
     {
       "name": "대시보드",
-      "description": "메인 대시보드로 바로 이동",
-      "url": "/dashboard/",
+      "short_name": "대시보드",
+      "description": "메인 대시보드로 이동",
+      "url": "/dashboard",
       "icons": [
         {
-          "src": "/static/images/shortcuts/dashboard-96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "로그인",
-      "description": "로그인 페이지로 바로 이동",
-      "url": "/auth/login/",
-      "icons": [
-        {
-          "src": "/static/images/shortcuts/login-96.png",
+          "src": "/static/images/icons/dashboard-96x96.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -89,98 +99,52 @@
     },
     {
       "name": "현장 리포트",
+      "short_name": "리포트",
       "description": "현장 리포트 작성",
-      "url": "/reports/field/",
+      "url": "/field-reports/create/",
       "icons": [
         {
-          "src": "/static/images/shortcuts/report-96.png",
+          "src": "/static/images/icons/report-96x96.png",
           "sizes": "96x96",
           "type": "image/png"
         }
       ]
     },
     {
-      "name": "오프라인 모드",
-      "description": "오프라인으로 저장된 데이터 보기",
-      "url": "/offline/",
+      "name": "작업 목록",
+      "short_name": "작업",
+      "description": "작업 목록 보기",
+      "url": "/tasks",
       "icons": [
         {
-          "src": "/static/images/shortcuts/offline-96.png",
+          "src": "/static/images/icons/tasks-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "프로필",
+      "short_name": "프로필",
+      "description": "내 프로필 보기",
+      "url": "/profile",
+      "icons": [
+        {
+          "src": "/static/images/icons/profile-96x96.png",
           "sizes": "96x96",
           "type": "image/png"
         }
       ]
     }
   ],
-  
-  "categories": [
-    "business",
-    "productivity",
-    "utilities"
+  "related_applications": [],
+  "features": [
+    "Cross Platform",
+    "fast",
+    "simple"
   ],
-  
-  "screenshots": [
-    {
-      "src": "/static/images/screenshots/desktop-login.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "OneSquare 로그인 화면"
-    },
-    {
-      "src": "/static/images/screenshots/desktop-dashboard.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "OneSquare 대시보드"
-    },
-    {
-      "src": "/static/images/screenshots/mobile-login.png",
-      "sizes": "640x1136",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "모바일 로그인 화면"
-    },
-    {
-      "src": "/static/images/screenshots/mobile-dashboard.png",
-      "sizes": "640x1136",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "모바일 대시보드"
-    }
-  ],
-  
-  "prefer_related_applications": false,
-  "display_override": [
-    "window-controls-overlay",
-    "standalone",
-    "minimal-ui"
-  ],
-  
-  "edge_side_panel": {
-    "preferred_width": 400
-  },
-  
-  "file_handlers": [
-    {
-      "action": "/files/",
-      "accept": {
-        "application/json": [".json"],
-        "text/csv": [".csv"],
-        "application/vnd.ms-excel": [".xlsx", ".xls"]
-      }
-    }
-  ],
-  
-  "protocol_handlers": [
-    {
-      "protocol": "onesquare",
-      "url": "/app/?action=%s"
-    }
-  ],
-  
   "share_target": {
-    "action": "/share/",
+    "action": "/share",
     "method": "POST",
     "enctype": "multipart/form-data",
     "params": {
@@ -189,10 +153,23 @@
       "url": "url",
       "files": [
         {
-          "name": "files",
-          "accept": ["image/*", ".pdf", ".doc", ".docx"]
+          "name": "file",
+          "accept": ["image/*", "application/pdf", ".doc", ".docx", ".xls", ".xlsx"]
         }
       ]
     }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+onesquare",
+      "url": "/protocol?url=%s"
+    }
+  ],
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "launch_handler": {
+    "client_mode": ["auto"]
   }
 }

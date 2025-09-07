@@ -1,0 +1,157 @@
+<!-- 빠른 이벤트 생성 모달 (Bootstrap 5 사용) -->
+<div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="createEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createEventModalLabel">새 일정 만들기</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="createEventForm" method="post" action="{% url 'calendar_system:quick_create_event' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="eventTitle" class="form-label">제목 *</label>
+                        <input type="text" class="form-control" id="eventTitle" name="title" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="eventStart" class="form-label">시작일시 *</label>
+                        <input type="datetime-local" class="form-control" id="eventStart" name="start_datetime" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="eventEnd" class="form-label">종료일시 *</label>
+                        <input type="datetime-local" class="form-control" id="eventEnd" name="end_datetime" required>
+                    </div>
+                    
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="eventAllDay" name="is_all_day">
+                        <label class="form-check-label" for="eventAllDay">
+                            종일 일정
+                        </label>
+                    </div>
+                    
+                    <div id="eventMessages"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="submit" class="btn btn-primary">일정 생성</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('createEventForm');
+    const modal = document.getElementById('createEventModal');
+    
+    if (!form || !modal) return;
+    
+    // Bootstrap 모달 인스턴스 가져오기
+    const bsModal = new bootstrap.Modal(modal);
+    
+    // 폼 제출 이벤트
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        const messagesDiv = document.getElementById('eventMessages');
+        
+        // 버튼 비활성화
+        submitBtn.disabled = true;
+        submitBtn.textContent = '생성 중...';
+        messagesDiv.innerHTML = '';
+        
+        // 폼 데이터 수집
+        const formData = new FormData(form);
+        const eventData = {
+            title: formData.get('title'),
+            start_datetime: formData.get('start_datetime'),
+            end_datetime: formData.get('end_datetime'),
+            is_all_day: formData.get('is_all_day') === 'on'
+        };
+        
+        // 날짜를 ISO 형식으로 변환
+        try {
+            eventData.start_datetime = new Date(eventData.start_datetime).toISOString();
+            eventData.end_datetime = new Date(eventData.end_datetime).toISOString();
+        } catch (error) {
+            messagesDiv.innerHTML = '<div class="alert alert-danger">날짜 형식이 올바르지 않습니다.</div>';
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+            return;
+        }
+        
+        // AJAX 요청
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify(eventData)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // 캘린더 새로고침
+                if (window.calendar) {
+                    window.calendar.refetchEvents();
+                }
+                
+                // 통계 업데이트
+                if (typeof loadStats === 'function') {
+                    loadStats();
+                }
+                if (typeof loadUpcomingEvents === 'function') {
+                    loadUpcomingEvents();
+                }
+                
+                // 폼 초기화
+                form.reset();
+                
+                // 모달 닫기
+                bsModal.hide();
+                
+                // 성공 메시지 (메인 페이지에 표시)
+                if (typeof showMessage === 'function') {
+                    showMessage(result.message || '일정이 생성되었습니다.', 'success');
+                } else {
+                    console.log('Event created successfully');
+                }
+            } else {
+                messagesDiv.innerHTML = `<div class="alert alert-danger">${result.message || '일정 생성에 실패했습니다.'}</div>`;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            messagesDiv.innerHTML = '<div class="alert alert-danger">서버 오류가 발생했습니다.</div>';
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }
+    });
+    
+    // 종일 일정 체크박스 변경 시
+    document.getElementById('eventAllDay').addEventListener('change', function(e) {
+        const startInput = document.getElementById('eventStart');
+        const endInput = document.getElementById('eventEnd');
+        
+        if (e.target.checked) {
+            // 종일 일정인 경우 시간을 00:00으로 설정
+            const startDate = startInput.value.split('T')[0];
+            const endDate = endInput.value.split('T')[0];
+            
+            if (startDate) {
+                startInput.value = startDate + 'T00:00';
+                endInput.value = (endDate || startDate) + 'T23:59';
+            }
+        }
+    });
+});
+</script>

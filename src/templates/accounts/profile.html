@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}프로필 - {{ user.username }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+    
+    .profile-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        padding: 40px;
+    }
+    
+    .profile-header {
+        text-align: center;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 30px;
+    }
+    
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        color: white;
+        margin: 0 auto 20px;
+        font-weight: 600;
+    }
+    
+    .profile-header h2 {
+        color: #333;
+        margin-bottom: 10px;
+    }
+    
+    .profile-header p {
+        color: #666;
+        font-size: 14px;
+    }
+    
+    .profile-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+    }
+    
+    .info-section {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+    }
+    
+    .info-section h3 {
+        color: #333;
+        font-size: 16px;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+    
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #e5e5ea;
+    }
+    
+    .info-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    
+    .info-label {
+        color: #666;
+        font-size: 14px;
+    }
+    
+    .info-value {
+        color: #333;
+        font-weight: 500;
+        font-size: 14px;
+    }
+    
+    .profile-actions {
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 1px solid #eee;
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .btn-primary {
+        background: #0A84FF;
+        color: white;
+        border: none;
+    }
+    
+    .btn-primary:hover {
+        background: #0066cc;
+    }
+    
+    .btn-secondary {
+        background: #e5e5ea;
+        color: #333;
+        border: none;
+    }
+    
+    .btn-secondary:hover {
+        background: #d1d1d6;
+    }
+    
+    .btn-danger {
+        background: #FF3B30;
+        color: white;
+        border: none;
+    }
+    
+    .btn-danger:hover {
+        background: #d70015;
+    }
+    
+    .badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+    
+    .badge-admin {
+        background: #FFD60A;
+        color: #333;
+    }
+    
+    .badge-staff {
+        background: #34C759;
+        color: white;
+    }
+    
+    .badge-user {
+        background: #0A84FF;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                {{ user.username|first|upper }}
+            </div>
+            <h2>{{ user.get_full_name|default:user.username }}</h2>
+            <p>{{ user.email|default:"이메일 미등록" }}</p>
+            
+            <div style="margin-top: 10px;">
+                {% if user.is_superuser %}
+                    <span class="badge badge-admin">관리자</span>
+                {% elif user.is_staff %}
+                    <span class="badge badge-staff">스태프</span>
+                {% else %}
+                    <span class="badge badge-user">일반 사용자</span>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="profile-info">
+            <div class="info-section">
+                <h3>계정 정보</h3>
+                <div class="info-item">
+                    <span class="info-label">사용자명</span>
+                    <span class="info-value">{{ user.username }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">이메일</span>
+                    <span class="info-value">{{ user.email|default:"미등록" }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">성명</span>
+                    <span class="info-value">{{ user.get_full_name|default:"미등록" }}</span>
+                </div>
+            </div>
+            
+            <div class="info-section">
+                <h3>계정 상태</h3>
+                <div class="info-item">
+                    <span class="info-label">가입일</span>
+                    <span class="info-value">{{ user_stats.date_joined|date:"Y년 m월 d일" }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">마지막 로그인</span>
+                    <span class="info-value">{{ user_stats.last_login|date:"Y년 m월 d일 H:i" }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">계정 활성화</span>
+                    <span class="info-value">
+                        {% if user.is_active %}
+                            <span style="color: #34C759;">활성</span>
+                        {% else %}
+                            <span style="color: #FF3B30;">비활성</span>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="profile-actions">
+            <a href="/dashboard/" class="btn btn-primary">대시보드로 이동</a>
+            <button class="btn btn-secondary" onclick="alert('프로필 수정 기능은 준비 중입니다.')">프로필 수정</button>
+            <a href="{% url 'accounts:logout' %}" class="btn btn-danger">로그아웃</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

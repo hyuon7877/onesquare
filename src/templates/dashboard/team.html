@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}팀 관리 - OneSquare{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">팀 관리</h1>
+        <div>
+            <button class="btn btn-primary" onclick="addMember()">
+                <i class="bi bi-person-plus"></i> 멤버 추가
+            </button>
+            <button class="btn btn-outline-secondary" onclick="window.location.href='/dashboard/'">
+                <i class="bi bi-arrow-left"></i> 대시보드로
+            </button>
+        </div>
+    </div>
+
+    <!-- 팀 통계 -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">전체 멤버</h5>
+                    <h2 class="text-primary">{{ team_stats.total_members }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">활성 멤버</h5>
+                    <h2 class="text-success">{{ team_stats.active_members }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">부서 수</h5>
+                    <h2 class="text-info">{{ team_stats.departments|length }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">이번 달 신규</h5>
+                    <h2 class="text-warning">3</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- 팀 멤버 목록 -->
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">팀 멤버</h5>
+                        <div class="input-group" style="width: 300px;">
+                            <input type="text" class="form-control" placeholder="멤버 검색..." id="searchMember">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>이름</th>
+                                    <th>이메일</th>
+                                    <th>부서</th>
+                                    <th>상태</th>
+                                    <th>가입일</th>
+                                    <th>작업</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for member in team_members %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                {{ member.first_name|slice:":1" }}{{ member.last_name|slice:":1" }}
+                                            </div>
+                                            <div>
+                                                <strong>{{ member.get_full_name|default:member.username }}</strong>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ member.email|default:"-" }}</td>
+                                    <td>
+                                        <span class="badge bg-secondary">개발팀</span>
+                                    </td>
+                                    <td>
+                                        {% if member.is_active %}
+                                            <span class="badge bg-success">활성</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">비활성</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ member.date_joined|date:"Y.m.d" }}</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <button class="btn btn-outline-primary" onclick="editMember({{ member.id }})" title="편집">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-outline-info" onclick="viewMember({{ member.id }})" title="상세">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-outline-danger" onclick="removeMember({{ member.id }})" title="삭제">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">등록된 팀 멤버가 없습니다.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 부서별 통계 -->
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">부서별 인원</h5>
+                </div>
+                <div class="card-body">
+                    {% for dept in team_stats.departments %}
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <strong>{{ dept.name }}</strong>
+                            <div class="progress mt-1" style="width: 150px; height: 8px;">
+                                <div class="progress-bar" role="progressbar" 
+                                     style="width: {% widthratio dept.count team_stats.total_members 100 %}%"
+                                     aria-valuenow="{{ dept.count }}" 
+                                     aria-valuemin="0" 
+                                     aria-valuemax="{{ team_stats.total_members }}">
+                                </div>
+                            </div>
+                        </div>
+                        <span class="badge bg-primary">{{ dept.count }}명</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- 최근 활동 -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">최근 팀 활동</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-person-plus text-success me-2"></i>
+                                <div>
+                                    <strong>김철수</strong>님이 팀에 참여했습니다
+                                    <br><small class="text-muted">2시간 전</small>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-arrow-left-right text-info me-2"></i>
+                                <div>
+                                    <strong>이영희</strong>님이 마케팅팀으로 이동했습니다
+                                    <br><small class="text-muted">어제</small>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-trophy text-warning me-2"></i>
+                                <div>
+                                    <strong>박민수</strong>님이 팀 리더로 승진했습니다
+                                    <br><small class="text-muted">3일 전</small>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .avatar-sm {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+    
+    .table td {
+        vertical-align: middle;
+    }
+    
+    .progress {
+        background-color: #e9ecef;
+    }
+</style>
+
+<script>
+function addMember() {
+    alert('멤버 추가 기능은 준비 중입니다.');
+}
+
+function editMember(id) {
+    console.log('멤버 편집:', id);
+}
+
+function viewMember(id) {
+    console.log('멤버 상세보기:', id);
+}
+
+function removeMember(id) {
+    if (confirm('정말로 이 멤버를 삭제하시겠습니까?')) {
+        console.log('멤버 삭제:', id);
+    }
+}
+
+// 검색 기능
+document.getElementById('searchMember')?.addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const rows = document.querySelectorAll('tbody tr');
+    
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+    });
+});
+</script>
+{% endblock %}
