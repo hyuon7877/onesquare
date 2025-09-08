@@ -230,6 +230,15 @@
         </div>
         
         <div class="header-actions">
+            <button class="header-action-btn" onclick="teamManagement()" title="팀 관리">
+                <span class="header-icon">👥</span>
+                <span class="header-text">팀 관리</span>
+            </button>
+            <button class="header-action-btn" onclick="viewSettings()" title="설정">
+                <span class="header-icon">⚙️</span>
+                <span class="header-text">설정</span>
+            </button>
+            <div class="header-divider"></div>
             <button class="btn-refresh" onclick="refreshDashboard()">
                 <span class="refresh-icon">⟳</span> 새로고침
             </button>
@@ -367,30 +376,21 @@
         <!-- 빠른 작업 섹션 -->
         <div class="quick-actions">
             <h2>빠른 작업</h2>
-            <div class="action-buttons">
-                <button class="action-btn" onclick="createNewProject()">
-                    <span class="action-icon">➕</span>
-                    <span>새 프로젝트</span>
-                </button>
-                <button class="action-btn" onclick="createTask()">
-                    <span class="action-icon">📝</span>
-                    <span>작업 생성</span>
-                </button>
-                <button class="action-btn" onclick="generateReport()">
-                    <span class="action-icon">📈</span>
-                    <span>보고서 생성</span>
-                </button>
-                <button class="action-btn" onclick="viewCalendar()">
+            <!-- 주요 작업 버튼 -->
+            <div class="primary-actions-full">
+                <button class="action-btn primary large" onclick="viewCalendar()">
                     <span class="action-icon">📅</span>
-                    <span>캘린더</span>
+                    <div class="action-content">
+                        <span class="action-title">캘린더</span>
+                        <span class="action-desc">일정 확인 및 관리</span>
+                    </div>
                 </button>
-                <button class="action-btn" onclick="teamManagement()">
-                    <span class="action-icon">👥</span>
-                    <span>팀 관리</span>
-                </button>
-                <button class="action-btn" onclick="viewSettings()">
-                    <span class="action-icon">⚙️</span>
-                    <span>설정</span>
+                <button class="action-btn primary large" onclick="viewFieldReports()">
+                    <span class="action-icon">📋</span>
+                    <div class="action-content">
+                        <span class="action-title">현장 리포트</span>
+                        <span class="action-desc">리포트 작성 및 조회</span>
+                    </div>
                 </button>
             </div>
         </div>

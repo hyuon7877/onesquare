@@ -28,6 +28,25 @@
         --text-secondary: #8e8e93;
         --border-color: #3a3a3c;
     }
+    
+    /* 다크모드에서 주요 버튼 색상 조정 */
+    .action-btn.primary {
+        background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    }
+    
+    .action-btn.primary.large:nth-child(2) {
+        background: linear-gradient(135deg, #3182ce 0%, #00bcd4 100%);
+    }
+    
+    .action-btn.secondary {
+        background: #2c2c2e;
+        border-color: #3a3a3c;
+    }
+    
+    .action-btn.secondary:hover {
+        background: #3a3a3c;
+        border-color: #5a67d8;
+    }
 }
 
 /* 대시보드 컨테이너 */
@@ -65,8 +84,46 @@
 
 .header-actions {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     align-items: center;
+}
+
+/* 헤더 액션 버튼 (팀관리, 설정) */
+.header-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.header-action-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.header-action-btn .header-icon {
+    font-size: 16px;
+}
+
+.header-action-btn .header-text {
+    font-size: 13px;
+}
+
+/* 헤더 구분선 */
+.header-divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.3);
+    margin: 0 8px;
 }
 
 .btn-refresh {
@@ -463,42 +520,91 @@
     margin: 0 0 20px 0;
 }
 
-.action-buttons {
+/* 주요 작업 버튼 - 전체 너비 사용 */
+.primary-actions-full {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 15px;
 }
 
-.action-btn {
+.action-btn.primary.large {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 20px 10px;
-    background: var(--dashboard-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
+    gap: 15px;
+    padding: 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s;
-}
-
-.action-btn:hover {
-    background: var(--primary-color);
     color: white;
-    border-color: var(--primary-color);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+    min-height: 100px;
 }
 
-.action-icon {
-    font-size: 24px;
+.action-btn.primary.large::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
-.action-btn span:last-child {
-    font-size: 13px;
-    font-weight: 500;
+.action-btn.primary.large:hover::before {
+    opacity: 1;
 }
+
+.action-btn.primary.large:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(102, 126, 234, 0.4);
+}
+
+.action-btn.primary.large:focus {
+    outline: 3px solid rgba(102, 126, 234, 0.5);
+    outline-offset: 2px;
+}
+
+.action-btn.primary.large:active {
+    transform: translateY(-2px);
+}
+
+.action-btn.primary.large:nth-child(2) {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.action-btn.primary.large:nth-child(2):hover {
+    box-shadow: 0 12px 24px rgba(79, 172, 254, 0.4);
+}
+
+.action-btn.primary.large .action-icon {
+    font-size: 36px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.action-btn.primary.large .action-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.action-btn.primary.large .action-title {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.action-btn.primary.large .action-desc {
+    font-size: 12px;
+    opacity: 0.9;
+    font-weight: 400;
+}
+
 
 /* 로딩 오버레이 */
 .dashboard-loading {
@@ -558,12 +664,52 @@
         grid-template-columns: 1fr;
     }
     
-    .action-buttons {
+    /* 모바일에서 주요 작업 버튼 세로 배열 */
+    .primary-actions-full {
         grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .action-btn.primary.large {
+        padding: 20px;
+        min-height: 80px;
+    }
+    
+    .action-btn.primary.large .action-icon {
+        font-size: 30px;
+    }
+    
+    .action-btn.primary.large .action-title {
+        font-size: 15px;
+    }
+    
+    /* 헤더 액션 버튼 반응형 */
+    .header-action-btn .header-text {
+        display: none;
+    }
+    
+    .header-action-btn {
+        padding: 8px 10px;
     }
     
     .notification-panel {
         width: 300px;
         right: -10px;
+    }
+}
+
+/* 태블릿 화면용 미디어 쿼리 추가 */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .primary-actions-full {
+        gap: 12px;
+    }
+    
+    .action-btn.primary.large {
+        padding: 18px;
+        min-height: 90px;
+    }
+    
+    .action-btn.primary.large .action-icon {
+        font-size: 32px;
     }
 }
