@@ -1,0 +1,3937 @@
+{
+  "similar_modules": [
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "tests.py",
+      "module2": "tests.py",
+      "similarity": 33.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 35.3,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 35.8,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 36.3,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 40.9,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 36.1,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 36.1,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 35.6,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 35.3,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 37.0,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 30.3,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "main.py",
+      "module2": "main.py",
+      "similarity": 30.8,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "related.py",
+      "module2": "related.py",
+      "similarity": 31.1,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "web.py",
+      "module2": "web.py",
+      "similarity": 30.4,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "api.py",
+      "module2": "api.py",
+      "similarity": 30.5,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 30.1,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 30.5,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "run_notion_poller.py",
+      "module2": "setup_dashboard_widgets.py",
+      "similarity": 34.8,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "run_notion_poller.py",
+      "module2": "setup_leave_system.py",
+      "similarity": 41.4,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "run_notion_poller.py",
+      "module2": "create_sample_events.py",
+      "similarity": 39.0,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "run_notion_poller.py",
+      "module2": "setup_groups.py",
+      "similarity": 39.5,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "run_notion_poller.py",
+      "module2": "setup_permissions.py",
+      "similarity": 42.2,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "run_notion_poller.py",
+      "module2": "cleanup_logs.py",
+      "similarity": 44.7,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "run_notion_poller.py",
+      "module2": "sync_notion.py",
+      "similarity": 42.5,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_dashboard_widgets.py",
+      "module2": "setup_leave_system.py",
+      "similarity": 36.3,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_dashboard_widgets.py",
+      "module2": "create_sample_events.py",
+      "similarity": 37.4,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_dashboard_widgets.py",
+      "module2": "setup_groups.py",
+      "similarity": 40.1,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_dashboard_widgets.py",
+      "module2": "setup_permissions.py",
+      "similarity": 40.2,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_dashboard_widgets.py",
+      "module2": "cleanup_logs.py",
+      "similarity": 39.1,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_dashboard_widgets.py",
+      "module2": "sync_notion.py",
+      "similarity": 40.1,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "web.py",
+      "module2": "web.py",
+      "similarity": 31.6,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 31.9,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "api.py",
+      "module2": "api.py",
+      "similarity": 31.6,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "setup_leave_system.py",
+      "module2": "create_sample_events.py",
+      "similarity": 41.2,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_leave_system.py",
+      "module2": "setup_groups.py",
+      "similarity": 40.9,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_leave_system.py",
+      "module2": "setup_permissions.py",
+      "similarity": 34.5,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_leave_system.py",
+      "module2": "cleanup_logs.py",
+      "similarity": 38.3,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_leave_system.py",
+      "module2": "sync_notion.py",
+      "similarity": 37.6,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 30.5,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 40.0,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 42.1,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 39.9,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 39.5,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 39.9,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 39.4,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 39.1,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 41.0,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 40.0,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "main.py",
+      "module2": "main.py",
+      "similarity": 30.6,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "related.py",
+      "module2": "related.py",
+      "similarity": 30.8,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "web.py",
+      "module2": "web.py",
+      "similarity": 30.5,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 30.8,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "api.py",
+      "module2": "api.py",
+      "similarity": 30.5,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "create_sample_events.py",
+      "module2": "setup_groups.py",
+      "similarity": 40.5,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "create_sample_events.py",
+      "module2": "setup_permissions.py",
+      "similarity": 40.0,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "create_sample_events.py",
+      "module2": "cleanup_logs.py",
+      "similarity": 39.0,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "create_sample_events.py",
+      "module2": "sync_notion.py",
+      "similarity": 39.3,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 41.1,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 40.4,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 40.0,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 40.8,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 40.3,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 39.6,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 41.1,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 40.6,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "related.py",
+      "module2": "related.py",
+      "similarity": 30.0,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 34.2,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 33.9,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 34.1,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 33.7,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 33.5,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 34.7,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 40.7,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "related.py",
+      "module2": "related.py",
+      "similarity": 30.1,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "test_views.py",
+      "module2": "test_views.py",
+      "similarity": 30.7,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "test_models.py",
+      "module2": "test_models.py",
+      "similarity": 30.0,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "security.py",
+      "module2": "headers.py",
+      "similarity": 34.3,
+      "shared_functions": [],
+      "shared_classes": [
+        "SecurityHeadersMiddleware"
+      ]
+    },
+    {
+      "module1": "setup_groups.py",
+      "module2": "setup_permissions.py",
+      "similarity": 49.7,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_groups.py",
+      "module2": "cleanup_logs.py",
+      "similarity": 41.7,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_groups.py",
+      "module2": "sync_notion.py",
+      "similarity": 46.1,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_permissions.py",
+      "module2": "cleanup_logs.py",
+      "similarity": 46.8,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "setup_permissions.py",
+      "module2": "sync_notion.py",
+      "similarity": 42.8,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 36.2,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 36.2,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 36.2,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 35.5,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 37.2,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 30.5,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "main.py",
+      "module2": "main.py",
+      "similarity": 30.5,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "main.py",
+      "module2": "main.py",
+      "similarity": 30.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "related.py",
+      "module2": "related.py",
+      "similarity": 30.8,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "related.py",
+      "module2": "related.py",
+      "similarity": 30.6,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "web.py",
+      "module2": "web.py",
+      "similarity": 30.7,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "web.py",
+      "module2": "web.py",
+      "similarity": 30.2,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "api.py",
+      "module2": "api.py",
+      "similarity": 30.7,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "api.py",
+      "module2": "api.py",
+      "similarity": 30.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 40.4,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 38.3,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 39.5,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 39.8,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 39.3,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "main.py",
+      "module2": "main.py",
+      "similarity": 30.6,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "related.py",
+      "module2": "related.py",
+      "similarity": 30.8,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 30.1,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "cleanup_logs.py",
+      "module2": "sync_notion.py",
+      "similarity": 40.1,
+      "shared_functions": [],
+      "shared_classes": [
+        "Command"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 40.3,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 39.9,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 41.5,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 40.9,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "main.py",
+      "module2": "main.py",
+      "similarity": 30.0,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "related.py",
+      "module2": "related.py",
+      "similarity": 30.3,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 39.4,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 40.9,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 40.7,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "related.py",
+      "module2": "related.py",
+      "similarity": 30.2,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "web.py",
+      "module2": "web.py",
+      "similarity": 30.4,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "api.py",
+      "module2": "api.py",
+      "similarity": 30.4,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 40.6,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 38.3,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "base.py",
+      "module2": "base.py",
+      "similarity": 42.5,
+      "shared_functions": [],
+      "shared_classes": [
+        "Meta"
+      ]
+    },
+    {
+      "module1": "main.py",
+      "module2": "main.py",
+      "similarity": 31.1,
+      "shared_functions": [],
+      "shared_classes": []
+    },
+    {
+      "module1": "related.py",
+      "module2": "related.py",
+      "similarity": 31.3,
+      "shared_functions": [],
+      "shared_classes": []
+    }
+  ],
+  "duplicate_dependencies": {
+    "views": {
+      "count": 11,
+      "modules": [
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls"
+      ]
+    },
+    "datetime.timedelta": {
+      "count": 27,
+      "modules": [
+        "models",
+        "admin",
+        "admin",
+        "tests",
+        "utils",
+        "tasks",
+        "retry_utils",
+        "admin",
+        "alert_views",
+        "alert_views",
+        "base",
+        "event_forms",
+        "create_sample_events",
+        "generators",
+        "validators",
+        "cleanup_logs",
+        "metrics_collector",
+        "health_checker",
+        "report_views",
+        "timesheet_views",
+        "calendar_views",
+        "intrusion_detection",
+        "authentication",
+        "dashboard",
+        "target_alerts",
+        "payment_alerts",
+        "sync_operations"
+      ]
+    },
+    "json": {
+      "count": 11,
+      "modules": [
+        "models",
+        "tests",
+        "cache",
+        "alert_views",
+        "sync_views",
+        "personalizer",
+        "sync_notion",
+        "api_views",
+        "report_views",
+        "audit_logging",
+        "validation"
+      ]
+    },
+    "models.CalendarCategory": {
+      "count": 3,
+      "modules": [
+        "admin",
+        "tests",
+        "category_forms"
+      ]
+    },
+    "models.CalendarEvent": {
+      "count": 3,
+      "modules": [
+        "admin",
+        "tests",
+        "event_forms"
+      ]
+    },
+    "models.EventAttendee": {
+      "count": 4,
+      "modules": [
+        "admin",
+        "tests",
+        "attendee_forms",
+        "event_forms"
+      ]
+    },
+    "models.CalendarSettings": {
+      "count": 3,
+      "modules": [
+        "admin",
+        "tests",
+        "settings_forms"
+      ]
+    },
+    "datetime.datetime": {
+      "count": 22,
+      "modules": [
+        "admin",
+        "admin",
+        "tests",
+        "utils",
+        "tasks",
+        "retry_utils",
+        "admin",
+        "base",
+        "create_sample_events",
+        "cleanup_logs",
+        "metrics_collector",
+        "health_checker",
+        "entry_views",
+        "report_views",
+        "timesheet_views",
+        "calendar_views",
+        "audit_logging",
+        "intrusion_detection",
+        "authentication",
+        "sync_operations",
+        "data_mappers",
+        "conflict_resolver"
+      ]
+    },
+    "apps.auth_system.models.CustomUser": {
+      "count": 4,
+      "modules": [
+        "tests",
+        "setup_leave_system",
+        "setup_groups",
+        "setup_permissions"
+      ]
+    },
+    "models.CustomUser": {
+      "count": 7,
+      "modules": [
+        "test_permissions",
+        "admin",
+        "utils",
+        "serializers",
+        "signals",
+        "attendee_forms",
+        "event_forms"
+      ]
+    },
+    "models.UserType": {
+      "count": 4,
+      "modules": [
+        "test_permissions",
+        "utils",
+        "serializers",
+        "signals"
+      ]
+    },
+    "models.UserGroup": {
+      "count": 3,
+      "modules": [
+        "test_permissions",
+        "admin",
+        "signals"
+      ]
+    },
+    "permissions.PermissionManager": {
+      "count": 2,
+      "modules": [
+        "test_permissions",
+        "admin"
+      ]
+    },
+    "permissions.SystemModule": {
+      "count": 2,
+      "modules": [
+        "test_permissions",
+        "admin"
+      ]
+    },
+    "permissions.PermissionLevel": {
+      "count": 2,
+      "modules": [
+        "test_permissions",
+        "admin"
+      ]
+    },
+    "permissions.PERMISSION_MATRIX": {
+      "count": 2,
+      "modules": [
+        "test_permissions",
+        "admin"
+      ]
+    },
+    "unittest.mock.Mock": {
+      "count": 3,
+      "modules": [
+        "test_permissions",
+        "test_permissions",
+        "test_permissions"
+      ]
+    },
+    "io.StringIO": {
+      "count": 2,
+      "modules": [
+        "test_permissions",
+        "test_permissions"
+      ]
+    },
+    "models.OTPCode": {
+      "count": 3,
+      "modules": [
+        "admin",
+        "utils",
+        "serializers"
+      ]
+    },
+    "models.UserSession": {
+      "count": 4,
+      "modules": [
+        "admin",
+        "utils",
+        "signals",
+        "session"
+      ]
+    },
+    "sys": {
+      "count": 2,
+      "modules": [
+        "apps",
+        "run_notion_poller"
+      ]
+    },
+    "random": {
+      "count": 4,
+      "modules": [
+        "utils",
+        "retry_utils",
+        "create_sample_events",
+        "generators"
+      ]
+    },
+    "string": {
+      "count": 3,
+      "modules": [
+        "utils",
+        "generators",
+        "backup"
+      ]
+    },
+    "hashlib": {
+      "count": 4,
+      "modules": [
+        "utils",
+        "cache",
+        "api_throttle",
+        "rate_limiting"
+      ]
+    },
+    "core.common.logging.get_logger": {
+      "count": 39,
+      "modules": [
+        "utils",
+        "signals",
+        "tasks",
+        "retry_utils",
+        "cache",
+        "alert_views",
+        "sync_views",
+        "base",
+        "base",
+        "timezone",
+        "api_throttle",
+        "session",
+        "manager",
+        "generators",
+        "validators",
+        "backup",
+        "base",
+        "cleanup_logs",
+        "base",
+        "alert_manager",
+        "base",
+        "audit_logging",
+        "rate_limiting",
+        "intrusion_detection",
+        "headers",
+        "validation",
+        "authentication",
+        "csrf_protection",
+        "utils",
+        "base",
+        "dashboard",
+        "manager",
+        "target_alerts",
+        "payment_alerts",
+        "sync_operations",
+        "base",
+        "data_mappers",
+        "notion_api",
+        "conflict_resolver"
+      ]
+    },
+    "rest_framework.serializers": {
+      "count": 5,
+      "modules": [
+        "serializers",
+        "serializers",
+        "serializers",
+        "database",
+        "base"
+      ]
+    },
+    "rest_framework.routers.DefaultRouter": {
+      "count": 2,
+      "modules": [
+        "urls",
+        "urls"
+      ]
+    },
+    "models.FeedbackThread": {
+      "count": 2,
+      "modules": [
+        "admin",
+        "serializers"
+      ]
+    },
+    "models.ThreadParticipant": {
+      "count": 2,
+      "modules": [
+        "admin",
+        "serializers"
+      ]
+    },
+    "models.FeedbackMessage": {
+      "count": 2,
+      "modules": [
+        "admin",
+        "serializers"
+      ]
+    },
+    "models.MediaAttachment": {
+      "count": 2,
+      "modules": [
+        "admin",
+        "serializers"
+      ]
+    },
+    "models.FeedbackNotification": {
+      "count": 2,
+      "modules": [
+        "admin",
+        "serializers"
+      ]
+    },
+    "typing.Dict": {
+      "count": 16,
+      "modules": [
+        "tasks",
+        "exceptions",
+        "manager",
+        "metrics_collector",
+        "alert_manager",
+        "health_checker",
+        "monitor",
+        "utils",
+        "dashboard",
+        "manager",
+        "target_alerts",
+        "payment_alerts",
+        "sync_operations",
+        "data_mappers",
+        "notion_api",
+        "conflict_resolver"
+      ]
+    },
+    "typing.Any": {
+      "count": 10,
+      "modules": [
+        "tasks",
+        "retry_utils",
+        "exceptions",
+        "manager",
+        "metrics_collector",
+        "alert_manager",
+        "health_checker",
+        "monitor",
+        "utils",
+        "dashboard"
+      ]
+    },
+    "typing.Optional": {
+      "count": 11,
+      "modules": [
+        "tasks",
+        "retry_utils",
+        "exceptions",
+        "manager",
+        "generators",
+        "validators",
+        "utils",
+        "sync_operations",
+        "data_mappers",
+        "notion_api",
+        "conflict_resolver"
+      ]
+    },
+    "models.NotionDatabase": {
+      "count": 6,
+      "modules": [
+        "tasks",
+        "admin",
+        "serializers",
+        "metrics_collector",
+        "health_checker",
+        "monitor"
+      ]
+    },
+    "models.SyncHistory": {
+      "count": 5,
+      "modules": [
+        "tasks",
+        "admin",
+        "serializers",
+        "metrics_collector",
+        "health_checker"
+      ]
+    },
+    "services.NotionSyncService": {
+      "count": 2,
+      "modules": [
+        "tasks",
+        "admin"
+      ]
+    },
+    "models.NotionPage": {
+      "count": 2,
+      "modules": [
+        "admin",
+        "serializers"
+      ]
+    },
+    "models.NotionWebhook": {
+      "count": 2,
+      "modules": [
+        "admin",
+        "serializers"
+      ]
+    },
+    "csv": {
+      "count": 2,
+      "modules": [
+        "admin",
+        "timesheet_views"
+      ]
+    },
+    "time": {
+      "count": 3,
+      "modules": [
+        "retry_utils",
+        "run_notion_poller",
+        "rate_limiting"
+      ]
+    },
+    "typing.Tuple": {
+      "count": 2,
+      "modules": [
+        "retry_utils",
+        "generators"
+      ]
+    },
+    "typing.List": {
+      "count": 10,
+      "modules": [
+        "retry_utils",
+        "backup",
+        "metrics_collector",
+        "alert_manager",
+        "utils",
+        "target_alerts",
+        "payment_alerts",
+        "sync_operations",
+        "data_mappers",
+        "notion_api"
+      ]
+    },
+    "functools.wraps": {
+      "count": 2,
+      "modules": [
+        "cache",
+        "decorators"
+      ]
+    },
+    "rest_framework.decorators.api_view": {
+      "count": 2,
+      "modules": [
+        "alert_views",
+        "sync_views"
+      ]
+    },
+    "rest_framework.decorators.permission_classes": {
+      "count": 2,
+      "modules": [
+        "alert_views",
+        "sync_views"
+      ]
+    },
+    "rest_framework.permissions.IsAuthenticated": {
+      "count": 2,
+      "modules": [
+        "alert_views",
+        "sync_views"
+      ]
+    },
+    "rest_framework.response.Response": {
+      "count": 2,
+      "modules": [
+        "alert_views",
+        "sync_views"
+      ]
+    },
+    "rest_framework.status": {
+      "count": 2,
+      "modules": [
+        "alert_views",
+        "sync_views"
+      ]
+    },
+    "permissions.RevenuePermissionManager": {
+      "count": 3,
+      "modules": [
+        "alert_views",
+        "sync_views",
+        "dashboard"
+      ]
+    },
+    "permissions.UserRole": {
+      "count": 2,
+      "modules": [
+        "alert_views",
+        "sync_views"
+      ]
+    },
+    "permissions.require_revenue_permission": {
+      "count": 2,
+      "modules": [
+        "alert_views",
+        "sync_views"
+      ]
+    },
+    "models.RevenueRecord": {
+      "count": 5,
+      "modules": [
+        "sync_views",
+        "sync_views",
+        "dashboard",
+        "target_alerts",
+        "payment_alerts"
+      ]
+    },
+    "base.DashboardBaseService": {
+      "count": 2,
+      "modules": [
+        "utils",
+        "core"
+      ]
+    },
+    "apps.core.models.TimeStampedModel": {
+      "count": 11,
+      "modules": [
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base"
+      ]
+    },
+    "apps.core.models.AuditModel": {
+      "count": 11,
+      "modules": [
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base"
+      ]
+    },
+    "base.DashboardBaseModel": {
+      "count": 2,
+      "modules": [
+        "main",
+        "related"
+      ]
+    },
+    "base.DashboardBaseView": {
+      "count": 2,
+      "modules": [
+        "web",
+        "api"
+      ]
+    },
+    "rest_framework.viewsets": {
+      "count": 12,
+      "modules": [
+        "api",
+        "api",
+        "api",
+        "api",
+        "api",
+        "api",
+        "api",
+        "api",
+        "api",
+        "api",
+        "api",
+        "api"
+      ]
+    },
+    "models.UserDashboard": {
+      "count": 2,
+      "modules": [
+        "manager",
+        "personalizer"
+      ]
+    },
+    "models.UserWidgetSettings": {
+      "count": 3,
+      "modules": [
+        "manager",
+        "widget_manager",
+        "personalizer"
+      ]
+    },
+    "models.DashboardWidget": {
+      "count": 2,
+      "modules": [
+        "widget_manager",
+        "personalizer"
+      ]
+    },
+    "base.Leave_ManagementBaseView": {
+      "count": 2,
+      "modules": [
+        "web",
+        "api"
+      ]
+    },
+    "base.Calendar_SystemBaseModel": {
+      "count": 2,
+      "modules": [
+        "main",
+        "related"
+      ]
+    },
+    "base.Calendar_SystemBaseView": {
+      "count": 2,
+      "modules": [
+        "web",
+        "api"
+      ]
+    },
+    "base.CalendarBaseForm": {
+      "count": 4,
+      "modules": [
+        "category_forms",
+        "attendee_forms",
+        "event_forms",
+        "settings_forms"
+      ]
+    },
+    "base.Ai_AnalyticsBaseService": {
+      "count": 2,
+      "modules": [
+        "utils",
+        "core"
+      ]
+    },
+    "base.Ai_AnalyticsBaseModel": {
+      "count": 2,
+      "modules": [
+        "main",
+        "related"
+      ]
+    },
+    "base.Ai_AnalyticsBaseView": {
+      "count": 2,
+      "modules": [
+        "web",
+        "api"
+      ]
+    },
+    "base.Auth_SystemBaseModel": {
+      "count": 2,
+      "modules": [
+        "main",
+        "related"
+      ]
+    },
+    "rest_framework.test.APIClient": {
+      "count": 2,
+      "modules": [
+        "test_api",
+        "test_api"
+      ]
+    },
+    "base.Auth_SystemBaseView": {
+      "count": 2,
+      "modules": [
+        "web",
+        "api"
+      ]
+    },
+    "models.OTPRequest": {
+      "count": 2,
+      "modules": [
+        "manager",
+        "validators"
+      ]
+    },
+    "generators.TOTPGenerator": {
+      "count": 2,
+      "modules": [
+        "manager",
+        "validators"
+      ]
+    },
+    "base.SYSTEM_PERMISSIONS": {
+      "count": 2,
+      "modules": [
+        "user",
+        "group"
+      ]
+    },
+    "base.logger": {
+      "count": 3,
+      "modules": [
+        "user",
+        "decorators",
+        "group"
+      ]
+    },
+    "apps.auth_system.models.UserGroup": {
+      "count": 2,
+      "modules": [
+        "setup_groups",
+        "setup_permissions"
+      ]
+    },
+    "apps.auth_system.models.UserType": {
+      "count": 2,
+      "modules": [
+        "setup_groups",
+        "setup_permissions"
+      ]
+    },
+    "base.FeedbackBaseService": {
+      "count": 2,
+      "modules": [
+        "utils",
+        "core"
+      ]
+    },
+    "base.FeedbackBaseModel": {
+      "count": 2,
+      "modules": [
+        "main",
+        "related"
+      ]
+    },
+    "base.FeedbackBaseView": {
+      "count": 2,
+      "modules": [
+        "web",
+        "api"
+      ]
+    },
+    "base.MonitoringBaseModel": {
+      "count": 2,
+      "modules": [
+        "main",
+        "related"
+      ]
+    },
+    "base.MonitoringBaseView": {
+      "count": 2,
+      "modules": [
+        "web",
+        "api"
+      ]
+    },
+    "os": {
+      "count": 2,
+      "modules": [
+        "cleanup_logs",
+        "upload_views"
+      ]
+    },
+    "base.Notion_ApiBaseService": {
+      "count": 2,
+      "modules": [
+        "utils",
+        "core"
+      ]
+    },
+    "base.Notion_ApiBaseModel": {
+      "count": 2,
+      "modules": [
+        "main",
+        "related"
+      ]
+    },
+    "base.Notion_ApiBaseView": {
+      "count": 2,
+      "modules": [
+        "web",
+        "api"
+      ]
+    },
+    "base.Field_ReportsBaseModel": {
+      "count": 2,
+      "modules": [
+        "main",
+        "related"
+      ]
+    },
+    "base.Field_ReportsBaseView": {
+      "count": 2,
+      "modules": [
+        "web",
+        "api"
+      ]
+    },
+    "base.PwaBaseView": {
+      "count": 2,
+      "modules": [
+        "web",
+        "api"
+      ]
+    },
+    "base.Time_ManagementBaseService": {
+      "count": 2,
+      "modules": [
+        "utils",
+        "core"
+      ]
+    },
+    "base.Time_ManagementBaseModel": {
+      "count": 2,
+      "modules": [
+        "main",
+        "related"
+      ]
+    },
+    "base.Time_ManagementBaseView": {
+      "count": 2,
+      "modules": [
+        "web",
+        "api"
+      ]
+    },
+    "base.CoreBaseModel": {
+      "count": 2,
+      "modules": [
+        "main",
+        "related"
+      ]
+    },
+    "re": {
+      "count": 4,
+      "modules": [
+        "validation",
+        "input",
+        "utils",
+        "password"
+      ]
+    },
+    "patterns.XSS_PATTERNS": {
+      "count": 2,
+      "modules": [
+        "input",
+        "utils"
+      ]
+    },
+    "patterns.SQL_INJECTION_PATTERNS": {
+      "count": 2,
+      "modules": [
+        "input",
+        "utils"
+      ]
+    },
+    "base.RevenueBaseService": {
+      "count": 2,
+      "modules": [
+        "utils",
+        "core"
+      ]
+    },
+    "base.RevenueBaseModel": {
+      "count": 2,
+      "modules": [
+        "main",
+        "related"
+      ]
+    },
+    "base.RevenueBaseView": {
+      "count": 2,
+      "modules": [
+        "web",
+        "api"
+      ]
+    },
+    "decimal.Decimal": {
+      "count": 2,
+      "modules": [
+        "dashboard",
+        "data_mappers"
+      ]
+    },
+    "models.RevenueTarget": {
+      "count": 2,
+      "modules": [
+        "dashboard",
+        "target_alerts"
+      ]
+    },
+    "models.Client": {
+      "count": 2,
+      "modules": [
+        "dashboard",
+        "payment_alerts"
+      ]
+    },
+    "apps.revenue.models.RevenueRecord": {
+      "count": 2,
+      "modules": [
+        "data_mappers",
+        "data_mappers"
+      ]
+    },
+    "rest_framework.permissions": {
+      "count": 5,
+      "modules": [
+        "revenue_permissions",
+        "analytics_permissions",
+        "base",
+        "budget_permissions",
+        "report_permissions"
+      ]
+    },
+    "base.IsManagerOrAbove": {
+      "count": 2,
+      "modules": [
+        "revenue_permissions",
+        "budget_permissions"
+      ]
+    },
+    "base.IsSupervisorOrAbove": {
+      "count": 2,
+      "modules": [
+        "analytics_permissions",
+        "report_permissions"
+      ]
+    }
+  },
+  "complexity_scores": {
+    "apps": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 2,
+        "lines": 15,
+        "classes": 1,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "urls": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 48,
+        "classes": 0,
+        "functions": 0,
+        "imports": 4
+      }
+    },
+    "models": {
+      "score": 33.9,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 19",
+        "긴 파일: 245줄",
+        "많은 클래스: 8개"
+      ],
+      "metrics": {
+        "cyclomatic": 19,
+        "lines": 245,
+        "classes": 8,
+        "functions": 0,
+        "imports": 7
+      }
+    },
+    "admin": {
+      "score": 5,
+      "level": "보통 🟡",
+      "details": [
+        "문서화 부족"
+      ],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 3,
+        "classes": 0,
+        "functions": 0,
+        "imports": 1
+      }
+    },
+    "tests": {
+      "score": 5,
+      "level": "보통 🟡",
+      "details": [
+        "문서화 부족"
+      ],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 3,
+        "classes": 0,
+        "functions": 0,
+        "imports": 1
+      }
+    },
+    "test_permissions": {
+      "score": 19.4,
+      "level": "높음 🟠",
+      "details": [
+        "긴 파일: 422줄",
+        "많은 클래스: 8개"
+      ],
+      "metrics": {
+        "cyclomatic": 8,
+        "lines": 422,
+        "classes": 8,
+        "functions": 0,
+        "imports": 27
+      }
+    },
+    "utils": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 4,
+        "classes": 0,
+        "functions": 0,
+        "imports": 1
+      }
+    },
+    "serializers": {
+      "score": 78.4,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 31",
+        "긴 파일: 369줄",
+        "많은 클래스: 14개"
+      ],
+      "metrics": {
+        "cyclomatic": 31,
+        "lines": 369,
+        "classes": 14,
+        "functions": 0,
+        "imports": 7
+      }
+    },
+    "signals": {
+      "score": 22.7,
+      "level": "높음 🟠",
+      "details": [
+        "높은 순환 복잡도: 21",
+        "긴 파일: 236줄"
+      ],
+      "metrics": {
+        "cyclomatic": 21,
+        "lines": 236,
+        "classes": 0,
+        "functions": 5,
+        "imports": 11
+      }
+    },
+    "tasks": {
+      "score": 51.5,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 34",
+        "긴 파일: 375줄"
+      ],
+      "metrics": {
+        "cyclomatic": 34,
+        "lines": 375,
+        "classes": 2,
+        "functions": 2,
+        "imports": 13
+      }
+    },
+    "retry_utils": {
+      "score": 56.5,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 29",
+        "긴 파일: 377줄",
+        "많은 클래스: 8개"
+      ],
+      "metrics": {
+        "cyclomatic": 29,
+        "lines": 377,
+        "classes": 8,
+        "functions": 5,
+        "imports": 23
+      }
+    },
+    "exceptions": {
+      "score": 32,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 11",
+        "많은 클래스: 13개"
+      ],
+      "metrics": {
+        "cyclomatic": 11,
+        "lines": 165,
+        "classes": 13,
+        "functions": 1,
+        "imports": 3
+      }
+    },
+    "simple_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 10,
+        "classes": 0,
+        "functions": 2,
+        "imports": 2
+      }
+    },
+    "cache": {
+      "score": 22.5,
+      "level": "높음 🟠",
+      "details": [
+        "높은 순환 복잡도: 19",
+        "긴 파일: 273줄",
+        "많은 클래스: 4개"
+      ],
+      "metrics": {
+        "cyclomatic": 19,
+        "lines": 273,
+        "classes": 4,
+        "functions": 9,
+        "imports": 7
+      }
+    },
+    "alert_views": {
+      "score": 46.6,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 31",
+        "긴 파일: 431줄"
+      ],
+      "metrics": {
+        "cyclomatic": 31,
+        "lines": 431,
+        "classes": 0,
+        "functions": 10,
+        "imports": 23
+      }
+    },
+    "sync_views": {
+      "score": 45.4,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 31",
+        "긴 파일: 369줄"
+      ],
+      "metrics": {
+        "cyclomatic": 31,
+        "lines": 369,
+        "classes": 1,
+        "functions": 8,
+        "imports": 21
+      }
+    },
+    "base": {
+      "score": 3,
+      "level": "낮음 🟢",
+      "details": [
+        "많은 클래스: 4개"
+      ],
+      "metrics": {
+        "cyclomatic": 7,
+        "lines": 47,
+        "classes": 4,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "core": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 4,
+        "classes": 0,
+        "functions": 0,
+        "imports": 1
+      }
+    },
+    "main": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 5,
+        "classes": 0,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "related": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 5,
+        "classes": 0,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "web": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 5,
+        "classes": 0,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "api": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 5,
+        "classes": 0,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "manager": {
+      "score": 6,
+      "level": "보통 🟡",
+      "details": [
+        "높은 순환 복잡도: 13"
+      ],
+      "metrics": {
+        "cyclomatic": 13,
+        "lines": 139,
+        "classes": 1,
+        "functions": 0,
+        "imports": 6
+      }
+    },
+    "widget_manager": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 6,
+        "lines": 95,
+        "classes": 1,
+        "functions": 0,
+        "imports": 3
+      }
+    },
+    "defaults": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 123,
+        "classes": 1,
+        "functions": 0,
+        "imports": 0
+      }
+    },
+    "personalizer": {
+      "score": 4,
+      "level": "낮음 🟢",
+      "details": [
+        "높은 순환 복잡도: 12"
+      ],
+      "metrics": {
+        "cyclomatic": 12,
+        "lines": 157,
+        "classes": 1,
+        "functions": 0,
+        "imports": 4
+      }
+    },
+    "run_notion_poller": {
+      "score": 6,
+      "level": "보통 🟡",
+      "details": [
+        "높은 순환 복잡도: 13"
+      ],
+      "metrics": {
+        "cyclomatic": 13,
+        "lines": 151,
+        "classes": 1,
+        "functions": 0,
+        "imports": 7
+      }
+    },
+    "setup_dashboard_widgets": {
+      "score": 2.7,
+      "level": "낮음 🟢",
+      "details": [
+        "긴 파일: 333줄"
+      ],
+      "metrics": {
+        "cyclomatic": 6,
+        "lines": 333,
+        "classes": 1,
+        "functions": 0,
+        "imports": 3
+      }
+    },
+    "setup_leave_system": {
+      "score": 2,
+      "level": "낮음 🟢",
+      "details": [
+        "높은 순환 복잡도: 11"
+      ],
+      "metrics": {
+        "cyclomatic": 11,
+        "lines": 147,
+        "classes": 1,
+        "functions": 0,
+        "imports": 8
+      }
+    },
+    "category_forms": {
+      "score": 2,
+      "level": "낮음 🟢",
+      "details": [
+        "높은 순환 복잡도: 11"
+      ],
+      "metrics": {
+        "cyclomatic": 11,
+        "lines": 102,
+        "classes": 3,
+        "functions": 0,
+        "imports": 4
+      }
+    },
+    "attendee_forms": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 8,
+        "lines": 107,
+        "classes": 3,
+        "functions": 0,
+        "imports": 6
+      }
+    },
+    "event_forms": {
+      "score": 19,
+      "level": "높음 🟠",
+      "details": [
+        "높은 순환 복잡도: 15",
+        "많은 클래스: 6개"
+      ],
+      "metrics": {
+        "cyclomatic": 15,
+        "lines": 164,
+        "classes": 6,
+        "functions": 0,
+        "imports": 9
+      }
+    },
+    "settings_forms": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 6,
+        "lines": 125,
+        "classes": 3,
+        "functions": 0,
+        "imports": 4
+      }
+    },
+    "create_sample_events": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 7,
+        "lines": 189,
+        "classes": 1,
+        "functions": 0,
+        "imports": 9
+      }
+    },
+    "test_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 10,
+        "classes": 1,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "test_api": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 11,
+        "classes": 1,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "test_models": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 7,
+        "classes": 1,
+        "functions": 0,
+        "imports": 1
+      }
+    },
+    "timezone": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 5,
+        "lines": 46,
+        "classes": 1,
+        "functions": 0,
+        "imports": 4
+      }
+    },
+    "api_throttle": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 10,
+        "lines": 109,
+        "classes": 1,
+        "functions": 0,
+        "imports": 5
+      }
+    },
+    "session": {
+      "score": 2,
+      "level": "낮음 🟢",
+      "details": [
+        "높은 순환 복잡도: 11"
+      ],
+      "metrics": {
+        "cyclomatic": 11,
+        "lines": 101,
+        "classes": 1,
+        "functions": 0,
+        "imports": 4
+      }
+    },
+    "security": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 7,
+        "classes": 1,
+        "functions": 0,
+        "imports": 1
+      }
+    },
+    "generators": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 4,
+        "lines": 172,
+        "classes": 3,
+        "functions": 0,
+        "imports": 11
+      }
+    },
+    "validators": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 9,
+        "lines": 130,
+        "classes": 1,
+        "functions": 0,
+        "imports": 8
+      }
+    },
+    "backup": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 9,
+        "lines": 101,
+        "classes": 1,
+        "functions": 0,
+        "imports": 5
+      }
+    },
+    "user": {
+      "score": 4,
+      "level": "낮음 🟢",
+      "details": [
+        "높은 순환 복잡도: 12"
+      ],
+      "metrics": {
+        "cyclomatic": 12,
+        "lines": 61,
+        "classes": 0,
+        "functions": 4,
+        "imports": 5
+      }
+    },
+    "decorators": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 9,
+        "lines": 63,
+        "classes": 0,
+        "functions": 9,
+        "imports": 6
+      }
+    },
+    "group": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 7,
+        "lines": 82,
+        "classes": 0,
+        "functions": 3,
+        "imports": 5
+      }
+    },
+    "setup_groups": {
+      "score": 18,
+      "level": "높음 🟠",
+      "details": [
+        "높은 순환 복잡도: 19"
+      ],
+      "metrics": {
+        "cyclomatic": 19,
+        "lines": 195,
+        "classes": 1,
+        "functions": 0,
+        "imports": 14
+      }
+    },
+    "setup_permissions": {
+      "score": 57.4,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 38",
+        "긴 파일: 271줄"
+      ],
+      "metrics": {
+        "cyclomatic": 38,
+        "lines": 271,
+        "classes": 1,
+        "functions": 1,
+        "imports": 15
+      }
+    },
+    "cleanup_logs": {
+      "score": 36.6,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 28",
+        "긴 파일: 229줄"
+      ],
+      "metrics": {
+        "cyclomatic": 28,
+        "lines": 229,
+        "classes": 1,
+        "functions": 0,
+        "imports": 15
+      }
+    },
+    "database": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 9,
+        "lines": 99,
+        "classes": 3,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "metrics_collector": {
+      "score": 20.1,
+      "level": "높음 🟠",
+      "details": [
+        "높은 순환 복잡도: 20",
+        "긴 파일: 206줄"
+      ],
+      "metrics": {
+        "cyclomatic": 20,
+        "lines": 206,
+        "classes": 1,
+        "functions": 0,
+        "imports": 9
+      }
+    },
+    "alert_manager": {
+      "score": 8,
+      "level": "보통 🟡",
+      "details": [
+        "높은 순환 복잡도: 14"
+      ],
+      "metrics": {
+        "cyclomatic": 14,
+        "lines": 149,
+        "classes": 1,
+        "functions": 0,
+        "imports": 8
+      }
+    },
+    "health_checker": {
+      "score": 6,
+      "level": "보통 🟡",
+      "details": [
+        "높은 순환 복잡도: 13"
+      ],
+      "metrics": {
+        "cyclomatic": 13,
+        "lines": 116,
+        "classes": 1,
+        "functions": 0,
+        "imports": 7
+      }
+    },
+    "monitor": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 3,
+        "lines": 77,
+        "classes": 1,
+        "functions": 0,
+        "imports": 8
+      }
+    },
+    "sync_notion": {
+      "score": 48.5,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 33",
+        "긴 파일: 323줄"
+      ],
+      "metrics": {
+        "cyclomatic": 33,
+        "lines": 323,
+        "classes": 1,
+        "functions": 0,
+        "imports": 7
+      }
+    },
+    "progress_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 2,
+        "lines": 32,
+        "classes": 0,
+        "functions": 2,
+        "imports": 3
+      }
+    },
+    "upload_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 9,
+        "lines": 76,
+        "classes": 0,
+        "functions": 4,
+        "imports": 7
+      }
+    },
+    "api_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 3,
+        "lines": 45,
+        "classes": 1,
+        "functions": 0,
+        "imports": 5
+      }
+    },
+    "list_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 2,
+        "lines": 49,
+        "classes": 0,
+        "functions": 2,
+        "imports": 5
+      }
+    },
+    "management_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 6,
+        "lines": 55,
+        "classes": 0,
+        "functions": 5,
+        "imports": 3
+      }
+    },
+    "entry_views": {
+      "score": 2,
+      "level": "낮음 🟢",
+      "details": [
+        "많은 함수: 12개"
+      ],
+      "metrics": {
+        "cyclomatic": 9,
+        "lines": 129,
+        "classes": 1,
+        "functions": 12,
+        "imports": 7
+      }
+    },
+    "report_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 4,
+        "lines": 113,
+        "classes": 0,
+        "functions": 10,
+        "imports": 10
+      }
+    },
+    "timesheet_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 8,
+        "lines": 101,
+        "classes": 1,
+        "functions": 10,
+        "imports": 10
+      }
+    },
+    "calendar_views": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 2,
+        "lines": 73,
+        "classes": 1,
+        "functions": 6,
+        "imports": 7
+      }
+    },
+    "audit_logging": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 8,
+        "lines": 93,
+        "classes": 1,
+        "functions": 0,
+        "imports": 5
+      }
+    },
+    "rate_limiting": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 8,
+        "lines": 90,
+        "classes": 1,
+        "functions": 0,
+        "imports": 7
+      }
+    },
+    "intrusion_detection": {
+      "score": 12,
+      "level": "보통 🟡",
+      "details": [
+        "높은 순환 복잡도: 16"
+      ],
+      "metrics": {
+        "cyclomatic": 16,
+        "lines": 144,
+        "classes": 1,
+        "functions": 0,
+        "imports": 8
+      }
+    },
+    "headers": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 3,
+        "lines": 72,
+        "classes": 1,
+        "functions": 0,
+        "imports": 3
+      }
+    },
+    "validation": {
+      "score": 22,
+      "level": "높음 🟠",
+      "details": [
+        "높은 순환 복잡도: 21"
+      ],
+      "metrics": {
+        "cyclomatic": 21,
+        "lines": 128,
+        "classes": 1,
+        "functions": 0,
+        "imports": 7
+      }
+    },
+    "authentication": {
+      "score": 6,
+      "level": "보통 🟡",
+      "details": [
+        "높은 순환 복잡도: 13"
+      ],
+      "metrics": {
+        "cyclomatic": 13,
+        "lines": 96,
+        "classes": 2,
+        "functions": 0,
+        "imports": 7
+      }
+    },
+    "csrf_protection": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 6,
+        "lines": 48,
+        "classes": 1,
+        "functions": 0,
+        "imports": 5
+      }
+    },
+    "patterns": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 1,
+        "lines": 70,
+        "classes": 0,
+        "functions": 0,
+        "imports": 0
+      }
+    },
+    "input": {
+      "score": 20,
+      "level": "높음 🟠",
+      "details": [
+        "높은 순환 복잡도: 20"
+      ],
+      "metrics": {
+        "cyclomatic": 20,
+        "lines": 111,
+        "classes": 1,
+        "functions": 0,
+        "imports": 4
+      }
+    },
+    "password": {
+      "score": 78,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 49"
+      ],
+      "metrics": {
+        "cyclomatic": 49,
+        "lines": 133,
+        "classes": 1,
+        "functions": 0,
+        "imports": 5
+      }
+    },
+    "dashboard": {
+      "score": 17.3,
+      "level": "높음 🟠",
+      "details": [
+        "높은 순환 복잡도: 18",
+        "긴 파일: 264줄"
+      ],
+      "metrics": {
+        "cyclomatic": 18,
+        "lines": 264,
+        "classes": 1,
+        "functions": 0,
+        "imports": 15
+      }
+    },
+    "target_alerts": {
+      "score": 34.0,
+      "level": "매우 높음 🔴",
+      "details": [
+        "높은 순환 복잡도: 27",
+        "긴 파일: 201줄"
+      ],
+      "metrics": {
+        "cyclomatic": 27,
+        "lines": 201,
+        "classes": 1,
+        "functions": 0,
+        "imports": 8
+      }
+    },
+    "payment_alerts": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 10,
+        "lines": 195,
+        "classes": 1,
+        "functions": 0,
+        "imports": 9
+      }
+    },
+    "sync_operations": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 10,
+        "lines": 76,
+        "classes": 1,
+        "functions": 0,
+        "imports": 12
+      }
+    },
+    "data_mappers": {
+      "score": 4,
+      "level": "낮음 🟢",
+      "details": [
+        "높은 순환 복잡도: 12"
+      ],
+      "metrics": {
+        "cyclomatic": 12,
+        "lines": 72,
+        "classes": 1,
+        "functions": 0,
+        "imports": 8
+      }
+    },
+    "notion_api": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 4,
+        "lines": 60,
+        "classes": 1,
+        "functions": 0,
+        "imports": 5
+      }
+    },
+    "conflict_resolver": {
+      "score": 0,
+      "level": "낮음 🟢",
+      "details": [],
+      "metrics": {
+        "cyclomatic": 8,
+        "lines": 60,
+        "classes": 1,
+        "functions": 0,
+        "imports": 4
+      }
+    },
+    "revenue_permissions": {
+      "score": 3,
+      "level": "낮음 🟢",
+      "details": [
+        "많은 클래스: 4개"
+      ],
+      "metrics": {
+        "cyclomatic": 6,
+        "lines": 52,
+        "classes": 4,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "analytics_permissions": {
+      "score": 3,
+      "level": "낮음 🟢",
+      "details": [
+        "많은 클래스: 4개"
+      ],
+      "metrics": {
+        "cyclomatic": 6,
+        "lines": 48,
+        "classes": 4,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "budget_permissions": {
+      "score": 3,
+      "level": "낮음 🟢",
+      "details": [
+        "많은 클래스: 4개"
+      ],
+      "metrics": {
+        "cyclomatic": 7,
+        "lines": 50,
+        "classes": 4,
+        "functions": 0,
+        "imports": 2
+      }
+    },
+    "report_permissions": {
+      "score": 3,
+      "level": "낮음 🟢",
+      "details": [
+        "많은 클래스: 4개"
+      ],
+      "metrics": {
+        "cyclomatic": 7,
+        "lines": 51,
+        "classes": 4,
+        "functions": 0,
+        "imports": 2
+      }
+    }
+  },
+  "refactoring_suggestions": [
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "models"
+      ],
+      "reason": "복잡도 점수 33.9",
+      "action": "models 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "serializers"
+      ],
+      "reason": "복잡도 점수 78.4",
+      "action": "serializers 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "중간",
+      "modules": [
+        "signals"
+      ],
+      "reason": "복잡도 점수 22.7",
+      "action": "signals 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "tasks"
+      ],
+      "reason": "복잡도 점수 51.5",
+      "action": "tasks 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "retry_utils"
+      ],
+      "reason": "복잡도 점수 56.5",
+      "action": "retry_utils 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "exceptions"
+      ],
+      "reason": "복잡도 점수 32",
+      "action": "exceptions 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "중간",
+      "modules": [
+        "cache"
+      ],
+      "reason": "복잡도 점수 22.5",
+      "action": "cache 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "alert_views"
+      ],
+      "reason": "복잡도 점수 46.6",
+      "action": "alert_views 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "sync_views"
+      ],
+      "reason": "복잡도 점수 45.4",
+      "action": "sync_views 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "setup_permissions"
+      ],
+      "reason": "복잡도 점수 57.4",
+      "action": "setup_permissions 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "cleanup_logs"
+      ],
+      "reason": "복잡도 점수 36.6",
+      "action": "cleanup_logs 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "중간",
+      "modules": [
+        "metrics_collector"
+      ],
+      "reason": "복잡도 점수 20.1",
+      "action": "metrics_collector 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "sync_notion"
+      ],
+      "reason": "복잡도 점수 48.5",
+      "action": "sync_notion 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "중간",
+      "modules": [
+        "validation"
+      ],
+      "reason": "복잡도 점수 22",
+      "action": "validation 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "password"
+      ],
+      "reason": "복잡도 점수 78",
+      "action": "password 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "모듈 분할",
+      "priority": "높음",
+      "modules": [
+        "target_alerts"
+      ],
+      "reason": "복잡도 점수 34.0",
+      "action": "target_alerts 모듈을 작은 단위로 분할"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls",
+        "urls"
+      ],
+      "reason": "views를 11개 모듈에서 사용",
+      "action": "views 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "models",
+        "admin",
+        "admin",
+        "tests",
+        "utils",
+        "tasks",
+        "retry_utils",
+        "admin",
+        "alert_views",
+        "alert_views",
+        "base",
+        "event_forms",
+        "create_sample_events",
+        "generators",
+        "validators",
+        "cleanup_logs",
+        "metrics_collector",
+        "health_checker",
+        "report_views",
+        "timesheet_views",
+        "calendar_views",
+        "intrusion_detection",
+        "authentication",
+        "dashboard",
+        "target_alerts",
+        "payment_alerts",
+        "sync_operations"
+      ],
+      "reason": "datetime.timedelta를 27개 모듈에서 사용",
+      "action": "datetime.timedelta 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "models",
+        "tests",
+        "cache",
+        "alert_views",
+        "sync_views",
+        "personalizer",
+        "sync_notion",
+        "api_views",
+        "report_views",
+        "audit_logging",
+        "validation"
+      ],
+      "reason": "json를 11개 모듈에서 사용",
+      "action": "json 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "admin",
+        "tests",
+        "category_forms"
+      ],
+      "reason": "models.CalendarCategory를 3개 모듈에서 사용",
+      "action": "models.CalendarCategory 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "admin",
+        "tests",
+        "event_forms"
+      ],
+      "reason": "models.CalendarEvent를 3개 모듈에서 사용",
+      "action": "models.CalendarEvent 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "admin",
+        "tests",
+        "attendee_forms",
+        "event_forms"
+      ],
+      "reason": "models.EventAttendee를 4개 모듈에서 사용",
+      "action": "models.EventAttendee 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "admin",
+        "tests",
+        "settings_forms"
+      ],
+      "reason": "models.CalendarSettings를 3개 모듈에서 사용",
+      "action": "models.CalendarSettings 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "admin",
+        "admin",
+        "tests",
+        "utils",
+        "tasks",
+        "retry_utils",
+        "admin",
+        "base",
+        "create_sample_events",
+        "cleanup_logs",
+        "metrics_collector",
+        "health_checker",
+        "entry_views",
+        "report_views",
+        "timesheet_views",
+        "calendar_views",
+        "audit_logging",
+        "intrusion_detection",
+        "authentication",
+        "sync_operations",
+        "data_mappers",
+        "conflict_resolver"
+      ],
+      "reason": "datetime.datetime를 22개 모듈에서 사용",
+      "action": "datetime.datetime 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "tests",
+        "setup_leave_system",
+        "setup_groups",
+        "setup_permissions"
+      ],
+      "reason": "apps.auth_system.models.CustomUser를 4개 모듈에서 사용",
+      "action": "apps.auth_system.models.CustomUser 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "test_permissions",
+        "admin",
+        "utils",
+        "serializers",
+        "signals",
+        "attendee_forms",
+        "event_forms"
+      ],
+      "reason": "models.CustomUser를 7개 모듈에서 사용",
+      "action": "models.CustomUser 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "test_permissions",
+        "utils",
+        "serializers",
+        "signals"
+      ],
+      "reason": "models.UserType를 4개 모듈에서 사용",
+      "action": "models.UserType 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "test_permissions",
+        "admin",
+        "signals"
+      ],
+      "reason": "models.UserGroup를 3개 모듈에서 사용",
+      "action": "models.UserGroup 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "test_permissions",
+        "test_permissions",
+        "test_permissions"
+      ],
+      "reason": "unittest.mock.Mock를 3개 모듈에서 사용",
+      "action": "unittest.mock.Mock 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "admin",
+        "utils",
+        "serializers"
+      ],
+      "reason": "models.OTPCode를 3개 모듈에서 사용",
+      "action": "models.OTPCode 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "admin",
+        "utils",
+        "signals",
+        "session"
+      ],
+      "reason": "models.UserSession를 4개 모듈에서 사용",
+      "action": "models.UserSession 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "utils",
+        "retry_utils",
+        "create_sample_events",
+        "generators"
+      ],
+      "reason": "random를 4개 모듈에서 사용",
+      "action": "random 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "utils",
+        "generators",
+        "backup"
+      ],
+      "reason": "string를 3개 모듈에서 사용",
+      "action": "string 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "utils",
+        "cache",
+        "api_throttle",
+        "rate_limiting"
+      ],
+      "reason": "hashlib를 4개 모듈에서 사용",
+      "action": "hashlib 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "utils",
+        "signals",
+        "tasks",
+        "retry_utils",
+        "cache",
+        "alert_views",
+        "sync_views",
+        "base",
+        "base",
+        "timezone",
+        "api_throttle",
+        "session",
+        "manager",
+        "generators",
+        "validators",
+        "backup",
+        "base",
+        "cleanup_logs",
+        "base",
+        "alert_manager",
+        "base",
+        "audit_logging",
+        "rate_limiting",
+        "intrusion_detection",
+        "headers",
+        "validation",
+        "authentication",
+        "csrf_protection",
+        "utils",
+        "base",
+        "dashboard",
+        "manager",
+        "target_alerts",
+        "payment_alerts",
+        "sync_operations",
+        "base",
+        "data_mappers",
+        "notion_api",
+        "conflict_resolver"
+      ],
+      "reason": "core.common.logging.get_logger를 39개 모듈에서 사용",
+      "action": "core.common.logging.get_logger 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "serializers",
+        "serializers",
+        "serializers",
+        "database",
+        "base"
+      ],
+      "reason": "rest_framework.serializers를 5개 모듈에서 사용",
+      "action": "rest_framework.serializers 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "tasks",
+        "exceptions",
+        "manager",
+        "metrics_collector",
+        "alert_manager",
+        "health_checker",
+        "monitor",
+        "utils",
+        "dashboard",
+        "manager",
+        "target_alerts",
+        "payment_alerts",
+        "sync_operations",
+        "data_mappers",
+        "notion_api",
+        "conflict_resolver"
+      ],
+      "reason": "typing.Dict를 16개 모듈에서 사용",
+      "action": "typing.Dict 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "tasks",
+        "retry_utils",
+        "exceptions",
+        "manager",
+        "metrics_collector",
+        "alert_manager",
+        "health_checker",
+        "monitor",
+        "utils",
+        "dashboard"
+      ],
+      "reason": "typing.Any를 10개 모듈에서 사용",
+      "action": "typing.Any 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "tasks",
+        "retry_utils",
+        "exceptions",
+        "manager",
+        "generators",
+        "validators",
+        "utils",
+        "sync_operations",
+        "data_mappers",
+        "notion_api",
+        "conflict_resolver"
+      ],
+      "reason": "typing.Optional를 11개 모듈에서 사용",
+      "action": "typing.Optional 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "tasks",
+        "admin",
+        "serializers",
+        "metrics_collector",
+        "health_checker",
+        "monitor"
+      ],
+      "reason": "models.NotionDatabase를 6개 모듈에서 사용",
+      "action": "models.NotionDatabase 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "tasks",
+        "admin",
+        "serializers",
+        "metrics_collector",
+        "health_checker"
+      ],
+      "reason": "models.SyncHistory를 5개 모듈에서 사용",
+      "action": "models.SyncHistory 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "retry_utils",
+        "run_notion_poller",
+        "rate_limiting"
+      ],
+      "reason": "time를 3개 모듈에서 사용",
+      "action": "time 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "retry_utils",
+        "backup",
+        "metrics_collector",
+        "alert_manager",
+        "utils",
+        "target_alerts",
+        "payment_alerts",
+        "sync_operations",
+        "data_mappers",
+        "notion_api"
+      ],
+      "reason": "typing.List를 10개 모듈에서 사용",
+      "action": "typing.List 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "alert_views",
+        "sync_views",
+        "dashboard"
+      ],
+      "reason": "permissions.RevenuePermissionManager를 3개 모듈에서 사용",
+      "action": "permissions.RevenuePermissionManager 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "sync_views",
+        "sync_views",
+        "dashboard",
+        "target_alerts",
+        "payment_alerts"
+      ],
+      "reason": "models.RevenueRecord를 5개 모듈에서 사용",
+      "action": "models.RevenueRecord 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base"
+      ],
+      "reason": "apps.core.models.TimeStampedModel를 11개 모듈에서 사용",
+      "action": "apps.core.models.TimeStampedModel 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "base"
+      ],
+      "reason": "apps.core.models.AuditModel를 11개 모듈에서 사용",
+      "action": "apps.core.models.AuditModel 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "api",
+        "api",
+        "api",
+        "api",
+        "api",
+        "api",
+        "api",
+        "api",
+        "api",
+        "api",
+        "api",
+        "api"
+      ],
+      "reason": "rest_framework.viewsets를 12개 모듈에서 사용",
+      "action": "rest_framework.viewsets 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "manager",
+        "widget_manager",
+        "personalizer"
+      ],
+      "reason": "models.UserWidgetSettings를 3개 모듈에서 사용",
+      "action": "models.UserWidgetSettings 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "category_forms",
+        "attendee_forms",
+        "event_forms",
+        "settings_forms"
+      ],
+      "reason": "base.CalendarBaseForm를 4개 모듈에서 사용",
+      "action": "base.CalendarBaseForm 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "user",
+        "decorators",
+        "group"
+      ],
+      "reason": "base.logger를 3개 모듈에서 사용",
+      "action": "base.logger 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "validation",
+        "input",
+        "utils",
+        "password"
+      ],
+      "reason": "re를 4개 모듈에서 사용",
+      "action": "re 관련 기능을 공통 유틸리티로 추출"
+    },
+    {
+      "type": "공통 모듈화",
+      "priority": "중간",
+      "modules": [
+        "revenue_permissions",
+        "analytics_permissions",
+        "base",
+        "budget_permissions",
+        "report_permissions"
+      ],
+      "reason": "rest_framework.permissions를 5개 모듈에서 사용",
+      "action": "rest_framework.permissions 관련 기능을 공통 유틸리티로 추출"
+    }
+  ],
+  "statistics": {
+    "total_modules": 220,
+    "total_lines": 16273,
+    "avg_complexity": 5.827272727272727
+  }
+}
